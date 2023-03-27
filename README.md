@@ -32,3 +32,11 @@
 ```
 
 4. Restart VSCode
+
+<br>
+
+## How to create docker images
+
+1. Make sure you have docker installed on your computer, either CLI version or Desktop version --> [Docker](https://www.docker.com/)
+
+2. cd into ./mern from the root directory and enter ```docker-compose up --build``` to build all required images, which is made possible with the Dockerfiles in each subfolder.
