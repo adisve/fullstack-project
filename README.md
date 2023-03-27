@@ -2,7 +2,7 @@
 
 1. Install the [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode) extension
 2. Install the [EditorConfig](https://marketplace.visualstudio.com/items?itemName=EditorConfig.EditorConfig) extension
-3. Add the following to your `settings.json` file:
+3. Add the following to your [`settings.json`](https://code.visualstudio.com/docs/getstarted/settings#_settingsjson) file:
 
 ```json
 {
