@@ -7,13 +7,11 @@ import './App.css';
 function App() {
     return (
         <div className="App">
-            <Container>
-                <main>
-                    <Routes>
-                        <Route path="/" element={<LandingPage />} />
-                    </Routes>
-                </main>
-            </Container>
+            <main>
+                <Routes>
+                    <Route path="/" element={<LandingPage />} />
+                </Routes>
+            </main>
         </div>
     );
 }
