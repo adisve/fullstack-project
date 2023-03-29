@@ -11,9 +11,3 @@ services:
       - '7036:7036'
     environment:
       - MONGODB_URI=mongodb://mongo:27017/app
-    depends_on:
-      - mongo
-  mongo:
-    image: mongo:6.0.5
-    ports:
-      - '27017:27017'
