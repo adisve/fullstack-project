@@ -8,10 +8,8 @@ const recordRoutes = express.Router();
  * find an item in the collection
  */
 recordRoutes.route('/record').get((req: Request, res: Response) => {
-  const db_connect = getDb();
-  db_connect
-    .collection('records')
-    .find({});
+    const db_connect = getDb();
+    db_connect.collection('records').find({});
 });
 
 export default recordRoutes;
