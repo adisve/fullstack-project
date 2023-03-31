@@ -5,16 +5,16 @@ import workoutReducer from './features/workouts/workoutSlice';
 import authReducer from './features/auth/authSlice';
 
 const rootReducer = combineReducers({
-  user: userReducer,
-  workouts: workoutReducer,
-  auth: authReducer
+    user: userReducer,
+    workouts: workoutReducer,
+    auth: authReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
 
 export const store = configureStore({
-  reducer: rootReducer,
-  middleware: [thunkMiddleware],
+    reducer: rootReducer,
+    middleware: [thunkMiddleware],
 });
 
 export type AppDispatch = typeof store.dispatch;
