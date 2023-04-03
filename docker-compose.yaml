@@ -1,34 +1,27 @@
 version: '3'
 
-# The client service builds a Docker image from the ./client 
-# directory and maps port 3000 to the host machine. 
-# The server service builds a Docker image from the ./server 
-# directory and maps port 7036 to the host machine, and uses a volume
-# to persist data outside of the container.
-# The nginx service uses the official NGINX Docker image and maps port 80
-# to the host machine, and depends on the client and server services.
 services:
-  client:
-    build: ./client
-    ports:
-      - '3000:3000'
-    depends_on:
-      - server
-  server:
-    build: ./server
-    ports:
-      - '7036:7036'
-    volumes:
-      - server_data:/app/data
-  nginx:
-    image: nginx
-    ports:
-      - '80:80'
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-    depends_on:
-      - client
-      - server
+    client:
+        build: ./client
+        ports:
+            - '3000:3000'
+        depends_on:
+            - server
+    server:
+        build: ./server
+        ports:
+            - '7036:7036'
+        volumes:
+            - server_data:/app/data
+    nginx:
+        image: nginx
+        ports:
+            - '80:80'
+        volumes:
+            - ./nginx.conf:/etc/nginx/nginx.conf:ro
+        depends_on:
+            - client
+            - server
 
 volumes:
-  server_data:
+    server_data:
