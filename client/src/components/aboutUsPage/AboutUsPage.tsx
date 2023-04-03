@@ -1,3 +1,3 @@
 export function AboutUsPage() {
-    return <div>About Us - Coming Soon!</div>;
+    return <h1>About us - coming soon...</h1>;
 }
