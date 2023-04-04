@@ -14,3 +14,32 @@
     text-decoration: none;
     color: white;
 }
+
+#landing-page-box {
+    top: 10%;
+    text-align: left;
+    margin-top: 4em;
+}
+
+#landing-page-text{
+    width: 50%;
+    height: fit-content;
+    text-overflow: ellipsis;
+}
+
+#landing-page-image{
+    width: 100%;
+    height: 150%;
+    object-fit: contain;
+}
+
+#landing-page-image-box{
+    width: 50%;
+    height: 16em;
+}
+
+#landing-page-fab{
+    margin-top: 1em;
+    float: left;
+    text-transform: none;
+}
