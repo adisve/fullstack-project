@@ -5,6 +5,7 @@ import { Routes, Route } from 'react-router-dom';
 
 import './App.css';
 import './components/landingPage/LandingPage.css';
+import './components/footer/Footer.css';
 import { Footer } from './components/footer/Footer';
 
 function App() {

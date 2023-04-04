@@ -9,13 +9,13 @@ export function NavBar() {
                 </Toolbar>
                 <Toolbar disableGutters>
                     <Stack direction={'row'} spacing={3}>
-                        <Link href="/dashboard" id="navbar-link-group">
+                        <Link href="/dashboard" id="link-group">
                             Dashboard
                         </Link>
-                        <Link href="/login" id="navbar-link-group">
+                        <Link href="/login" id="link-group">
                             Login
                         </Link>
-                        <Link href="/about-us" id="navbar-link-group">
+                        <Link href="/about-us" id="link-group">
                             About Us
                         </Link>
                     </Stack>

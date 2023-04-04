@@ -3,3 +3,8 @@
     text-align: center;
     margin: 0 auto;
 }
+
+#link-group {
+        text-decoration: none;
+        color: white;
+    }
