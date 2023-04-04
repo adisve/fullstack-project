@@ -1,0 +1,16 @@
+#navbar {
+    box-shadow: none;
+    border: solid 0.02em transparent;
+    border-bottom-color: white;
+}
+
+#navbar-container {
+    display: flex;
+    justify-content: space-between;
+    text-overflow: ellipsis;
+}
+
+#navbar-link-group {
+    text-decoration: none;
+    color: white;
+}

@@ -13,20 +13,19 @@ export function Footer() {
                 borderTopColor: 'white',
             }}
         >
-            <Stack direction="row" justifyContent="space-between">
+            <Stack direction={'row'} spacing={3}>
                 <Toolbar>
                     <h3>Logo</h3>
                 </Toolbar>
                 <Toolbar disableGutters={true}>
-                    <Link href="#" color="inherit">
-                        Contact
-                    </Link>
-                    <Link href="#" color="inherit">
-                        Contact
-                    </Link>
-                    <Link href="#" color="inherit">
-                        Contact
-                    </Link>
+                    <Stack direction={'row'} spacing={3}>
+                        <Link href="/login" id="navbar-link-group">
+                            Contact Info
+                        </Link>
+                        <Link href="/about-us" id="navbar-link-group">
+                            About Us
+                        </Link>
+                    </Stack>
                 </Toolbar>
             </Stack>
         </AppBar>

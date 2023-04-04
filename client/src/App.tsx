@@ -2,9 +2,9 @@ import { LandingPage } from './components/landingPage/LandingPage';
 import { AboutUsPage } from './components/aboutUsPage/AboutUsPage';
 
 import { Routes, Route } from 'react-router-dom';
-import { Container } from '@mui/material';
 
 import './App.css';
+import './components/landingPage/LandingPage.css';
 import { Footer } from './components/footer/Footer';
 
 function App() {
