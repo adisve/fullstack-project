@@ -1,12 +1,4 @@
-import {
-    Container,
-    Fab,
-    Box,
-    AppBar,
-    Stack,
-    Toolbar,
-    Link,
-} from '@mui/material';
+import { Container, Fab, Box } from '@mui/material';
 import { NavBar } from './NavBar';
 import people from '../../assets/people.png';
 
@@ -14,13 +6,9 @@ export function LandingPage() {
     return (
         <Container>
             <NavBar />
-            <Box top={'10%'} textAlign={'left'} marginTop={'4em'}>
+            <Box id="landing-page-box">
                 <Box display={'flex'}>
-                    <Box
-                        width={'50%'}
-                        height={'fit-content'}
-                        textOverflow={'ellipsis'}
-                    >
+                    <Box id="landing-page-text">
                         <h1>Fitness Tracker</h1>
                         <div>
                             Sed ut perspiciatis unde omnis iste natus error sit
@@ -30,24 +18,16 @@ export function LandingPage() {
                             sunt explicabo.
                         </div>
                     </Box>
-                    <Box width={'50%'} height={'16em'}>
+                    <Box id="landing-page-image-box">
                         <img
                             src={people}
                             alt="Nothing here"
-                            style={{
-                                width: '100%',
-                                height: '150%',
-                                objectFit: 'contain',
-                            }}
+                            id="landing-page-image"
                         />
                     </Box>
                 </Box>
-                <Fab
-                    color="primary"
-                    variant="extended"
-                    style={{ marginTop: '1em', float: 'left' }}
-                >
-                    Register now
+                <Fab color="primary" variant="extended" id="landing-page-fab">
+                    Register Now!
                 </Fab>
             </Box>
         </Container>

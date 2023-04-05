@@ -1,22 +1,18 @@
-import { AppBar, Toolbar, Stack, Link } from '@mui/material';
+import { AppBar, Stack, Toolbar, Link } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
-
-export function NavBar() {
+export function Footer() {
     return (
-        <AppBar position="static" color="transparent" id="navbar">
-            <Stack direction={'row'} id="navbar-container">
-                <Toolbar disableGutters>
+        <AppBar position="static" color="transparent" id="footer">
+            <Stack direction={'row'} spacing={3}>
+                <Toolbar>
                     <h3>ProTracker</h3> {'\u00A0'}
                     <FontAwesomeIcon icon={faDumbbell} />
                 </Toolbar>
-                <Toolbar disableGutters>
+                <Toolbar disableGutters={true}>
                     <Stack direction={'row'} spacing={3}>
-                        <Link href="/dashboard" id="link-group">
-                            Dashboard
-                        </Link>
                         <Link href="/login" id="link-group">
-                            Login
+                            Contact Info
                         </Link>
                         <Link href="/about-us" id="link-group">
                             About Us
