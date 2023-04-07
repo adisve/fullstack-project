@@ -7,7 +7,7 @@ export function AboutProTrack() {
     return (
         <Box
             top={'10%'}
-            textAlign={'center'}
+            textAlign={'start'}
             marginTop={'4em'}
             marginBottom={{ sm: '5em', md: '4em' }}
         >

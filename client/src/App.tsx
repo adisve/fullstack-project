@@ -7,10 +7,12 @@ import './App.css';
 import './components/landingPage/LandingPage.css';
 import './components/footer/Footer.css';
 import { Footer } from './components/footer/Footer';
+import { NavBar } from './components/navbar/NavBar';
 
 function App() {
     return (
         <div className="App">
+            <NavBar />
             <main
                 style={{
                     minHeight: '100vh',

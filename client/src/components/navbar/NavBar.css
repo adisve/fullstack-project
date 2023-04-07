@@ -1,0 +1,23 @@
+#link-group {
+    text-decoration: none;
+    color: #ebebf8;
+    font-weight: 700;
+}
+
+#navbar {
+    box-shadow: none;
+    border: solid 0.02em transparent;
+    border-bottom-color: white;
+}
+
+#navbar-container {
+    display: flex;
+    justify-content: space-between;
+    text-overflow: ellipsis;
+    margin-left: 3rem;
+    margin-right: 3rem;
+}
+
+h3 {
+    font-size: 1rem;
+}
