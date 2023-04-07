@@ -1,13 +1,12 @@
 #link-group {
     text-decoration: none;
-    color: #ebebf8;
+    color: #353e54;
     font-weight: 700;
 }
 
 #navbar {
     box-shadow: none;
     border: solid 0.02em transparent;
-    border-bottom-color: white;
 }
 
 #navbar-container {

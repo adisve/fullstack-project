@@ -1,20 +1,54 @@
 .about {
     font-size: 1.3rem;
-}
-
-.team-card {
-    background-color: #ffffff1c !important;
-    color: #fff !important;
-    box-shadow: none !important;
+    margin-right: 5rem;
+    margin-left: 5rem;
+    margin-top: 2.5rem;
 }
 
 .heading {
     text-align: left;
     font-style: normal;
     font-weight: 600;
-    font-size: 3.5rem;
-    letter-spacing: 0.4px;
-
+    font-size: 0.9rem;
+    letter-spacing: 3px;
     margin-bottom: 20px;
-    color: #ffffff;
+    color: gray;
+}
+
+.about-us-hero {
+    text-align: start;
+}
+
+.paragraph-brand-name {
+    font-weight: 600;
+}
+
+.about-us {
+    display: flex;
+}
+
+.about-us-text {
+    margin-right: 5rem;
+    max-width: 60%;
+}
+
+@media only screen and (max-width: 1020px) {
+    .about-us {
+        display: block;
+    }
+
+    .about-us-text {
+        max-width: 100%;
+        margin-bottom: 7rem;
+    }
+}
+
+.protrack-image {
+    max-height: 50vh;
+}
+
+@media screen and (max-width: 580px) {
+    .protrack-image {
+        max-height: 30vh;
+    }
 }

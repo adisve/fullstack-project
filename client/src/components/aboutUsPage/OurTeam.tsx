@@ -12,11 +12,11 @@ export function OurTeam() {
     return (
         <Box
             top={'10%'}
-            textAlign={'center'}
+            textAlign={'left'}
             marginTop={'4em'}
             marginBottom={'4em'}
         >
-            <h1 className="heading">Our Team</h1>
+            <h1 className="heading">OUR TEAM</h1>
             <p>
                 Our team is a diverse group of talented individuals with a
                 passion for innovation and excellence. We come from different
@@ -33,7 +33,6 @@ export function OurTeam() {
                 {theTeam.map(({ img, name, role }) => (
                     <Grid item key={name} xs={12} md={6} lg={3}>
                         <Card
-                            className="team-card"
                             sx={{
                                 height: '100%',
                                 width: '100%',

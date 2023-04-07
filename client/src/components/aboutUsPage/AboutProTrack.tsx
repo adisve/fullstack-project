@@ -1,33 +1,22 @@
 import { Stack, Box } from '@mui/material';
 
-import people from '../../assets/people.png';
+import peopleExercisingOverlay from '../../assets/people_exercising_overlay.png';
 import './AboutPage.css';
 
 export function AboutProTrack() {
     return (
-        <Box
-            top={'10%'}
-            textAlign={'start'}
-            marginTop={'4em'}
-            marginBottom={{ sm: '5em', md: '4em' }}
-        >
-            <h1 className="heading">About ProTracker</h1>
+        <div className="about-us-hero">
+            <h5 className="heading">ABOUT</h5>
 
-            <Stack
-                direction={{ xs: 'column', md: 'row' }}
-                sx={{ alignItems: 'center', gap: '2em' }}
-            >
-                <Box
-                    width={{ xs: '100%', md: '60%' }}
-                    textAlign={{ xs: 'center', md: 'left' }}
-                >
+            <div className="about-us">
+                <div className="about-us-text">
                     <p>
-                        ProTracker is a cutting-edge fitness tracker that helps
-                        you keep track of your physical activities and progress
-                        towards your fitness goals. It is designed to be
-                        user-friendly, easy to navigate, and packed with
-                        features that will motivate you to stay active and
-                        healthy.
+                        <span className="paragraph-brand-name">ProTracker</span>{' '}
+                        is a cutting-edge fitness tracker that helps you keep
+                        track of your physical activities and progress towards
+                        your fitness goals. It is designed to be user-friendly,
+                        easy to navigate, and packed with features that will
+                        motivate you to stay active and healthy.
                     </p>
                     <p>
                         ProTracker is equipped with advanced functionality that
@@ -44,22 +33,13 @@ export function AboutProTrack() {
                         for anyone who is serious about their health and wants
                         to achieve their fitness goals.
                     </p>
-                </Box>
-                <Box
-                    width={{ xs: '60%', md: '40%' }}
-                    height={{ sm: '10em', md: '16em' }}
-                >
-                    <img
-                        src={people}
-                        alt="ProTracker"
-                        style={{
-                            width: '100%',
-                            height: '150%',
-                            objectFit: 'contain',
-                        }}
-                    />
-                </Box>
-            </Stack>
-        </Box>
+                </div>
+                <img
+                    src={peopleExercisingOverlay}
+                    alt="ProTracker"
+                    className="protrack-image"
+                />
+            </div>
+        </div>
     );
 }

@@ -5,10 +5,10 @@ import './AboutPage.css';
 
 export function AboutUsPage() {
     return (
-        <Container className="about">
+        <div className="about">
             <AboutProTrack />
             <br />
             <OurTeam />
-        </Container>
+        </div>
     );
 }
