@@ -1,6 +1,7 @@
 import { AppBar, Toolbar, Stack, Link } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
+import './NavBar.css';
 
 export function NavBar() {
     return (
@@ -11,7 +12,7 @@ export function NavBar() {
                     <FontAwesomeIcon icon={faDumbbell} />
                 </Toolbar>
                 <Toolbar disableGutters>
-                    <Stack direction={'row'} spacing={3}>
+                    <Stack direction={'row'} spacing={6}>
                         <Link href="/dashboard" id="link-group">
                             Dashboard
                         </Link>

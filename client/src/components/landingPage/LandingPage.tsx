@@ -1,11 +1,9 @@
 import { Container, Fab, Box } from '@mui/material';
-import { NavBar } from './NavBar';
 import people from '../../assets/people.png';
 
 export function LandingPage() {
     return (
         <Container>
-            <NavBar />
             <Box id="landing-page-box">
                 <Box display={'flex'}>
                     <Box id="landing-page-text">
