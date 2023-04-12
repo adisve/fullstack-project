@@ -7,8 +7,8 @@ import bcrypt from 'bcrypt'
 const userSchema = new mongoose.Schema({
     name: { type: String, required: true},
     email: { type: String, required: true},
-    password: { type: String, required: true},
-    created_at: {type: Date, default: new Date(), required: true}  
+  password: { type: String, required: true },
+  created_at: { type: Date, default: new Date(), required: true }  
 })  
 
 // creating workout models
@@ -39,12 +39,13 @@ userSchema.pre('save', async function (next) {
 export const User = mongoose.model('User', userSchema);
 export const workoutModel = mongoose.model('WorkoutInformation', workoutSchema);
 
-//to create user
+// To create user
 export const createUser = (values: Record<string, any>) => new User(values).save().then((User) => User.toObject()); 
 
 // find user 
 export const getUsers = User.find();
-export const getEmail = (email: String) => User.findOne({ email:email })
+export const getEmail = (email: String) => User.findOne({ email: email })
+export const getSessionToken = (sessionToken: String) => User.findOne({'authentication.sessionToken': sessionToken })
 
 
 
