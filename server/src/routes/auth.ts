@@ -1,22 +1,25 @@
 import { Request, Response } from 'express';
 import { Router } from 'express';
-import { currentUser } from '../middleware';
 import { createUser, getEmail } from '../db/model';
-import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 dotenv.config({ path: './config.env' });
-const secretKey: string = process.env.SECRET_KEY || '';
+
+import { Session } from "express-session";
+
+export interface ISession extends Session {
+  _id?: any;
+  Email?: string;
+}
+
 
 const router = Router();
 
-router.get('/user', currentUser, async (req: Request, res: Response) => {
-    res.send({ currentUser: req.user || null });
-});
 
-router.post('/login', async (req: Request, res: Response) => {
+router.post('/login', async function(req: Request, res: Response) {
     try {
-        const { email, password } = req.body;
+         const { email, password } = req.body;
+    
         const user = await getEmail(email);
         if (!user) {
             return res.status(404).json({
@@ -28,19 +31,11 @@ router.post('/login', async (req: Request, res: Response) => {
             return res.status(401).json({
                 message: 'Invalid credentials',
             });
+        } else {
+            (req.session as ISession). _id = user._id ;
+            (req.session as ISession).Email = user.email;
         }
-        const userJwt = jwt.sign(
-            {
-                name: user.name,
-                email: user.email,
-            },
-            secretKey
-        );
-        req.session = {
-            jwt: userJwt,
-        };
-        await user.save();
-        res.cookie('Cookie', req.session);
+
         res.status(200).json({
             user: user,
         });
@@ -52,9 +47,11 @@ router.post('/login', async (req: Request, res: Response) => {
     }
 });
 
-router.post('/register', async (req, res) => {
+router.post('/register', async function(req, res) {
+
     try {
         const { email, password, name } = req.body;
+        
 
         if (!email || !password || !name) {
             return res.status(400).json({
@@ -72,33 +69,50 @@ router.post('/register', async (req, res) => {
                     email,
                     name,
                     password,
-                });
-                const userJwt = jwt.sign(
-                    {
-                        name: user.name,
-                        email: user.email,
-                    },
-                    secretKey
-                );
-
-                req.session = {
-                    jwt: userJwt,
-                };
-                req.session.save();
-                res.cookie('Cookie', req.session);
+                })
                 return res.status(200).json({
-                    jwt: userJwt,
-                    user: user,
-                    message: 'Account created successfully',
-                });
+            message: 'created account',
+        });
+          
             }
         }
     } catch (error) {
+        console.log(error)
         console.error('Unable to register');
         return res.status(400).json({
             message: 'Could not create account',
         });
     }
 });
+
+router.get('/login', async function(req, res) {
+    if ((req.session as ISession)._id) {
+        return res.redirect('/');
+    }
+
+    res.setHeader('Content-Type', 'text/HTML');
+    res.write(`
+    <h1>Login</h1>
+    <form method="post" action="/process-login">
+      <input type="text" name="username" placeholder="Username" /> <br>
+      <input type="password" name="password" placeholder="Password" /> <br>
+      <button type="submit">Login</button>
+    </form>
+  `);
+      res.end();
+})
+
+router.get('/logout', async function (req, res) {
+    req.session.destroy(function (err) {
+        if(err){
+        console.log(err);
+     }else{
+         res.redirect('/auth/login');
+     }
+    });
+    
+})
+
+
 
 export default router;

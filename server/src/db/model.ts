@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-import { ObjectId } from 'mongodb';
 import bcrypt from 'bcrypt';
 
 const userSchema = new mongoose.Schema({
@@ -30,13 +29,14 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
-export const User = mongoose.model('User', userSchema);
-export const workoutModel = mongoose.model('WorkoutInformation', workoutSchema);
+ const User = mongoose.model('User', userSchema);
+ const workoutModel = mongoose.model('WorkoutInformation', workoutSchema);
 
-export const createUser = (values: Record<string, any>) =>
+ const createUser = (values: Record<string, any>) =>
     new User(values).save().then((User) => User.toObject());
 
-export const getUsers = User.find();
-export const getEmail = (email: String) => User.findOne({ email: email });
-export const getSessionToken = (sessionToken: String) =>
-    User.findOne({ 'authentication.sessionToken': sessionToken });
+ const getUsers = User.find();
+ const getEmail = (email: String) => User.findOne({ email: email });
+
+
+    export {User, workoutModel,createUser, getEmail, getUsers}

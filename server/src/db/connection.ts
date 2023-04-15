@@ -1,27 +1,13 @@
+import mongoose from 'mongoose'
 import dotenv from 'dotenv';
-import { Db, MongoClient } from 'mongodb';
 dotenv.config({ path: './config.env' });
 const uri: string = process.env.ATLAS_URI || '';
-const client: MongoClient = new MongoClient(uri);
 
-let _userDb: Db;
-let _workoutInfoDb: Db;
-
-export const connect = async () => {
-    try {
-        await client.connect();
-        _userDb = client.db('users');
-        _workoutInfoDb = client.db('workoutinformation');
-    } catch (err) {
-        console.error(err);
-        throw err;
-    }
+function connect() {
+    mongoose.Promise = global.Promise;
+    return mongoose.connect(uri);
 };
 
-export const getUsersDb = async () => {
-    return _userDb;
-};
+export { connect }
 
-export const getWorkoutInfoDb = async () => {
-    return _workoutInfoDb;
-};
+
