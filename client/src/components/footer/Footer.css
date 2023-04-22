@@ -1,5 +1,5 @@
 #footer {
     box-shadow: none;
-    color: #353e54;
+    background-color: transparent !important;
     border: solid 0.02em transparent;
 }
