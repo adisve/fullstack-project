@@ -1,1 +1,18 @@
+.brand-name {
+    font-weight: 900;
+}
 
+.modalLogo {
+    justify-content: center;
+}
+
+.modalContentCenter,
+.modalNumber,
+.buttonGroup {
+    text-align: center;
+}
+
+.buttonGroup button {
+    margin: 15px;
+    text-transform: none;
+}
