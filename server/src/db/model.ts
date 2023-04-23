@@ -29,14 +29,13 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
- const User = mongoose.model('User', userSchema);
- const workoutModel = mongoose.model('WorkoutInformation', workoutSchema);
+const User = mongoose.model('User', userSchema);
+const workoutModel = mongoose.model('WorkoutInformation', workoutSchema);
 
- const createUser = (values: Record<string, any>) =>
+const createUser = (values: Record<string, any>) =>
     new User(values).save().then((User) => User.toObject());
 
- const getUsers = User.find();
- const getEmail = (email: String) => User.findOne({ email: email });
+const getUsers = User.find();
+const getEmail = (email: String) => User.findOne({ email: email });
 
-
-    export {User, workoutModel,createUser, getEmail, getUsers}
+export { User, workoutModel, createUser, getEmail, getUsers };

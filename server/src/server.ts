@@ -7,24 +7,23 @@ const secret: string = process.env.SECRET_KEY || '';
 
 const app: Application = express();
 const port: string | number = process.env.PORT || 7036;
-import session from 'express-session'
+import session from 'express-session';
 import authRoute from './routes/auth';
-
-
 
 app.use(cors());
 app.set('trust proxy', true);
 app.use(express.json());
 
-app.use(session({
-    secret: secret,
-    cookie: {
-      maxAge: 1000 * 60 * 60 * 24, // 24 hours
-    },
-    resave: false,
-saveUninitialized:false})
-    
-)
+app.use(
+    session({
+        secret: secret,
+        cookie: {
+            maxAge: 1000 * 60 * 60 * 24, // 24 hours
+        },
+        resave: false,
+        saveUninitialized: false,
+    })
+);
 
 app.use(express.urlencoded({ extended: true }));
 
@@ -40,4 +39,3 @@ app.listen(port, () => {
             throw err;
         });
 });
-

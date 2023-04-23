@@ -5,21 +5,19 @@ import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 dotenv.config({ path: './config.env' });
 
-import { Session } from "express-session";
+import { Session } from 'express-session';
 
 export interface ISession extends Session {
-  _id?: any;
-  Email?: string;
+    _id?: any;
+    Email?: string;
 }
-
 
 const router = Router();
 
-
-router.post('/login', async function(req: Request, res: Response) {
+router.post('/login', async function (req: Request, res: Response) {
     try {
-         const { email, password } = req.body;
-    
+        const { email, password } = req.body;
+
         const user = await getEmail(email);
         if (!user) {
             return res.status(404).json({
@@ -32,7 +30,7 @@ router.post('/login', async function(req: Request, res: Response) {
                 message: 'Invalid credentials',
             });
         } else {
-            (req.session as ISession). _id = user._id ;
+            (req.session as ISession)._id = user._id;
             (req.session as ISession).Email = user.email;
         }
 
@@ -47,11 +45,9 @@ router.post('/login', async function(req: Request, res: Response) {
     }
 });
 
-router.post('/register', async function(req, res) {
-
+router.post('/register', async function (req, res) {
     try {
         const { email, password, name } = req.body;
-        
 
         if (!email || !password || !name) {
             return res.status(400).json({
@@ -69,15 +65,13 @@ router.post('/register', async function(req, res) {
                     email,
                     name,
                     password,
-                })
+                });
                 return res.status(200).json({
-            message: 'created account',
-        });
-          
+                    message: 'created account',
+                });
             }
         }
     } catch (error) {
-        console.log(error)
         console.error('Unable to register');
         return res.status(400).json({
             message: 'Could not create account',
@@ -85,7 +79,7 @@ router.post('/register', async function(req, res) {
     }
 });
 
-router.get('/login', async function(req, res) {
+router.get('/login', async function (req, res) {
     if ((req.session as ISession)._id) {
         return res.redirect('/');
     }
@@ -99,20 +93,17 @@ router.get('/login', async function(req, res) {
       <button type="submit">Login</button>
     </form>
   `);
-      res.end();
-})
+    res.end();
+});
 
 router.get('/logout', async function (req, res) {
     req.session.destroy(function (err) {
-        if(err){
-        console.log(err);
-     }else{
-         res.redirect('/auth/login');
-     }
+        if (err) {
+            console.log(err);
+        } else {
+            res.redirect('/auth/login');
+        }
     });
-    
-})
-
-
+});
 
 export default router;
