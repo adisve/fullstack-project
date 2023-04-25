@@ -45,7 +45,7 @@ router.post('/login', async function (req: Request, res: Response) {
     }
 });
 
-router.post('/register', async function (req, res) {
+router.post('/register', async function (req: Request, res: Response) {
     try {
         const { email, password, name } = req.body;
 
@@ -79,24 +79,14 @@ router.post('/register', async function (req, res) {
     }
 });
 
-router.get('/login', async function (req, res) {
+router.get('/login', async function (req: Request, res: Response) {
     if ((req.session as ISession)._id) {
-        return res.redirect('/');
+        return res.render('/', { id: (req.session as ISession)._id });
     }
-
-    res.setHeader('Content-Type', 'text/HTML');
-    res.write(`
-    <h1>Login</h1>
-    <form method="post" action="/process-login">
-      <input type="text" name="username" placeholder="Username" /> <br>
-      <input type="password" name="password" placeholder="Password" /> <br>
-      <button type="submit">Login</button>
-    </form>
-  `);
     res.end();
 });
 
-router.get('/logout', async function (req, res) {
+router.get('/logout', async function (req: Request, res: Response) {
     req.session.destroy(function (err) {
         if (err) {
             console.log(err);
