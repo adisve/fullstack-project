@@ -12,7 +12,11 @@ import { NavBar } from './components/navbar/NavBar';
 function App() {
     return (
         <div className="App">
-            <NavBar />
+            {['/', '/about-us'].includes(window.location.pathname) ? (
+                <NavBar />
+            ) : (
+                <></>
+            )}
             <main
                 style={{
                     minHeight: '100vh',
@@ -21,9 +25,14 @@ function App() {
                 <Routes>
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/about-us" element={<AboutUsPage />} />
+                    <Route path="/dashboard" element={<div></div>} />
                 </Routes>
             </main>
-            <Footer />
+            {['/', '/about-us'].includes(window.location.pathname) ? (
+                <Footer />
+            ) : (
+                <></>
+            )}
         </div>
     );
 }
