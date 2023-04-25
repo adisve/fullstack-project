@@ -36,7 +36,7 @@ export function ChooseWorkoutToggle() {
                                 },
                             }}
                         >
-                            <div className="workouts">{workoutCategory}</div>
+                            <span className="workouts">{workoutCategory}</span>
                         </ToggleButton>
                     ))}
                 </ToggleButtonGroup>

@@ -10,23 +10,19 @@ import { SetFitnessProfile } from './SetFitnessProfile';
 import './GetStartedModal.css';
 import '../navbar/NavBar.css';
 
-const style = {
-    position: 'absolute' as 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    maxWidth: 700,
-    bgcolor: 'background.paper',
-    border: 'none',
-    borderRadius: 2,
-    boxShadow: 24,
-    p: 4,
-};
-
 export function GetStartedModal() {
     const [open, setOpen] = useState(false);
     const [currentStep, setCurrentStep] = useState(1);
-    const handleClose = () => setOpen(false);
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const handleFinish = () => {
+        // Handle finish logic here
+
+        setOpen(false);
+    };
 
     useEffect(() => {
         setOpen(true);
@@ -41,14 +37,14 @@ export function GetStartedModal() {
     };
 
     return (
-        <div>
+        <>
             <Modal
                 open={open}
                 onClose={handleClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
-                <Box sx={style}>
+                <Box className="modalStyle">
                     <Typography
                         id="modal-modal-title"
                         variant="h6"
@@ -58,6 +54,7 @@ export function GetStartedModal() {
                             <h3>ProTracker</h3> {'\u00A0'}
                             <FontAwesomeIcon icon={faDumbbell} />
                         </Toolbar>
+
                         <div>
                             Welcome to{' '}
                             <span className="brand-name">ProTracker</span>{' '}
@@ -65,7 +62,10 @@ export function GetStartedModal() {
                         </div>
                     </Typography>
 
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    <Typography
+                        id="modal-modal-description"
+                        className="modalDesc"
+                    >
                         {currentStep === 1 && (
                             <div>
                                 <ChooseWorkoutToggle />
@@ -118,9 +118,9 @@ export function GetStartedModal() {
                                     </Button>
                                     <Button
                                         variant="contained"
-                                        onClick={handleClose}
+                                        onClick={handleFinish}
                                     >
-                                        Finish
+                                        Set your routine
                                     </Button>
                                 </div>
                             </div>
@@ -131,6 +131,6 @@ export function GetStartedModal() {
                     </Typography>
                 </Box>
             </Modal>
-        </div>
+        </>
     );
 }

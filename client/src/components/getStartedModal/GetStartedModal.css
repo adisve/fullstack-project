@@ -1,9 +1,30 @@
+/* MODAL component section*/
+.modalStyle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 50%;
+    border: none;
+    outline: none;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 1.5rem;
+    padding: 2rem;
+}
+
 .brand-name {
     font-weight: 900;
 }
 
 .modalLogo {
     justify-content: center;
+    margin: 0;
+}
+
+.modalContentFlexCenter {
+    overflow: hidden;
+    display: flex;
 }
 
 .modalContentCenter,
@@ -13,6 +34,61 @@
 }
 
 .buttonGroup button {
-    margin: 15px;
+    margin: 1rem;
     text-transform: none;
+}
+
+.modalDesc {
+    margin-top: 1rem;
+}
+
+/* Choose your workout component section */
+.chooseWorkoutButtonGroup {
+    margin-bottom: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.workouts {
+    padding: 3px 6px;
+    overflow: hidden;
+    white-space: nowrap;
+}
+.chooseWorkoutButton {
+    height: 1.875rem;
+    overflow: hidden;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    word-wrap: break-word;
+    border: 1px solid lightgrey !important;
+    border-radius: 0.625rem;
+}
+
+/* Goal section */
+.goalForm {
+    text-align: left;
+    margin: 1rem;
+    width: 50%;
+}
+
+.setFitnessInput {
+    text-align: left;
+}
+
+/* Set Fitness Profile  */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+@media only screen and (max-width: 992px) {
+    .modalStyle {
+        max-width: 75%;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .modalStyle {
+        width: 90%;
+    }
 }

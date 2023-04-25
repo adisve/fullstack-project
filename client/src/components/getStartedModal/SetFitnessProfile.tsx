@@ -11,26 +11,31 @@ import {
 import { ChangeEvent, useState } from 'react';
 
 export function SetFitnessProfile() {
-    const [age, setAge] = useState<number | undefined>();
-    const [gender, setGender] = useState<string>();
-    const [weight, setWeight] = useState<number | undefined>();
-    const [height, setHeight] = useState<number | undefined>();
-    const [fitnessLevel, setfitnessLevel] = useState<string>();
+    const [age, setAge] = useState<string>('');
+    const [gender, setGender] = useState<string>('');
+    const [weight, setWeight] = useState<string>('');
+    const [height, setHeight] = useState<string>('');
+    const [fitnessLevel, setfitnessLevel] = useState<string>('');
 
     const handleAge = (event: ChangeEvent<HTMLInputElement>) => {
-        setAge(parseInt(event.target.value));
+        console.log(event.target.value);
+        setAge(event.target.value);
     };
     const handleGender = (event: SelectChangeEvent) => {
         setGender(event.target.value);
+        console.log(gender);
     };
     const handleWeight = (event: ChangeEvent<HTMLInputElement>) => {
-        setWeight(parseInt(event.target.value));
+        setWeight(event.target.value);
+        console.log(weight);
     };
     const handleHeight = (event: ChangeEvent<HTMLInputElement>) => {
-        setHeight(parseInt(event.target.value));
+        setHeight(event.target.value);
+        console.log(height);
     };
     const handleFitnessLevel = (event: SelectChangeEvent) => {
         setfitnessLevel(event.target.value);
+        console.log(fitnessLevel);
     };
 
     return (
@@ -67,6 +72,7 @@ export function SetFitnessProfile() {
                         label="Gender"
                         onChange={handleGender}
                     >
+                        <MenuItem value="">Select Gender</MenuItem>
                         <MenuItem value={'female'}>Female</MenuItem>
                         <MenuItem value={'male'}>Male</MenuItem>
                         <MenuItem value={'other-gender'}>Other</MenuItem>
@@ -118,6 +124,7 @@ export function SetFitnessProfile() {
                         label="Current fitness level"
                         onChange={handleFitnessLevel}
                     >
+                        <MenuItem value="">Select Level</MenuItem>
                         <MenuItem value={'none'}>
                             None - no exercise at all
                         </MenuItem>

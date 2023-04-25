@@ -16,7 +16,7 @@ export function SetGoalDropdown() {
         setGoal(event.target.value);
     };
     return (
-        <div>
+        <>
             <p>What is your goal?</p>
             <div className="modalContentCenter">
                 <FormControl className="goalForm">
@@ -43,6 +43,6 @@ export function SetGoalDropdown() {
                     </Select>
                 </FormControl>
             </div>
-        </div>
+        </>
     );
 }
