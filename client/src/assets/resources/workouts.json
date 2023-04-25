@@ -1,0 +1,86 @@
+[
+    {
+        "workoutCategory": "Cardiovascular",
+        "workouts": [
+            "running",
+            "jogging",
+            "cycling",
+            "swimming",
+            "rowing",
+            "jumping rope",
+            "dancing",
+            "kickboxing"
+        ]
+    },
+    {
+        "workoutCategory": "Flexibility",
+        "workouts": ["stretching", "yoga", "Pilates"]
+    },
+    {
+        "workoutCategory": "Strength training",
+        "workouts": [
+            "weightlifting",
+            "bodyweight exercises",
+            "resistance band exercises",
+            "kettlebell exercises"
+        ]
+    },
+    {
+        "workoutCategory": "High-Intensity Interval Training (HIIT)",
+        "workouts": [
+            "sprint intervals",
+            "circuit training",
+            "mountain climbers",
+            "rope jumping"
+        ]
+    },
+    {
+        "workoutCategory": "Plyometric",
+        "workouts": ["box jumps", "burpees", "plyo push-ups"]
+    },
+    {
+        "workoutCategory": "Bodyweight",
+        "workouts": ["push-ups", "pull-ups", "squats", "lunges"]
+    },
+    {
+        "workoutCategory": "Core",
+        "workouts": ["planks", "Russian twists", "leg raises"]
+    },
+
+    {
+        "workoutCategory": "Functional fitness",
+        "workouts": ["kettlebell swings", "farmer's walks", "sled pushes"]
+    },
+    {
+        "workoutCategory": "Group fitness",
+        "workouts": [
+            "aerobics",
+            "dance fitness",
+            "spinning",
+            "barre",
+            "boot camp"
+        ]
+    },
+    {
+        "workoutCategory": "Sports-specific",
+        "workouts": ["basketball", "soccer", "tennis", "golf"]
+    },
+    {
+        "workoutCategory": "Outdoor",
+        "workouts": [
+            "hiking",
+            "trail running",
+            "biking",
+            "kayaking",
+            "paddleboarding"
+        ]
+    },
+    {
+        "workoutCategory": "Mind-body",
+        "workouts": ["tai chi", "qigong", "yoga"]
+    },
+    {
+        "workoutCategory": "Rehabilitation",
+        "workouts": ["streching", "walks"]
+    }
+]
