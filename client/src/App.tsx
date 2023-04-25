@@ -8,6 +8,7 @@ import './components/landingPage/LandingPage.css';
 import './components/footer/Footer.css';
 import { Footer } from './components/footer/Footer';
 import { NavBar } from './components/navbar/NavBar';
+import { Dashboard } from './components/dashboard/Dashboard';
 
 function App() {
     return (
@@ -25,7 +26,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/about-us" element={<AboutUsPage />} />
-                    <Route path="/dashboard" element={<div></div>} />
+                    <Route path="/dashboard" element={<Dashboard />} />
                 </Routes>
             </main>
             {['/', '/about-us'].includes(window.location.pathname) ? (
