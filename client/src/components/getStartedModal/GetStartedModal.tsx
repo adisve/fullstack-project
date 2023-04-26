@@ -14,12 +14,19 @@ export function GetStartedModal() {
     const [open, setOpen] = useState(false);
     const [currentStep, setCurrentStep] = useState(1);
 
+    const [exercise, setExercise] = useState<undefined | string[]>();
+    const [goal, setGoal] = useState<undefined | string>();
+    const [age, setAge] = useState<undefined | string>('');
+    const [gender, setGender] = useState<undefined | string>('');
+    const [weight, setWeight] = useState<undefined | string>('');
+    const [height, setHeight] = useState<undefined | string>('');
+    const [fitnessLevel, setFitnessLevel] = useState<undefined | string>('');
+
+    // TODO: post to backend if the user has seen the modal
     function handleClose() {
         setOpen(false);
     }
-
-    function handleFinish() {
-        //TODO:  Handle finish logic here
+    function handleSubmitData() {
         setOpen(false);
     }
 
@@ -67,7 +74,10 @@ export function GetStartedModal() {
                     >
                         {currentStep === 1 && (
                             <div>
-                                <ChooseWorkoutToggle />
+                                <ChooseWorkoutToggle
+                                    exercise={exercise}
+                                    setExercise={setExercise}
+                                />
                                 <div className="buttonGroup">
                                     <Button
                                         className="setUpLater"
@@ -88,7 +98,10 @@ export function GetStartedModal() {
                         )}
                         {currentStep === 2 && (
                             <div>
-                                <SetGoalDropdown />
+                                <SetGoalDropdown
+                                    goal={goal}
+                                    setGoal={setGoal}
+                                />
                                 <div className="buttonGroup">
                                     <Button
                                         variant="outlined"
@@ -107,7 +120,18 @@ export function GetStartedModal() {
                         )}
                         {currentStep === 3 && (
                             <div>
-                                <SetFitnessProfile />
+                                <SetFitnessProfile
+                                    age={age}
+                                    setAge={setAge}
+                                    gender={gender}
+                                    setGender={setGender}
+                                    weight={weight}
+                                    setWeight={setWeight}
+                                    height={height}
+                                    setHeight={setHeight}
+                                    fitnessLevel={fitnessLevel}
+                                    setFitnessLevel={setFitnessLevel}
+                                />
                                 <div className="buttonGroup">
                                     <Button
                                         variant="outlined"
@@ -117,7 +141,7 @@ export function GetStartedModal() {
                                     </Button>
                                     <Button
                                         variant="contained"
-                                        onClick={handleFinish}
+                                        onClick={handleSubmitData}
                                     >
                                         Set your routine
                                     </Button>

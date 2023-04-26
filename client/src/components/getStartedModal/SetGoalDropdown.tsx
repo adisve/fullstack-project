@@ -1,19 +1,12 @@
-import { useState } from 'react';
-import {
-    InputLabel,
-    MenuItem,
-    FormControl,
-    SelectChangeEvent,
-    Select,
-} from '@mui/material';
+import { InputLabel, MenuItem, FormControl, Select } from '@mui/material';
 import workoutGoals from '../../assets/resources/workoutGoals.json';
 
-export function SetGoalDropdown() {
-    const [goal, setGoal] = useState('');
+type Props = {
+    goal?: string;
+    setGoal?: (newType: string) => void;
+};
 
-    function handleChange(event: SelectChangeEvent) {
-        setGoal(event.target.value);
-    }
+export function SetGoalDropdown({ goal, setGoal }: Props) {
     return (
         <>
             <p>What is your goal?</p>
@@ -26,7 +19,7 @@ export function SetGoalDropdown() {
                         labelId="demo-simple-select-autowidth-label"
                         id="demo-simple-select-autowidth"
                         value={goal}
-                        onChange={handleChange}
+                        onChange={(event) => setGoal?.(event.target.value)}
                         autoWidth
                         label="Goal"
                     >

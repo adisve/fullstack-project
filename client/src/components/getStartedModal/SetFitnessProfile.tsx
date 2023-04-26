@@ -5,34 +5,34 @@ import {
     InputLabel,
     MenuItem,
     Select,
-    SelectChangeEvent,
     TextField,
 } from '@mui/material';
-import { ChangeEvent, useState } from 'react';
 
-export function SetFitnessProfile() {
-    const [age, setAge] = useState<string>('');
-    const [gender, setGender] = useState<string>('');
-    const [weight, setWeight] = useState<string>('');
-    const [height, setHeight] = useState<string>('');
-    const [fitnessLevel, setfitnessLevel] = useState<string>('');
+type Props = {
+    age?: string;
+    setAge?: (newType: string) => void;
+    gender?: string;
+    setGender?: (newType: string) => void;
+    weight?: string;
+    setWeight?: (newType: string) => void;
+    height?: string;
+    setHeight?: (newType: string) => void;
+    fitnessLevel?: string;
+    setFitnessLevel?: (newType: string) => void;
+};
 
-    function handleAge(event: ChangeEvent<HTMLInputElement>) {
-        setAge(event.target.value);
-    }
-    function handleGender(event: SelectChangeEvent) {
-        setGender(event.target.value);
-    }
-    function handleWeight(event: ChangeEvent<HTMLInputElement>) {
-        setWeight(event.target.value);
-    }
-    function handleHeight(event: ChangeEvent<HTMLInputElement>) {
-        setHeight(event.target.value);
-    }
-    function handleFitnessLevel(event: SelectChangeEvent) {
-        setfitnessLevel(event.target.value);
-    }
-
+export function SetFitnessProfile({
+    age,
+    setAge,
+    gender,
+    setGender,
+    weight,
+    setWeight,
+    height,
+    setHeight,
+    fitnessLevel,
+    setFitnessLevel,
+}: Props) {
     return (
         <>
             <p>Tell us more about yourself:</p>
@@ -52,7 +52,7 @@ export function SetFitnessProfile() {
                     type="number"
                     id="outlined-start-adornment"
                     sx={{ m: 1, width: '25ch' }}
-                    onChange={handleAge}
+                    onChange={(event) => setAge?.(event.target.value)}
                 />
 
                 <FormControl fullWidth>
@@ -65,7 +65,7 @@ export function SetFitnessProfile() {
                         id="demo-simple-select"
                         value={gender}
                         label="Gender"
-                        onChange={handleGender}
+                        onChange={(event) => setGender?.(event.target.value)}
                     >
                         <MenuItem value="">Select Gender</MenuItem>
                         <MenuItem value={'female'}>Female</MenuItem>
@@ -80,7 +80,7 @@ export function SetFitnessProfile() {
                 <TextField
                     className="setFitnessInput"
                     label="Weight"
-                    onChange={handleWeight}
+                    onChange={(event) => setWeight?.(event.target.value)}
                     value={weight}
                     type="number"
                     id="outlined-start-adornment"
@@ -96,7 +96,7 @@ export function SetFitnessProfile() {
                     className="setFitnessInput"
                     label="Height"
                     value={height}
-                    onChange={handleHeight}
+                    onChange={(event) => setHeight?.(event.target.value)}
                     type="number"
                     id="outlined-start-adornment"
                     sx={{ m: 1, width: '25ch' }}
@@ -117,7 +117,9 @@ export function SetFitnessProfile() {
                         id="demo-simple-select"
                         value={fitnessLevel}
                         label="Current fitness level"
-                        onChange={handleFitnessLevel}
+                        onChange={(event) =>
+                            setFitnessLevel?.(event.target.value)
+                        }
                     >
                         <MenuItem value="">Select Level</MenuItem>
                         <MenuItem value={'none'}>

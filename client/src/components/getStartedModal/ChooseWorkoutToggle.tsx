@@ -1,17 +1,13 @@
-import React, { useState } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import workoutRoutines from '../../assets/resources/workouts.json';
 
-export function ChooseWorkoutToggle() {
-    const [exercise, setExercise] = useState<string[]>();
+type Props = {
+    exercise?: string[] | undefined;
+    setExercise?: Dispatch<SetStateAction<string[] | undefined>>;
+};
 
-    function handleExercise(
-        event: React.MouseEvent<HTMLElement>,
-        newExercise: string[]
-    ) {
-        setExercise(newExercise);
-    }
-
+export function ChooseWorkoutToggle({ exercise, setExercise }: Props) {
     return (
         <>
             <p>What are you interested in?</p>
@@ -19,7 +15,7 @@ export function ChooseWorkoutToggle() {
                 <ToggleButtonGroup
                     className="chooseWorkoutButtonGroup"
                     value={exercise}
-                    onChange={handleExercise}
+                    onChange={(event, value) => setExercise?.(value)}
                     aria-label="text formatting"
                 >
                     {workoutRoutines.map(({ workoutCategory }) => (
