@@ -1,15 +1,8 @@
 import { faEllipsis, faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    Box,
-    Card,
-    CardContent,
-    CardHeader,
-    Fab,
-    IconButton,
-} from '@mui/material';
+import { Card, CardContent, CardHeader, Fab, IconButton } from '@mui/material';
+import './ActionCard.css';
 
-// ActionCard props:
 type ActionCardProps = {
     actionName: string;
     actionDescription: string;
@@ -19,62 +12,19 @@ export function ActionCard(ActionCardProps: ActionCardProps) {
     const { actionName, actionDescription } = ActionCardProps;
 
     return (
-        <Card
-            style={{
-                marginTop: '1rem',
-                height: '18em',
-                width: '32em',
-            }}
-        >
+        <Card id="action-card">
             <CardHeader
-                title={
-                    <span
-                        style={{
-                            float: 'left',
-                            color: 'white',
-                        }}
-                    >
-                        {actionName}
-                    </span>
-                }
+                title={<span style={{ float: 'left' }}>{actionName}</span>}
                 action={
                     <IconButton>
-                        <FontAwesomeIcon icon={faEllipsis} color="white" />
+                        <FontAwesomeIcon icon={faEllipsis} />
                     </IconButton>
                 }
-                style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                }}
-                sx={{
-                    backgroundColor: (theme) => theme.palette.primary.main,
-                    color: (theme) => theme.palette.primary.contrastText,
-                }}
+                id="action-card-header"
             />
-            <CardContent
-                style={{
-                    display: 'flex',
-                }}
-            >
-                <p
-                    style={{
-                        textAlign: 'left',
-                        width: '80%',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                    }}
-                >
-                    {actionDescription}
-                </p>
-                <Fab
-                    style={{
-                        position: 'relative',
-                        left: '2rem',
-                        top: '8rem',
-                    }}
-                    color="primary"
-                    aria-label="add"
-                >
+            <CardContent style={{ display: 'flex' }}>
+                <p className="action-card-description">{actionDescription}</p>
+                <Fab id="action-card-fab" color="primary" aria-label="add">
                     <FontAwesomeIcon icon={faPlus} color="white" />
                 </Fab>
             </CardContent>

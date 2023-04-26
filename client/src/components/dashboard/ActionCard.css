@@ -1,0 +1,24 @@
+.action-card-description {
+    text-align: left;
+    width: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#action-card-fab {
+    position: relative;
+    left: 2rem;
+    top: 8rem;
+}
+
+#action-card {
+    height: 18em;
+    width: 32em;
+    border-radius: 1.6em;
+}
+
+#action-card-header {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 0;
+}
