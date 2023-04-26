@@ -5,13 +5,12 @@ import workoutRoutines from '../../assets/resources/workouts.json';
 export function ChooseWorkoutToggle() {
     const [exercise, setExercise] = useState<string[]>();
 
-    const handleExercise = (
+    function handleExercise(
         event: React.MouseEvent<HTMLElement>,
         newExercise: string[]
-    ) => {
-        console.log(newExercise);
+    ) {
         setExercise(newExercise);
-    };
+    }
 
     return (
         <>

@@ -14,27 +14,26 @@ export function GetStartedModal() {
     const [open, setOpen] = useState(false);
     const [currentStep, setCurrentStep] = useState(1);
 
-    const handleClose = () => {
+    function handleClose() {
         setOpen(false);
-    };
+    }
 
-    const handleFinish = () => {
-        // Handle finish logic here
-
+    function handleFinish() {
+        //TODO:  Handle finish logic here
         setOpen(false);
-    };
+    }
+
+    function handleNext() {
+        setCurrentStep(currentStep + 1);
+    }
+
+    function handlePrevious() {
+        setCurrentStep(currentStep - 1);
+    }
 
     useEffect(() => {
         setOpen(true);
     }, []);
-
-    const handleNext = () => {
-        setCurrentStep(currentStep + 1);
-    };
-
-    const handlePrevious = () => {
-        setCurrentStep(currentStep - 1);
-    };
 
     return (
         <>

@@ -17,26 +17,21 @@ export function SetFitnessProfile() {
     const [height, setHeight] = useState<string>('');
     const [fitnessLevel, setfitnessLevel] = useState<string>('');
 
-    const handleAge = (event: ChangeEvent<HTMLInputElement>) => {
-        console.log(event.target.value);
+    function handleAge(event: ChangeEvent<HTMLInputElement>) {
         setAge(event.target.value);
-    };
-    const handleGender = (event: SelectChangeEvent) => {
+    }
+    function handleGender(event: SelectChangeEvent) {
         setGender(event.target.value);
-        console.log(gender);
-    };
-    const handleWeight = (event: ChangeEvent<HTMLInputElement>) => {
+    }
+    function handleWeight(event: ChangeEvent<HTMLInputElement>) {
         setWeight(event.target.value);
-        console.log(weight);
-    };
-    const handleHeight = (event: ChangeEvent<HTMLInputElement>) => {
+    }
+    function handleHeight(event: ChangeEvent<HTMLInputElement>) {
         setHeight(event.target.value);
-        console.log(height);
-    };
-    const handleFitnessLevel = (event: SelectChangeEvent) => {
+    }
+    function handleFitnessLevel(event: SelectChangeEvent) {
         setfitnessLevel(event.target.value);
-        console.log(fitnessLevel);
-    };
+    }
 
     return (
         <>

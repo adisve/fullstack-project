@@ -11,10 +11,9 @@ import workoutGoals from '../../assets/resources/workoutGoals.json';
 export function SetGoalDropdown() {
     const [goal, setGoal] = useState('');
 
-    const handleChange = (event: SelectChangeEvent) => {
-        console.log(event.target.value);
+    function handleChange(event: SelectChangeEvent) {
         setGoal(event.target.value);
-    };
+    }
     return (
         <>
             <p>What is your goal?</p>
