@@ -1,15 +1,8 @@
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    Box,
-    Card,
-    CardContent,
-    CardHeader,
-    Fab,
-    IconButton,
-} from '@mui/material';
+import { Card, CardContent, CardHeader, Fab, IconButton } from '@mui/material';
+import './ActionCard.css';
 
-// ActionCard props:
 type ActionCardProps = {
     actionName: string;
     actionDescription: string;
