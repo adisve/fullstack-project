@@ -1,20 +1,26 @@
 .action-card-description {
     text-align: left;
     width: 80%;
-    overflow: hidden;
+    overflow: auto;
     text-overflow: ellipsis;
+    max-height: 10em;
 }
 
 #action-card-fab {
-    position: relative;
-    left: 2rem;
-    top: 8rem;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin-bottom: 1em;
+    margin-right: 1em;
 }
 
 #action-card {
-    height: 18em;
-    width: 32em;
+    max-height: 18em;
+    max-width: 32em;
     border-radius: 1.6em;
+    margin-bottom: 1.8em;
+    aspect-ratio: 3/2;
+    position: relative;
 }
 
 #action-card-header {

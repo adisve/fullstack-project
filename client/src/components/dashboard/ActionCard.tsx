@@ -22,12 +22,12 @@ export function ActionCard(ActionCardProps: ActionCardProps) {
                 }
                 id="action-card-header"
             />
-            <CardContent style={{ display: 'flex' }}>
+            <CardContent>
                 <p className="action-card-description">{actionDescription}</p>
-                <Fab id="action-card-fab" color="primary" aria-label="add">
-                    <FontAwesomeIcon icon={faPlus} color="white" />
-                </Fab>
             </CardContent>
+            <Fab id="action-card-fab" color="primary" variant="extended">
+                <FontAwesomeIcon icon={faPlus} color="white" />
+            </Fab>
         </Card>
     );
 }

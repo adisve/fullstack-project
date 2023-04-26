@@ -24,10 +24,10 @@ export function LandingPage() {
                         />
                     </Box>
                 </Box>
-                <Fab color="primary" variant="extended" id="landing-page-fab">
-                    Register Now!
-                </Fab>
             </Box>
+            <Fab color="primary" variant="extended" id="landing-page-fab">
+                Register Now!
+            </Fab>
         </Container>
     );
 }
