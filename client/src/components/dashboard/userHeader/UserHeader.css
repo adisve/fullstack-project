@@ -1,0 +1,14 @@
+.user-header-text {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 500;
+    font-size: 0.9em;
+    text-align: left;
+    display: block;
+    align-self: flex-start;
+}
+
+.user-header-text p {
+    margin: 0;
+    padding: 0;
+    margin-left: 0.9em;
+}

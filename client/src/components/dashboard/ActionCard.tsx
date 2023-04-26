@@ -1,8 +1,4 @@
-import {
-    faChevronRight,
-    faEllipsis,
-    faPlus,
-} from '@fortawesome/free-solid-svg-icons';
+import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     Box,

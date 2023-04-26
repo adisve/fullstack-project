@@ -36,11 +36,13 @@
 .action-card {
     box-shadow: none !important;
     background-color: #727ee5 !important;
+    opacity: 0.95;
     border-radius: 20px !important;
     font-weight: 500 !important;
     margin-top: 1rem !important;
-    min-height: 12em !important;
+    min-height: 10em !important;
     min-width: 16em !important;
+    margin-top: 2em !important;
 }
 
 .card-description {
