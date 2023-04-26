@@ -81,7 +81,7 @@ router.post('/register', async function (req: Request, res: Response) {
 
 router.get('/login', async function (req: Request, res: Response) {
     if ((req.session as ISession)._id) {
-        return res.render('/', { id: (req.session as ISession)._id });
+        return res.status(200).json({ id: (req.session as ISession)._id });
     }
     res.end();
 });

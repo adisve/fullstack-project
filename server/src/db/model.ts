@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: true },
     password: { type: String, required: true },
     created_at: { type: Date, default: new Date(), required: true },
+    greeting_model:{type: Boolean, required: true}
 });
 
 const workoutSchema = new mongoose.Schema({
