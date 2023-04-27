@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { Router } from 'express';
-import { createUser, getEmail } from '../db/model';
+import { User, createUser, getEmail, updateUser } from '../db/model';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 dotenv.config({ path: './config.env' });
@@ -96,4 +96,31 @@ router.get('/logout', async function (req: Request, res: Response) {
     });
 });
 
+router.put('/modelGreeting/:_id', async function (req: Request, res: Response) {
+     if ((req.session as ISession)._id) {
+    const _id = req.params._id;
+
+    const interests = req.body.interests;
+    const goals = req.body.goals;
+    const age = req.body.age;
+    const height = req.body.height;
+    const weight = req.body.weight;
+    const gender = req.body.gender;
+    const fitnessLevel = req.body.fitnessLevel;
+    console.log(gender);
+    const updatedUser = await updateUser(
+        _id,
+        interests,
+        goals,
+        age,
+        gender,
+        weight,
+        height,
+        fitnessLevel
+    );
+    return res.status(200).send(JSON.stringify(updatedUser));
+    } else {
+        res.status(404).json({ message: 'User not found' });
+    }
+});
 export default router;

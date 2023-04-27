@@ -1,8 +1,8 @@
 import express, { Application } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import { connect } from './db/connection';
 dotenv.config({ path: './config.env' });
+import { connect } from './db/connection';
 const secret: string = process.env.SECRET_KEY || '';
 
 const app: Application = express();
