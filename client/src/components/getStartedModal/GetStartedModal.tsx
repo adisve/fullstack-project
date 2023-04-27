@@ -6,30 +6,51 @@ import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
 import { ChooseWorkoutToggle } from './ChooseWorkoutToggle';
 import { SetGoalDropdown } from './SetGoalDropdown';
 import { SetFitnessProfile } from './SetFitnessProfile';
+import { SuccessModal } from './SuccessModal';
+
+import { createGetStartedInfoModal } from '../../api/createGetStartedInfoModal';
 
 import './GetStartedModal.css';
 import '../navbar/NavBar.css';
 
 export function GetStartedModal() {
     const [open, setOpen] = useState(false);
+    const [successModal, setSuccessModal] = useState(false);
     const [currentStep, setCurrentStep] = useState(1);
 
-    const [exercise, setExercise] = useState<undefined | string[]>([]);
-    const [goal, setGoal] = useState<undefined | string>('');
+    const [exercise, setExercise] = useState<string[]>([]);
+    const [goal, setGoal] = useState<string>('');
 
     const [age, setAge] = useState<string>('');
     const [gender, setGender] = useState<string>('');
     const [weight, setWeight] = useState<string>('');
     const [height, setHeight] = useState<string>('');
     const [fitnessLevel, setFitnessLevel] = useState<string>('');
-    const userHasSeenModal = false;
+
+    let userHasSeenModal = false;
 
     // TODO: post to backend if the user has chosen to set up some fit info
     function handleClose() {
         setOpen(false);
     }
-    function handleSubmitData() {
+    async function handleSubmitData() {
+        const numAge = parseInt(age);
+        const numWeight = parseInt(weight);
+        const numHeight = parseInt(height);
+
+        const response = await createGetStartedInfoModal(
+            exercise,
+            goal,
+            numAge,
+            gender,
+            numWeight,
+            numHeight,
+            fitnessLevel
+        );
+        // if (response.status === 201) {
         setOpen(false);
+        setSuccessModal(true);
+        // }
     }
 
     function handleNext() {
@@ -38,6 +59,23 @@ export function GetStartedModal() {
 
     function handlePrevious() {
         setCurrentStep(currentStep - 1);
+    }
+    function isInvalidInput() {
+        if (
+            age === '' ||
+            gender === '' ||
+            weight === '' ||
+            height === '' ||
+            fitnessLevel === '' ||
+            isNaN(parseInt(age)) ||
+            isNaN(parseInt(weight)) ||
+            isNaN(parseInt(height)) ||
+            parseInt(age) < 1 ||
+            parseInt(height) < 1 ||
+            parseInt(weight) < 1
+        )
+            return true;
+        else return false;
     }
 
     useEffect(() => {
@@ -91,6 +129,7 @@ export function GetStartedModal() {
                                             Set up later
                                         </Button>
                                         <Button
+                                            disabled={exercise.length === 0}
                                             className="nextButton"
                                             variant="contained"
                                             onClick={handleNext}
@@ -114,6 +153,7 @@ export function GetStartedModal() {
                                             Previous
                                         </Button>
                                         <Button
+                                            disabled={goal === ''}
                                             variant="contained"
                                             onClick={handleNext}
                                         >
@@ -144,6 +184,7 @@ export function GetStartedModal() {
                                             Previous
                                         </Button>
                                         <Button
+                                            disabled={isInvalidInput()}
                                             variant="contained"
                                             onClick={handleSubmitData}
                                         >
@@ -159,6 +200,7 @@ export function GetStartedModal() {
                     </Box>
                 </Modal>
             )}
+            {successModal && <SuccessModal />}
         </>
     );
 }

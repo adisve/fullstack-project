@@ -6,7 +6,10 @@ import {
     MenuItem,
     Select,
     TextField,
+    Alert,
+    Stack,
 } from '@mui/material';
+import { useState } from 'react';
 
 type Props = {
     age?: string;
@@ -33,6 +36,30 @@ export function SetFitnessProfile({
     fitnessLevel,
     setFitnessLevel,
 }: Props) {
+    const [ageErr, setAgeErr] = useState<boolean>(false);
+    const [weightErr, setWeightErr] = useState<boolean>(false);
+    const [heightErr, setHeightErr] = useState<boolean>(false);
+
+    function errorForAge(age: string) {
+        if (age === '') setAgeErr(true);
+        else if (isNaN(parseInt(age))) setAgeErr(true);
+        else if (parseInt(age) >= 1 && parseInt(age) <= 125) setAgeErr(false);
+        else setAgeErr(true);
+    }
+
+    function errorForWeight(weight: string) {
+        if (weight === '') setWeightErr(true);
+        else if (isNaN(parseInt(weight))) setWeightErr(true);
+        else if (parseInt(weight) >= 1) setWeightErr(false);
+        else setWeightErr(true);
+    }
+
+    function errorForHeight(height: string) {
+        if (height === '') setHeightErr(true);
+        else if (isNaN(parseInt(height))) setHeightErr(true);
+        else if (parseInt(height) >= 1) setHeightErr(false);
+        else setHeightErr(true);
+    }
     return (
         <>
             <p>Tell us more about yourself:</p>
@@ -46,10 +73,11 @@ export function SetFitnessProfile({
                     className="setFitnessInput"
                     label="Age"
                     value={age}
-                    type="number"
+                    type={'number'}
                     id="outlined-start-adornment"
                     onChange={(event) => {
                         setAge?.(event.target.value);
+                        errorForAge(event.target.value);
                     }}
                 />
 
@@ -84,6 +112,7 @@ export function SetFitnessProfile({
                     label="Weight"
                     onChange={(event) => {
                         setWeight?.(event.target.value);
+                        errorForWeight(event.target.value);
                     }}
                     value={weight}
                     type="number"
@@ -101,6 +130,7 @@ export function SetFitnessProfile({
                     value={height}
                     onChange={(event) => {
                         setHeight?.(event.target.value);
+                        errorForHeight(event.target.value);
                     }}
                     type="number"
                     id="outlined-start-adornment"
@@ -143,6 +173,27 @@ export function SetFitnessProfile({
                         </MenuItem>
                     </Select>
                 </FormControl>
+                {ageErr && (
+                    <Stack className="errorMessage">
+                        <Alert variant="outlined" severity="info">
+                            Make sure your Age is correct
+                        </Alert>
+                    </Stack>
+                )}
+                {weightErr && (
+                    <Stack className="errorMessage">
+                        <Alert variant="outlined" severity="info">
+                            Make sure your Weight is correct
+                        </Alert>
+                    </Stack>
+                )}
+                {heightErr && (
+                    <Stack className="errorMessage">
+                        <Alert variant="outlined" severity="info">
+                            Make sure your Height is correct{' '}
+                        </Alert>
+                    </Stack>
+                )}
             </Box>
         </>
     );

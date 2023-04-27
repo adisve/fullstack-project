@@ -107,6 +107,11 @@ input::-webkit-inner-spin-button {
     width: 25ch;
 }
 
+.errorMessage {
+    width: 50% !important;
+    margin: 5px auto !important;
+}
+
 @media only screen and (max-width: 992px) {
     .modalStyle {
         width: 80%;

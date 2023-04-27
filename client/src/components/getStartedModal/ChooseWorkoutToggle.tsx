@@ -3,14 +3,14 @@ import { ToggleButton, ToggleButtonGroup } from '@mui/material';
 import workoutRoutines from '../../assets/resources/workouts.json';
 
 type Props = {
-    exercise?: string[] | undefined;
-    setExercise?: Dispatch<SetStateAction<string[] | undefined>>;
+    exercise?: string[];
+    setExercise?: Dispatch<SetStateAction<string[]>>;
 };
 
 export function ChooseWorkoutToggle({ exercise, setExercise }: Props) {
     return (
         <>
-            <p>What are you interested in?</p>
+            <p>What are you interested in? Choose at least 1</p>
             <div className="modalContentFlexCenter">
                 <ToggleButtonGroup
                     className="chooseWorkoutButtonGroup"
