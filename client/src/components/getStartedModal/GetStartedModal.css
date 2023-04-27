@@ -5,6 +5,10 @@
     font-family: 'Montserrat', sans-serif !important;
 }
 
+.modalStyle::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+}
+
 .modalStyle {
     position: absolute;
     top: 50%;
@@ -17,6 +21,9 @@
     border-radius: 0.5rem;
     box-shadow: 1.5rem;
     padding: 2rem;
+
+    overflow-y: scroll;
+    max-height: 80%;
 }
 
 .brand-name {
@@ -42,6 +49,10 @@
 .buttonGroup button {
     margin: 1rem;
     text-transform: none;
+}
+.goalForm,
+.modalContentCenter {
+    margin-bottom: 0.5rem;
 }
 
 .modalDesc {
@@ -70,7 +81,7 @@
     border-radius: 0.625rem;
 }
 
-/* Goal section */
+/* Set goal section */
 .goalForm {
     text-align: left;
     margin: 1rem;
@@ -81,20 +92,43 @@
     text-align: left;
 }
 
-/* Set Fitness Profile  */
+/* Set Fitness Profile section */
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
 
+.fitnessForm > :not(style) {
+    margin: 0.5rem;
+    width: 25ch;
+}
+
+.setFitnessInput {
+    width: 25ch;
+}
+
 @media only screen and (max-width: 992px) {
     .modalStyle {
-        max-width: 75%;
+        width: 80%;
     }
 }
 
 @media only screen and (max-width: 768px) {
     .modalStyle {
         width: 90%;
+    }
+    .buttonGroup button {
+        margin: 0.5rem;
+    }
+    .goalForm {
+        width: 100%;
+    }
+    .fitnessForm > :not(style) {
+        margin: 0.5rem;
+        width: 100%;
+    }
+
+    .setFitnessInput {
+        width: 100%;
     }
 }

@@ -19,12 +19,14 @@ export function SetGoalDropdown({ goal, setGoal }: Props) {
                         labelId="demo-simple-select-autowidth-label"
                         id="demo-simple-select-autowidth"
                         value={goal}
-                        onChange={(event) => setGoal?.(event.target.value)}
+                        onChange={(event) => {
+                            setGoal?.(event.target.value);
+                        }}
                         autoWidth
                         label="Goal"
                     >
                         <MenuItem value="">
-                            <em>None</em>
+                            <em>Select goal</em>
                         </MenuItem>
 
                         {workoutGoals.goals.map((goal) => (

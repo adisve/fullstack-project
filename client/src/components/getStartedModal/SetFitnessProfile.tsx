@@ -10,13 +10,13 @@ import {
 
 type Props = {
     age?: string;
-    setAge?: (newType: string) => void;
+    setAge?: (newAge: string) => void;
     gender?: string;
     setGender?: (newType: string) => void;
     weight?: string;
-    setWeight?: (newType: string) => void;
+    setWeight?: (newHeight: string) => void;
     height?: string;
-    setHeight?: (newType: string) => void;
+    setHeight?: (newWeight: string) => void;
     fitnessLevel?: string;
     setFitnessLevel?: (newType: string) => void;
 };
@@ -37,11 +37,8 @@ export function SetFitnessProfile({
         <>
             <p>Tell us more about yourself:</p>
             <Box
-                className="modalContentCenter"
+                className="modalContentCenter fitnessForm"
                 component="form"
-                sx={{
-                    '& > :not(style)': { m: 1, width: '25ch' },
-                }}
                 noValidate
                 autoComplete="off"
             >
@@ -51,8 +48,9 @@ export function SetFitnessProfile({
                     value={age}
                     type="number"
                     id="outlined-start-adornment"
-                    sx={{ m: 1, width: '25ch' }}
-                    onChange={(event) => setAge?.(event.target.value)}
+                    onChange={(event) => {
+                        setAge?.(event.target.value);
+                    }}
                 />
 
                 <FormControl fullWidth>
@@ -65,9 +63,13 @@ export function SetFitnessProfile({
                         id="demo-simple-select"
                         value={gender}
                         label="Gender"
-                        onChange={(event) => setGender?.(event.target.value)}
+                        onChange={(event) => {
+                            setGender?.(event.target.value);
+                        }}
                     >
-                        <MenuItem value="">Select Gender</MenuItem>
+                        <MenuItem value="">
+                            <em>Select Gender</em>
+                        </MenuItem>
                         <MenuItem value={'female'}>Female</MenuItem>
                         <MenuItem value={'male'}>Male</MenuItem>
                         <MenuItem value={'other-gender'}>Other</MenuItem>
@@ -80,11 +82,12 @@ export function SetFitnessProfile({
                 <TextField
                     className="setFitnessInput"
                     label="Weight"
-                    onChange={(event) => setWeight?.(event.target.value)}
+                    onChange={(event) => {
+                        setWeight?.(event.target.value);
+                    }}
                     value={weight}
                     type="number"
                     id="outlined-start-adornment"
-                    sx={{ m: 1, width: '25ch' }}
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position="end">kg</InputAdornment>
@@ -96,10 +99,11 @@ export function SetFitnessProfile({
                     className="setFitnessInput"
                     label="Height"
                     value={height}
-                    onChange={(event) => setHeight?.(event.target.value)}
+                    onChange={(event) => {
+                        setHeight?.(event.target.value);
+                    }}
                     type="number"
                     id="outlined-start-adornment"
-                    sx={{ m: 1, width: '25ch' }}
                     InputProps={{
                         endAdornment: (
                             <InputAdornment position="end">cm</InputAdornment>
@@ -117,11 +121,13 @@ export function SetFitnessProfile({
                         id="demo-simple-select"
                         value={fitnessLevel}
                         label="Current fitness level"
-                        onChange={(event) =>
-                            setFitnessLevel?.(event.target.value)
-                        }
+                        onChange={(event) => {
+                            setFitnessLevel?.(event.target.value);
+                        }}
                     >
-                        <MenuItem value="">Select Level</MenuItem>
+                        <MenuItem value="">
+                            <em>Select Level</em>
+                        </MenuItem>
                         <MenuItem value={'none'}>
                             None - no exercise at all
                         </MenuItem>

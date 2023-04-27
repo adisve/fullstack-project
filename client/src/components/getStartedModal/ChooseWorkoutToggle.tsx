@@ -15,7 +15,9 @@ export function ChooseWorkoutToggle({ exercise, setExercise }: Props) {
                 <ToggleButtonGroup
                     className="chooseWorkoutButtonGroup"
                     value={exercise}
-                    onChange={(event, value) => setExercise?.(value)}
+                    onChange={(event, value) => {
+                        setExercise?.(value);
+                    }}
                     aria-label="text formatting"
                 >
                     {workoutRoutines.map(({ workoutCategory }) => (
