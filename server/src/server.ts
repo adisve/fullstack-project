@@ -14,8 +14,8 @@ app.use(express.json());
 app.use(recordRouter);
 
 app.listen(port, () => {
-    connectToServer((err: Error) => {
-        if (err) console.error(err);
-    });
-    console.log(`Server is running on port: ${port}`);
+  connectToServer((err: Error) => {
+    if (err) console.error(err);
+  });
+  console.log(`Server is running on port: ${port}`);
 });

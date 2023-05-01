@@ -8,7 +8,8 @@
 
 body,
 html,
-span {
+span,
+button {
     font-family: 'Montserrat', sans-serif !important;
     line-height: 1.5 !important;
     font-weight: 400 !important;

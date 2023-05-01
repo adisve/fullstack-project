@@ -1,6 +1,6 @@
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Card, CardContent, CardHeader, Fab, IconButton } from '@mui/material';
+import { Card, CardContent, CardHeader } from '@mui/material';
 import './ActionCard.css';
 
 type ActionCardProps = {
@@ -28,7 +28,9 @@ export function ActionCard(ActionCardProps: ActionCardProps) {
                     bottom: 0,
                     right: 0,
                     margin: '1rem',
+                    cursor: 'pointer',
                 }}
+                onClick={() => console.log('Clicked')}
             />
         </Card>
     );
