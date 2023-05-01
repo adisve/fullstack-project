@@ -1,3 +1,4 @@
+import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { Toolbar, Box, Button, Typography, Modal } from '@mui/material';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -8,46 +9,64 @@ import { SetGoalDropdown } from './SetGoalDropdown';
 import { SetFitnessProfile } from './SetFitnessProfile';
 import { SuccessModal } from './SuccessModal';
 
-import { createGetStartedInfoModal } from '../../api/createGetStartedInfoModal';
+import { RootState } from '../../store/store';
+import { updateUserSeenModal } from '../../store/features/user/userSlice';
 
 import './GetStartedModal.css';
 import '../navbar/NavBar.css';
 
 export function GetStartedModal() {
+    /*
+        TODO: needs to be uncommented, when updateUserSeenModal and createUserFitnessProfile are working
+        here I check if the user is logged in
+    */
+    // const isLoggedIn = useSelector((state: RootState) => state.auth.token);
+    // if (!isLoggedIn) {
+    //     return <></>;
+    // }
+
+    const dispatch = useDispatch();
+    let userHasSeenModal = useSelector(
+        (state: RootState) => state.user.user?.seen_greeting_modal
+    );
+
     const [open, setOpen] = useState(false);
     const [successModal, setSuccessModal] = useState(false);
     const [currentStep, setCurrentStep] = useState(1);
 
     const [exercise, setExercise] = useState<string[]>([]);
     const [goal, setGoal] = useState<string>('');
-
     const [age, setAge] = useState<string>('');
     const [gender, setGender] = useState<string>('');
     const [weight, setWeight] = useState<string>('');
     const [height, setHeight] = useState<string>('');
     const [fitnessLevel, setFitnessLevel] = useState<string>('');
 
-    let userHasSeenModal = false;
-
-    // TODO: post to backend if the user has chosen to set up some fit info
     function handleClose() {
+        // dispatch(updateUserSeenModal());
         setOpen(false);
     }
+
     async function handleSubmitData() {
         const numAge = parseInt(age);
         const numWeight = parseInt(weight);
         const numHeight = parseInt(height);
-
-        const response = await createGetStartedInfoModal(
+        const userData = {
             exercise,
             goal,
             numAge,
             gender,
             numWeight,
             numHeight,
-            fitnessLevel
-        );
-        // if (response.status === 201) {
+            fitnessLevel,
+        };
+
+        /*
+            TODO: Need to be uncommented
+            createUserFitnessProfile: need to send to back end
+        */
+        // dispatch(createUserFitnessProfile(userData));
+        // dispatch(updateUserSeenModal());
         setOpen(false);
         setSuccessModal(true);
         // }
@@ -60,23 +79,6 @@ export function GetStartedModal() {
     function handlePrevious() {
         setCurrentStep(currentStep - 1);
     }
-    function isInvalidInput() {
-        if (
-            age === '' ||
-            gender === '' ||
-            weight === '' ||
-            height === '' ||
-            fitnessLevel === '' ||
-            isNaN(parseInt(age)) ||
-            isNaN(parseInt(weight)) ||
-            isNaN(parseInt(height)) ||
-            parseInt(age) < 1 ||
-            parseInt(height) < 1 ||
-            parseInt(weight) < 1
-        )
-            return true;
-        else return false;
-    }
 
     useEffect(() => {
         setOpen(true);
@@ -84,7 +86,7 @@ export function GetStartedModal() {
 
     return (
         <>
-            {userHasSeenModal ? null : (
+            {!!userHasSeenModal ? null : (
                 <Modal
                     open={open}
                     onClose={handleClose}
@@ -184,7 +186,19 @@ export function GetStartedModal() {
                                             Previous
                                         </Button>
                                         <Button
-                                            disabled={isInvalidInput()}
+                                            disabled={
+                                                age === '' ||
+                                                gender === '' ||
+                                                weight === '' ||
+                                                height === '' ||
+                                                fitnessLevel === '' ||
+                                                isNaN(parseInt(age)) ||
+                                                isNaN(parseInt(weight)) ||
+                                                isNaN(parseInt(height)) ||
+                                                parseInt(age) < 1 ||
+                                                parseInt(height) < 1 ||
+                                                parseInt(weight) < 1
+                                            }
                                             variant="contained"
                                             onClick={handleSubmitData}
                                         >

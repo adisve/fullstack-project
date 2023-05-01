@@ -43,7 +43,7 @@ export function SetFitnessProfile({
     function errorForAge(age: string) {
         if (age === '') setAgeErr(true);
         else if (isNaN(parseInt(age))) setAgeErr(true);
-        else if (parseInt(age) >= 1 && parseInt(age) <= 125) setAgeErr(false);
+        else if (parseInt(age) >= 1) setAgeErr(false);
         else setAgeErr(true);
     }
 
@@ -73,7 +73,14 @@ export function SetFitnessProfile({
                     className="setFitnessInput"
                     label="Age"
                     value={age}
-                    type={'number'}
+                    type="number"
+                    InputProps={{
+                        inputProps: {
+                            type: 'number',
+                            min: 1,
+                            max: 150,
+                        },
+                    }}
                     id="outlined-start-adornment"
                     onChange={(event) => {
                         setAge?.(event.target.value);
@@ -121,6 +128,10 @@ export function SetFitnessProfile({
                         endAdornment: (
                             <InputAdornment position="end">kg</InputAdornment>
                         ),
+                        inputProps: {
+                            type: 'number',
+                            min: 1,
+                        },
                     }}
                 />
 
@@ -138,6 +149,10 @@ export function SetFitnessProfile({
                         endAdornment: (
                             <InputAdornment position="end">cm</InputAdornment>
                         ),
+                        inputProps: {
+                            type: 'number',
+                            min: 1,
+                        },
                     }}
                 />
 
