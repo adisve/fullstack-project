@@ -1,7 +1,6 @@
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Container, Fab } from '@mui/material';
-import { Outlet } from 'react-router-dom';
 import { ActionCard } from './ActionCard';
 import UserHeader from './userHeader/UserHeader';
 
@@ -16,7 +15,6 @@ export function Dashboard() {
             }}
         >
             <UserHeader />
-            <Outlet />
             <ActionCard
                 actionName="Browse workouts"
                 actionDescription="Look through a collection of workouts, tailored to your profile."

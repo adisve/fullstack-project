@@ -1,40 +1,39 @@
+import { Route, Routes, Navigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 import { AboutUsPage } from './components/aboutUsPage/AboutUsPage';
-import { LandingPage } from './components/landingPage/LandingPage';
-
-import { Route, Routes } from 'react-router-dom';
-
-import './App.css';
-import './components/footer/Footer.css';
-import './components/landingPage/LandingPage.css';
-
 import { Dashboard } from './components/dashboard/Dashboard';
 import { Footer } from './components/footer/Footer';
+import { LandingPage } from './components/landingPage/LandingPage';
+import { Login } from './components/login/Login';
 import { NavBar } from './components/navbar/NavBar';
+import './components/footer/Footer.css';
+import './components/landingPage/LandingPage.css';
+import { RootState } from './store/store';
 
 function App() {
+    const isHomePage = ['/', '/about-us'].includes(window.location.pathname);
+    const token = useSelector((state: RootState) => state.auth.token);
+
     return (
         <div className="App">
-            {['/', '/about-us'].includes(window.location.pathname) ? (
-                <NavBar />
-            ) : (
-                <></>
-            )}
-            <main
-                style={{
-                    minHeight: '100vh',
-                }}
-            >
+            {isHomePage && <NavBar />}
+            <main style={{ minHeight: '100vh' }}>
                 <Routes>
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/about-us" element={<AboutUsPage />} />
-                    <Route path="/dashboard/*" element={<Dashboard />}></Route>
+                    {token ? (
+                        <Route path="/dashboard/*" element={<Dashboard />} />
+                    ) : (
+                        <Route
+                            path="/dashboard/*"
+                            element={<Navigate to="/login" />}
+                        />
+                    )}
+                    <Route path="/login" element={<Login />} />
                 </Routes>
             </main>
-            {['/', '/about-us'].includes(window.location.pathname) ? (
-                <Footer />
-            ) : (
-                <></>
-            )}
+            {isHomePage && <Footer />}
         </div>
     );
 }

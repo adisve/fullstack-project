@@ -1,0 +1,27 @@
+.login-btn {
+    border-radius: 20px !important;
+    background-color: #6370e4 !important;
+    color: white !important;
+    text-transform: none !important;
+    font-size: 1.1em !important;
+    font-weight: 600 !important;
+}
+
+.login-page {
+    height: 100vh;
+}
+
+h1 {
+    color: #ffffff;
+}
+
+.login-header {
+    background-color: #6370e4;
+    height: 30%;
+    padding: 1.5em !important;
+}
+
+.login-form {
+    margin-top: 1.5em !important;
+    padding: 1.5em !important;
+}

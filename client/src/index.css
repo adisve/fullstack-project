@@ -20,4 +20,5 @@ button {
     -moz-osx-font-smoothing: grayscale !important;
     -webkit-text-size-adjust: 100% !important;
     color: #353e54;
+    margin: 0px;
 }
