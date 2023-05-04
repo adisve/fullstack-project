@@ -4,4 +4,5 @@ export interface User {
     email: string;
     created_at: string;
     updated_at: Date;
+    seen_greeting_modal: boolean;
 }
