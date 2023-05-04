@@ -1,14 +1,23 @@
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Box, Container, Drawer, Fab } from '@mui/material';
+import { Box, Container, Fab, Modal, Typography } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import { ActionCard } from './actionCard/ActionCard';
 import UserHeader from './userHeader/UserHeader';
 import { useEffect, useState } from 'react';
 import { Sidebar } from './sidebar/Sidebar';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../store/store';
+import { LoginModal } from './login-register/LoginModal';
 
 export function Dashboard() {
     const [activeState, setActiveState] = useState(false);
+
+    const token = useSelector((state: RootState) => state.auth.token);
+
+    if (!token) {
+        return <LoginModal open={token == undefined} />;
+    }
 
     return (
         <Container

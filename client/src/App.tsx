@@ -5,15 +5,12 @@ import { AboutUsPage } from './components/aboutUsPage/AboutUsPage';
 import { Dashboard } from './components/dashboard/Dashboard';
 import { Footer } from './components/footer/Footer';
 import { LandingPage } from './components/landingPage/LandingPage';
-import { Login } from './components/login/Login';
 import { NavBar } from './components/navbar/NavBar';
 import './components/footer/Footer.css';
 import './components/landingPage/LandingPage.css';
-import { RootState } from './store/store';
 
 function App() {
     const isHomePage = ['/', '/about-us'].includes(window.location.pathname);
-    const token = useSelector((state: RootState) => state.auth.token);
 
     return (
         <div className="App">
@@ -22,15 +19,7 @@ function App() {
                 <Routes>
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/about-us" element={<AboutUsPage />} />
-                    {token ? (
-                        <Route path="/dashboard/*" element={<Dashboard />} />
-                    ) : (
-                        <Route
-                            path="/dashboard/*"
-                            element={<Navigate to="/login" />}
-                        />
-                    )}
-                    <Route path="/login" element={<Login />} />
+                    <Route path="/dashboard/*" element={<Dashboard />} />
                 </Routes>
             </main>
             {isHomePage && <Footer />}
