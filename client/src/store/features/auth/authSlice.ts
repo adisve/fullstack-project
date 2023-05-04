@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
+import instance from '../../../config/axios';
 
 export enum AuthStatus {
     loading,
@@ -43,7 +44,7 @@ export const login =
     (username: string, password: string) => async (dispatch: any) => {
         try {
             dispatch(setLoading());
-            const response = await axios.post('/auth/login', {
+            const response = await instance.post('/auth/login', {
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ username, password }),
             });
