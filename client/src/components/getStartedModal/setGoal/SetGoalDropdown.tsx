@@ -1,12 +1,12 @@
 import { InputLabel, MenuItem, FormControl, Select } from '@mui/material';
-import workoutGoals from '../../assets/resources/workoutGoals.json';
+import workoutGoals from '../../../assets/resources/workoutGoals.json';
+import { AppDispatch, RootState } from '../../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { setGoal } from '../../../store/features/user/modalSlice';
 
-type Props = {
-    goal?: string;
-    setGoal?: (newType: string) => void;
-};
-
-export function SetGoalDropdown({ goal, setGoal }: Props) {
+export function SetGoalDropdown() {
+    const dispatch: AppDispatch = useDispatch();
+    const { modal } = useSelector((state: RootState) => state);
     return (
         <>
             <p>What is your goal?</p>
@@ -18,9 +18,9 @@ export function SetGoalDropdown({ goal, setGoal }: Props) {
                     <Select
                         labelId="demo-simple-select-autowidth-label"
                         id="demo-simple-select-autowidth"
-                        value={goal}
+                        value={modal.userSettings.goal}
                         onChange={(event) => {
-                            setGoal?.(event.target.value);
+                            dispatch(setGoal(event.target.value));
                         }}
                         autoWidth
                         label="Goal"

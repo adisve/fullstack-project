@@ -1,22 +1,22 @@
-import { Dispatch, SetStateAction } from 'react';
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
-import workoutRoutines from '../../assets/resources/workouts.json';
+import workoutRoutines from '../../../assets/resources/workouts.json';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../../store/store';
+import { setExercise } from '../../../store/features/user/modalSlice';
 
-type Props = {
-    exercise?: string[];
-    setExercise?: Dispatch<SetStateAction<string[]>>;
-};
+export function ChooseWorkoutToggle() {
+    const dispatch: AppDispatch = useDispatch();
+    const { modal } = useSelector((state: RootState) => state);
 
-export function ChooseWorkoutToggle({ exercise, setExercise }: Props) {
     return (
         <>
             <p>What are you interested in? Choose at least 1</p>
             <div className="modalContentFlexCenter">
                 <ToggleButtonGroup
                     className="chooseWorkoutButtonGroup"
-                    value={exercise}
+                    value={modal.userSettings.exercise}
                     onChange={(event, value) => {
-                        setExercise?.(value);
+                        dispatch(setExercise(value));
                     }}
                     aria-label="text formatting"
                 >

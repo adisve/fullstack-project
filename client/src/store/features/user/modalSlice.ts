@@ -87,7 +87,7 @@ export const isUserOnBoarded =
         const { user, auth } = getState();
         const onBoarded = user.user?.seen_greeting_modal;
         const token = auth.token;
-        if (!onBoarded && !token) {
+        if (!onBoarded && token) {
             dispatch(setShowModal(true));
         } else {
             dispatch(setShowModal(false));

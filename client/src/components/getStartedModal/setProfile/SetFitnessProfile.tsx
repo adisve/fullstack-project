@@ -10,32 +10,20 @@ import {
     Stack,
 } from '@mui/material';
 import { useState } from 'react';
-
-type Props = {
-    age?: string;
-    setAge?: (newAge: string) => void;
-    gender?: string;
-    setGender?: (newType: string) => void;
-    weight?: string;
-    setWeight?: (newHeight: string) => void;
-    height?: string;
-    setHeight?: (newWeight: string) => void;
-    fitnessLevel?: string;
-    setFitnessLevel?: (newType: string) => void;
-};
-
-export function SetFitnessProfile({
-    age,
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../../store/store';
+import {
     setAge,
-    gender,
-    setGender,
-    weight,
-    setWeight,
-    height,
-    setHeight,
-    fitnessLevel,
     setFitnessLevel,
-}: Props) {
+    setGender,
+    setHeight,
+    setWeight,
+} from '../../../store/features/user/modalSlice';
+
+export function SetFitnessProfile() {
+    const dispatch: AppDispatch = useDispatch();
+    const { modal } = useSelector((state: RootState) => state);
+
     const [ageErr, setAgeErr] = useState<boolean>(false);
     const [weightErr, setWeightErr] = useState<boolean>(false);
     const [heightErr, setHeightErr] = useState<boolean>(false);
@@ -43,21 +31,21 @@ export function SetFitnessProfile({
     function errorForAge(age: string) {
         if (age === '') setAgeErr(true);
         else if (isNaN(parseInt(age))) setAgeErr(true);
-        else if (parseInt(age) >= 1) setAgeErr(false);
+        else if (parseInt(age) >= 0) setAgeErr(false);
         else setAgeErr(true);
     }
 
     function errorForWeight(weight: string) {
         if (weight === '') setWeightErr(true);
         else if (isNaN(parseInt(weight))) setWeightErr(true);
-        else if (parseInt(weight) >= 1) setWeightErr(false);
+        else if (parseInt(weight) >= 0) setWeightErr(false);
         else setWeightErr(true);
     }
 
     function errorForHeight(height: string) {
         if (height === '') setHeightErr(true);
         else if (isNaN(parseInt(height))) setHeightErr(true);
-        else if (parseInt(height) >= 1) setHeightErr(false);
+        else if (parseInt(height) >= 0) setHeightErr(false);
         else setHeightErr(true);
     }
     return (
@@ -72,18 +60,26 @@ export function SetFitnessProfile({
                 <TextField
                     className="setFitnessInput"
                     label="Age"
-                    value={age}
+                    value={modal.userSettings.age}
                     type="number"
                     InputProps={{
                         inputProps: {
                             type: 'number',
-                            min: 1,
+                            min: 0,
                             max: 150,
                         },
                     }}
                     id="outlined-start-adornment"
                     onChange={(event) => {
-                        setAge?.(event.target.value);
+                        if (
+                            isNaN(parseInt(event.target.value)) ||
+                            parseInt(event.target.value) < 0
+                        ) {
+                            dispatch(setAge(''));
+                        }
+                        if (parseInt(event.target.value) >= 0)
+                            dispatch(setAge(parseInt(event.target.value)));
+                        else dispatch(setAge(''));
                         errorForAge(event.target.value);
                     }}
                 />
@@ -96,10 +92,10 @@ export function SetFitnessProfile({
                         className="setFitnessInput"
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={gender}
+                        value={modal.userSettings.gender}
                         label="Gender"
                         onChange={(event) => {
-                            setGender?.(event.target.value);
+                            dispatch(setGender(event.target.value));
                         }}
                     >
                         <MenuItem value="">
@@ -118,10 +114,18 @@ export function SetFitnessProfile({
                     className="setFitnessInput"
                     label="Weight"
                     onChange={(event) => {
-                        setWeight?.(event.target.value);
+                        if (
+                            isNaN(parseInt(event.target.value)) ||
+                            parseInt(event.target.value) < 0
+                        ) {
+                            dispatch(setWeight(''));
+                        }
+                        if (parseInt(event.target.value) >= 0)
+                            dispatch(setWeight(parseInt(event.target.value)));
+                        else dispatch(setWeight(''));
                         errorForWeight(event.target.value);
                     }}
-                    value={weight}
+                    value={modal.userSettings.weight}
                     type="number"
                     id="outlined-start-adornment"
                     InputProps={{
@@ -130,7 +134,7 @@ export function SetFitnessProfile({
                         ),
                         inputProps: {
                             type: 'number',
-                            min: 1,
+                            min: 0,
                         },
                     }}
                 />
@@ -138,9 +142,17 @@ export function SetFitnessProfile({
                 <TextField
                     className="setFitnessInput"
                     label="Height"
-                    value={height}
+                    value={modal.userSettings.height}
                     onChange={(event) => {
-                        setHeight?.(event.target.value);
+                        if (
+                            isNaN(parseInt(event.target.value)) ||
+                            parseInt(event.target.value) < 0
+                        ) {
+                            dispatch(setHeight(''));
+                        }
+                        if (parseInt(event.target.value) >= 0)
+                            dispatch(setHeight(parseInt(event.target.value)));
+                        else dispatch(setHeight(''));
                         errorForHeight(event.target.value);
                     }}
                     type="number"
@@ -151,7 +163,7 @@ export function SetFitnessProfile({
                         ),
                         inputProps: {
                             type: 'number',
-                            min: 1,
+                            min: 0,
                         },
                     }}
                 />
@@ -164,10 +176,10 @@ export function SetFitnessProfile({
                         className="setFitnessInput"
                         labelId="demo-simple-select-label"
                         id="demo-simple-select"
-                        value={fitnessLevel}
+                        value={modal.userSettings.fitnessLevel}
                         label="Current fitness level"
                         onChange={(event) => {
-                            setFitnessLevel?.(event.target.value);
+                            dispatch(setFitnessLevel(event.target.value));
                         }}
                     >
                         <MenuItem value="">
