@@ -1,6 +1,14 @@
 import { Request, Response } from 'express';
 import { Router } from 'express';
-import { createUser, getEmail } from '../db/model';
+import {
+    User,
+    getUser,
+    createUser,
+    getEmail,
+    updateUser,
+    createExercise,
+    updateSeenGreeting,
+} from '../db/model';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 dotenv.config({ path: './config.env' });
@@ -36,6 +44,7 @@ router.post('/login', async function (req: Request, res: Response) {
 
         res.status(200).json({
             user: user,
+            id: (req.session as ISession)._id,
         });
     } catch (error) {
         console.error('Unable to log in', error);
@@ -44,6 +53,45 @@ router.post('/login', async function (req: Request, res: Response) {
         });
     }
 });
+
+router.get('/login', async function (req: Request, res: Response) {
+    if ((req.session as ISession)._id) {
+    const _id = (req.session as ISession)._id;
+
+    const userDetails = await getUser(_id);
+    console.log(userDetails);
+
+    return res
+        .status(200)
+        .json({ id: (req.session as ISession)._id, userDetails: userDetails });
+    }
+});
+
+router.post(
+    '/workoutInformation',
+    async function (req: Request, res: Response) {
+        const { interests, fitnessLevel, name, sets, reps } = req.body;
+        const exer = {
+            interests: interests,
+            fitnessLevel: fitnessLevel,
+            name: name,
+            sets: sets,
+            reps: reps,
+        };
+        console.log(exer);
+        const inputExercise = await createExercise({
+            exercise: exer,
+        });
+        return res.status(200).json({
+            message: 'Exercise added',
+        });
+    }
+);
+
+router.get(
+    '/workoutInformation',
+    async function (req: Request, res: Response) {}
+);
 
 router.post('/register', async function (req: Request, res: Response) {
     try {
@@ -79,21 +127,63 @@ router.post('/register', async function (req: Request, res: Response) {
     }
 });
 
-router.get('/login', async function (req: Request, res: Response) {
+router.get('/logout', async function (req: Request, res: Response) {
     if ((req.session as ISession)._id) {
-        return res.status(200).json({ id: (req.session as ISession)._id });
+        req.session.destroy(function (err) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.redirect('/auth/login');
+            }
+        });
     }
-    res.end();
 });
 
-router.get('/logout', async function (req: Request, res: Response) {
-    req.session.destroy(function (err) {
-        if (err) {
-            console.log(err);
-        } else {
-            res.redirect('/auth/login');
-        }
-    });
+router.put('/greetingModal/:_id', async function (req: Request, res: Response) {
+    if ((req.session as ISession)._id) {
+        const _id = req.params._id;
+        const { userSettings } = req.body;
+
+        const interests = userSettings.interests;
+        const goals = userSettings.goals;
+        const age = userSettings.age;
+        const height = userSettings.height;
+        const weight = userSettings.weight;
+        const gender = userSettings.gender;
+        const fitnessLevel = userSettings.fitnessLevel;
+        console.log(gender);
+        const updatedUser = await updateUser(
+            _id,
+            interests,
+            goals,
+            age,
+            gender,
+            weight,
+            height,
+            fitnessLevel
+        );
+        return res.status(200).send(JSON.stringify(updatedUser));
+    } else {
+        res.status(404).json({ message: 'User not found' });
+    }
+});
+
+router.put(
+    '/greetingModal/:_id/boarded',
+    async function (req: Request, res: Response) {
+        if ((req.session as ISession)._id) {
+        const _id = req.params._id;
+        const updated = updateSeenGreeting(_id);
+
+        res.status(200).json({ message: 'Value updated' });
+    }
+    }
+);
+
+router.get('/greetingModal/:_id', async function (req: Request, res: Response) {
+    if ((req.session as ISession)._id) {
+        return res.status(200);
+    }
 });
 
 export default router;
