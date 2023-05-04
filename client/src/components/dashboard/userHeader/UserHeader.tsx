@@ -1,12 +1,28 @@
-import { Avatar, Container } from '@mui/material';
+import { Avatar, Button, Container } from '@mui/material';
 import './UserHeader.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
 
-export default function UserHeader() {
+type UserHeaderProps = {
+    toggleDrawer: any;
+    drawerState: boolean;
+};
+
+export default function UserHeader(userHeaderProps: UserHeaderProps) {
+    const { toggleDrawer, drawerState } = userHeaderProps;
+
     return (
         <Container
-            sx={{ display: 'flex', paddingBottom: '1em', paddingTop: '1em' }}
+            sx={{
+                display: 'flex',
+                paddingBottom: '1em',
+                paddingTop: '1em',
+                position: 'sticky',
+                top: 0,
+                zIndex: 3,
+                backgroundColor: 'white',
+                borderBottom: '1px solid #e0e0e0',
+            }}
         >
             <Avatar
                 sx={{ width: 50, height: 50 }}
@@ -21,6 +37,18 @@ export default function UserHeader() {
                 style={{ color: '#727ee5', marginLeft: '0.5em' }}
                 icon={faChevronCircleDown}
             />
+            <Button
+                variant="outlined"
+                sx={{
+                    marginLeft: 'auto',
+                    marginRight: '1em',
+                    borderColor: '#727ee5',
+                    color: '#727ee5',
+                }}
+                onClick={() => toggleDrawer(!drawerState)}
+            >
+                <FontAwesomeIcon icon={faBars}></FontAwesomeIcon>
+            </Button>
         </Container>
     );
 }
