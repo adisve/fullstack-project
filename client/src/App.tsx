@@ -12,6 +12,8 @@ import { Footer } from './components/footer/Footer';
 import { NavBar } from './components/navbar/NavBar';
 import { Exercises } from './components/homepage/exercises/Exercises';
 import { Dashboard } from './components/homepage/dashboard/Dashboard';
+import { Workouts } from './components/homepage/workouts/Workouts';
+import { UserProfile } from './components/homepage/userProfile/UserProfile';
 
 function App() {
     return (
@@ -32,6 +34,8 @@ function App() {
                     <Route path="/homepage/*" element={<HomePage />}>
                         <Route path="exercises" element={<Exercises />} />
                         <Route path="dashboard" element={<Dashboard />} />
+                        <Route path="workouts" element={<Workouts />} />
+                        <Route path="profile" element={<UserProfile />} />
                         <Route path="" element={<Dashboard />} />
                     </Route>
                 </Routes>
