@@ -6,6 +6,7 @@
 import { Box, Container, Divider, Grid } from '@mui/material';
 import WORKOUTS from './workouts.json';
 import { WorkoutCard } from './workoutCard/WorkoutCard';
+import { AddWorkoutCard } from './AddWorkoutCard/AddWorkoutCard';
 
 export function Workouts() {
     return (
@@ -18,7 +19,8 @@ export function Workouts() {
         >
             <h1>Today</h1>
             <Divider />
-            <WorkoutCard {...WORKOUTS[0]} withActions={true} />
+            {/* <WorkoutCard {...WORKOUTS[0]} withActions={true} /> */}
+            <AddWorkoutCard />
 
             <h1>Previously</h1>
             <br />
