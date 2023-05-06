@@ -1,12 +1,9 @@
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Box, Container, Drawer, Fab } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 
 import UserHeader from './userHeader/UserHeader';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Sidebar } from './sidebar/Sidebar';
-import { ActionCard } from './dashboard/actionCard/ActionCard';
 
 export function HomePage() {
     const [activeState, setActiveState] = useState(false);

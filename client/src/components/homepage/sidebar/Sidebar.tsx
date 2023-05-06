@@ -14,6 +14,7 @@ import {
     ListItemIcon,
     ListItemText,
 } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 type SidebarProps = {
     activeState: boolean;
@@ -56,18 +57,31 @@ export function Sidebar(props: SidebarProps) {
                 {['Dashboard', 'Workouts', 'Exercises', 'Profile'].map(
                     (text, _) => (
                         <ListItem key={text}>
-                            <ListItemButton
-                                onClick={() => console.log('placeholder')}
-                            >
-                                <ListItemIcon
-                                    sx={{
-                                        margin: '0.2em',
-                                        textAlign: 'center',
+                            <ListItemButton>
+                                <Link
+                                    style={{
+                                        textDecoration: 'none',
                                     }}
+                                    to={`${text.toLowerCase()}`}
                                 >
-                                    <FontAwesomeIcon icon={iconSelect(text)} />
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
+                                    <ListItemText
+                                        primary={
+                                            <span>
+                                                <ListItemIcon
+                                                    sx={{
+                                                        margin: '0.2em',
+                                                        textAlign: 'center',
+                                                    }}
+                                                >
+                                                    <FontAwesomeIcon
+                                                        icon={iconSelect(text)}
+                                                    />
+                                                </ListItemIcon>
+                                                {text}
+                                            </span>
+                                        }
+                                    ></ListItemText>
+                                </Link>
                             </ListItemButton>
                         </ListItem>
                     )

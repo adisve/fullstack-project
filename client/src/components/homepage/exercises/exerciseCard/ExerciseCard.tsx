@@ -16,6 +16,7 @@ import {
     Typography,
     Button,
 } from '@mui/material';
+import './ExerciseCard.css';
 
 type Exercise = {
     name: string;
@@ -29,12 +30,12 @@ export function ExerciseCard(props: Exercise) {
     const { name, sets, reps, weight, description } = props;
 
     return (
-        <Card sx={{ maxWidth: 345 }}>
+        <Card className="exercise-card">
             <CardHeader
                 title={name}
                 subheader={`Sets: ${sets} Reps: ${reps} Weight: ${weight}`}
             />
-            <CardContent>
+            <CardContent className="exercise-description">
                 <Typography variant="body2" color="text.secondary">
                     {description}
                 </Typography>
