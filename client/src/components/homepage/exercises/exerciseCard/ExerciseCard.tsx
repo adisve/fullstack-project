@@ -10,7 +10,6 @@
 import {
     Card,
     CardHeader,
-    CardMedia,
     CardContent,
     CardActions,
     Typography,
