@@ -7,9 +7,11 @@ import './App.css';
 import './components/footer/Footer.css';
 import './components/landingPage/LandingPage.css';
 
-import { Dashboard } from './components/dashboard/Dashboard';
+import { HomePage } from './components/homepage/HomePage';
 import { Footer } from './components/footer/Footer';
 import { NavBar } from './components/navbar/NavBar';
+import { Exercises } from './components/homepage/exercises/Exercises';
+import { Dashboard } from './components/homepage/dashboard/Dashboard';
 
 function App() {
     return (
@@ -27,7 +29,10 @@ function App() {
                 <Routes>
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/about-us" element={<AboutUsPage />} />
-                    <Route path="/dashboard/*" element={<Dashboard />}></Route>
+                    <Route path="/homepage/*" element={<HomePage />}>
+                        <Route path="exercises" element={<Exercises />} />
+                        <Route path="" element={<Dashboard />} />
+                    </Route>
                 </Routes>
             </main>
             {['/', '/about-us'].includes(window.location.pathname) ? (

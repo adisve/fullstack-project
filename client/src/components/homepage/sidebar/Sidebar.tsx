@@ -1,6 +1,6 @@
 import {
     faAmbulance,
-    faCog,
+    faDashboard,
     faDumbbell,
     faRunning,
     faUser,
@@ -28,8 +28,8 @@ function iconSelect(iconName: string) {
             return faDumbbell;
         case 'Profile':
             return faUser;
-        case 'Settings':
-            return faCog;
+        case 'Dashboard':
+            return faDashboard;
         default:
             return faAmbulance;
     }
@@ -53,7 +53,7 @@ export function Sidebar(props: SidebarProps) {
             onClose={() => toggleActiveState(false)}
         >
             <List>
-                {['Workouts', 'Exercises', 'Profile', 'Settings'].map(
+                {['Dashboard', 'Workouts', 'Exercises', 'Profile'].map(
                     (text, _) => (
                         <ListItem key={text}>
                             <ListItemButton
