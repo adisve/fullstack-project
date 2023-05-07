@@ -2,7 +2,7 @@ import { ChooseWorkoutToggle } from './ChooseWorkoutToggle';
 import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../../store/store';
-import { incrementStep } from '../../../../store/features/user/modalSlice';
+import { incrementStep } from '../../../../store/features/login-register-modal/modalSlice';
 
 function ChooseWorkout() {
     const dispatch: AppDispatch = useDispatch();

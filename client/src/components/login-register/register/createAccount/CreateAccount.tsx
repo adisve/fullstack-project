@@ -1,12 +1,11 @@
 import { Button, Container, TextField } from '@mui/material';
-import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../../store/store';
 import {
     decrementStep,
     registerUser,
     updateUser,
-} from '../../../../store/features/user/modalSlice';
+} from '../../../../store/features/login-register-modal/modalSlice';
 import { PageStatus } from '../../../../enums/pageStatus';
 
 export function CreateAccount() {

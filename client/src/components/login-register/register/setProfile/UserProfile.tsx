@@ -5,7 +5,7 @@ import { AppDispatch, RootState } from '../../../../store/store';
 import {
     decrementStep,
     incrementStep,
-} from '../../../../store/features/user/modalSlice';
+} from '../../../../store/features/login-register-modal/modalSlice';
 
 function UserProfile() {
     const dispatch: AppDispatch = useDispatch();

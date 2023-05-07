@@ -5,7 +5,7 @@ import { AppDispatch, RootState } from '../../../../store/store';
 import {
     incrementStep,
     decrementStep,
-} from '../../../../store/features/user/modalSlice';
+} from '../../../../store/features/login-register-modal/modalSlice';
 
 function SetGoal() {
     const dispatch: AppDispatch = useDispatch();

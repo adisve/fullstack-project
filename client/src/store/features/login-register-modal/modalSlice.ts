@@ -79,6 +79,23 @@ export const registerUser =
             });
     };
 
+export const loginUser =
+    (email: string, password: string): AppThunk =>
+    async (dispatch: Dispatch) => {
+        dispatch(setStatus(PageStatus.loading));
+        axios
+            .post(`/auth/login`, {
+                body: JSON.stringify({ email, password }),
+            })
+            .then((response) => {
+                console.log(response);
+                dispatch(setStatus(PageStatus.success));
+            })
+            .catch((_) => {
+                dispatch(setStatus(PageStatus.error));
+            });
+    };
+
 export const {
     setStatus,
     incrementStep,

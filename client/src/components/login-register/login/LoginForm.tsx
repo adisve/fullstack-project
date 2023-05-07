@@ -1,4 +1,5 @@
 import { Container, TextField, Button } from '@mui/material';
+import { loginUser } from '../../../store/features/login-register-modal/modalSlice';
 
 interface LoginFormProps {
     email: string;
@@ -39,7 +40,7 @@ export function LoginForm({
                 <Button
                     variant="contained"
                     fullWidth
-                    onClick={() => console.log('Login')}
+                    onClick={() => loginUser(email, password)}
                 >
                     Log in
                 </Button>
