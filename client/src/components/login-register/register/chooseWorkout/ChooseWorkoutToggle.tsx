@@ -1,8 +1,8 @@
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
-import workoutRoutines from '../../../../../assets/resources/workouts.json';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../../../../store/store';
-import { updateUserSettings } from '../../../../../store/features/user/modalSlice';
+import { updateUserSettings } from '../../../../store/features/login-register-modal/modalSlice';
+import { AppDispatch, RootState } from '../../../../store/store';
+import workoutRoutines from '../../../../assets/resources/workouts.json';
 
 export function ChooseWorkoutToggle() {
     const dispatch: AppDispatch = useDispatch();

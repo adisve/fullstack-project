@@ -8,12 +8,12 @@ import {
     TextField,
 } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../../../../store/store';
-import { updateUserSettings } from '../../../../../store/features/user/modalSlice';
 import {
     genders,
     fitnessLevels,
 } from '../../constants/login-register-constants';
+import { updateUserSettings } from '../../../../store/features/login-register-modal/modalSlice';
+import { AppDispatch, RootState } from '../../../../store/store';
 
 export function SetFitnessProfile() {
     const dispatch: AppDispatch = useDispatch();
