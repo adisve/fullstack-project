@@ -2,9 +2,9 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
 const userProfileSchema = new mongoose.Schema({
-    interests: { type: Array, required: false },
-    goals: { type: Array, required: false },
-    age: { type: Number, required: false },
+    exercises: { type: Array, required: false },
+    goal: { type: String, required: false },
+    dob: { type: Number, required: false },
     gender: { type: String, required: false },
     weight: { type: Number, required: false },
     height: { type: Number, required: false },
@@ -17,8 +17,14 @@ const userSchema = new mongoose.Schema({
     name: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
+    role: {
+        type: String,
+        enum: {
+            values: ['user', 'admin'],
+        },
+    },
     created_at: { type: Date, default: new Date(), required: true },
-    seen_greeting_modal: { type: Boolean, default: false },
+    onboarded: { type: Boolean, default: false },
     workoutModel: [{ type: mongoose.Types.ObjectId, ref: 'workoutModel' }],
     userProfileSchema: userProfileSchema,
 });

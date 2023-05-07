@@ -18,6 +18,7 @@ import { Session } from 'express-session';
 export interface ISession extends Session {
     _id?: any;
     Email?: string;
+    role?: 'user' | 'admin';
 }
 
 const router = Router();
@@ -40,6 +41,7 @@ router.post('/login', async function (req: Request, res: Response) {
         } else {
             (req.session as ISession)._id = user._id;
             (req.session as ISession).Email = user.email;
+            (req.session as ISession).role = user.role;
         }
 
         res.status(200).json({
@@ -51,19 +53,6 @@ router.post('/login', async function (req: Request, res: Response) {
         return res.status(500).json({
             message: 'Unable to log in',
         });
-    }
-});
-
-router.get('/login', async function (req: Request, res: Response) {
-    if ((req.session as ISession)._id) {
-    const _id = (req.session as ISession)._id;
-
-    const userDetails = await getUser(_id);
-    console.log(userDetails);
-
-    return res
-        .status(200)
-        .json({ id: (req.session as ISession)._id, userDetails: userDetails });
     }
 });
 
@@ -113,6 +102,7 @@ router.post('/register', async function (req: Request, res: Response) {
                     email,
                     name,
                     password,
+                    role: 'user',
                 });
                 return res.status(200).json({
                     message: 'created account',
@@ -123,18 +113,6 @@ router.post('/register', async function (req: Request, res: Response) {
         console.error('Unable to register');
         return res.status(400).json({
             message: 'Could not create account',
-        });
-    }
-});
-
-router.get('/logout', async function (req: Request, res: Response) {
-    if ((req.session as ISession)._id) {
-        req.session.destroy(function (err) {
-            if (err) {
-                console.log(err);
-            } else {
-                res.redirect('/auth/login');
-            }
         });
     }
 });
@@ -172,11 +150,11 @@ router.put(
     '/greetingModal/:_id/boarded',
     async function (req: Request, res: Response) {
         if ((req.session as ISession)._id) {
-        const _id = req.params._id;
-        const updated = updateSeenGreeting(_id);
+            const _id = req.params._id;
+            const updated = updateSeenGreeting(_id);
 
-        res.status(200).json({ message: 'Value updated' });
-    }
+            res.status(200).json({ message: 'Value updated' });
+        }
     }
 );
 
@@ -184,6 +162,18 @@ router.get('/greetingModal/:_id', async function (req: Request, res: Response) {
     if ((req.session as ISession)._id) {
         return res.status(200);
     }
+});
+
+router.get('/logout', function (req: Request, res: Response) {
+    req.session.destroy((err) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({
+                message: 'Unable to log out',
+            });
+        }
+        res.redirect('/');
+    });
 });
 
 export default router;
