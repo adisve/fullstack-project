@@ -1,5 +1,7 @@
 import { Container, TextField, Button } from '@mui/material';
 import { loginUser } from '../../../store/features/login-register-modal/modalSlice';
+import { AppDispatch } from '../../../store/store';
+import { useDispatch } from 'react-redux';
 
 interface LoginFormProps {
     email: string;
@@ -14,6 +16,8 @@ export function LoginForm({
     setEmail,
     setPassword,
 }: LoginFormProps) {
+    const dispatch: AppDispatch = useDispatch();
+
     return (
         <>
             <Container>
@@ -40,7 +44,9 @@ export function LoginForm({
                 <Button
                     variant="contained"
                     fullWidth
-                    onClick={() => loginUser(email, password)}
+                    onClick={() => {
+                        dispatch(loginUser(email, password));
+                    }}
                 >
                     Log in
                 </Button>

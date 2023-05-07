@@ -48,7 +48,7 @@ export function CreateAccount() {
                         }}
                     />
                 </div>
-                {modal.status === PageStatus.error && (
+                {modal.registerStatus === PageStatus.error && (
                     <h4 style={{ color: 'red' }}>
                         Something went wrong when registering your account.
                         Please try again later.

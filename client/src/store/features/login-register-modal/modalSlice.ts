@@ -4,16 +4,20 @@ import axios from 'axios';
 import { PageStatus } from '../../../enums/pageStatus';
 import { UserSettings } from '../../interfaces/userSettings';
 import { User } from '../../interfaces/user';
+import { AppDispatch } from '../../store';
+import instance from '../../../config/axios';
 
 interface ModalState {
-    status: PageStatus;
+    registerStatus: PageStatus;
+    loginStatus: PageStatus;
     successModal: boolean;
     currentStep: number;
     user?: User;
 }
 
 const initialState: ModalState = {
-    status: PageStatus.success,
+    registerStatus: PageStatus.success,
+    loginStatus: PageStatus.success,
     successModal: false,
     currentStep: 1,
 };
@@ -22,8 +26,11 @@ const modalSlice = createSlice({
     name: 'modal',
     initialState,
     reducers: {
-        setStatus(state, action: PayloadAction<PageStatus>) {
-            state.status = action.payload;
+        setRegisterStatus(state, action: PayloadAction<PageStatus>) {
+            state.registerStatus = action.payload;
+        },
+        setLoginStatus(state, action: PayloadAction<PageStatus>) {
+            state.loginStatus = action.payload;
         },
         setSuccessModal(state, action: PayloadAction<boolean>) {
             state.successModal = action.payload;
@@ -55,49 +62,46 @@ const modalSlice = createSlice({
     },
 });
 
-export const registerUser =
-    (): AppThunk => async (dispatch: Dispatch, getState) => {
+export function registerUser() {
+    return async function (dispatch: AppDispatch, getState: any) {
         const { modal, auth } = getState();
         const token = auth.token;
         const user = modal.user;
-        dispatch(setStatus(PageStatus.loading));
-        axios
-            .put(
-                `/api/register`,
-                {
-                    body: JSON.stringify(user),
-                },
+        dispatch(setRegisterStatus(PageStatus.loading));
+        try {
+            const response = await instance.post(
+                `/auth/register`,
+                { body: JSON.stringify(user) },
                 {
                     headers: { Authorization: `Bearer ${token}` },
                 }
-            )
-            .then((_) => {
-                dispatch(setStatus(PageStatus.success));
-            })
-            .catch((_) => {
-                dispatch(setStatus(PageStatus.error));
-            });
+            );
+            dispatch(setRegisterStatus(PageStatus.success));
+        } catch (error) {
+            dispatch(setRegisterStatus(PageStatus.error));
+        }
     };
+}
 
-export const loginUser =
-    (email: string, password: string): AppThunk =>
-    async (dispatch: Dispatch) => {
-        dispatch(setStatus(PageStatus.loading));
-        axios
-            .post(`/auth/login`, {
+export function loginUser(email: string, password: string) {
+    return async function (dispatch: AppDispatch) {
+        console.log(email, password);
+        dispatch(setLoginStatus(PageStatus.loading));
+        try {
+            const response = await instance.post(`/auth/login`, {
                 body: JSON.stringify({ email, password }),
-            })
-            .then((response) => {
-                console.log(response);
-                dispatch(setStatus(PageStatus.success));
-            })
-            .catch((_) => {
-                dispatch(setStatus(PageStatus.error));
             });
+            console.log(response);
+            dispatch(setLoginStatus(PageStatus.success));
+        } catch (error) {
+            dispatch(setLoginStatus(PageStatus.error));
+        }
     };
+}
 
 export const {
-    setStatus,
+    setRegisterStatus,
+    setLoginStatus,
     incrementStep,
     decrementStep,
     updateUserSettings,
