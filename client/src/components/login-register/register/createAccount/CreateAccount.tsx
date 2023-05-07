@@ -1,18 +1,16 @@
 import { Button, Container, TextField } from '@mui/material';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../../../../store/store';
+import { AppDispatch, RootState } from '../../../../store/store';
 import {
     decrementStep,
     registerUser,
-} from '../../../../../store/features/user/modalSlice';
-import { PageStatus } from '../../../../../enums/pageStatus';
+    updateUser,
+} from '../../../../store/features/user/modalSlice';
+import { PageStatus } from '../../../../enums/pageStatus';
 
 export function CreateAccount() {
     const { modal } = useSelector((state: RootState) => state);
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [username, setUsername] = useState('');
     const dispatch: AppDispatch = useDispatch();
     return (
         <>
@@ -21,16 +19,22 @@ export function CreateAccount() {
                     <TextField
                         label="Username"
                         fullWidth
-                        value={username}
-                        onChange={(event) => setUsername(event.target.value)}
+                        value={modal.user?.name ? modal.user.name : ''}
+                        onChange={(event) => {
+                            const name = event.target.value;
+                            dispatch(updateUser({ name: name }));
+                        }}
                     />
                 </div>
                 <div style={{ marginBottom: '1.5rem' }}>
                     <TextField
                         label="Email"
                         fullWidth
-                        value={email}
-                        onChange={(event) => setEmail(event.target.value)}
+                        value={modal.user?.email ? modal.user.email : ''}
+                        onChange={(event) => {
+                            const email = event.target.value;
+                            dispatch(updateUser({ email: email }));
+                        }}
                     />
                 </div>
                 <div style={{ marginBottom: '1.5rem' }}>
@@ -38,8 +42,11 @@ export function CreateAccount() {
                         type="password"
                         label="Password"
                         fullWidth
-                        value={password}
-                        onChange={(event) => setPassword(event.target.value)}
+                        value={modal.user?.password ? modal.user.password : ''}
+                        onChange={(event) => {
+                            const password = event.target.value;
+                            dispatch(updateUser({ password: password }));
+                        }}
                     />
                 </div>
                 {modal.status === PageStatus.error && (

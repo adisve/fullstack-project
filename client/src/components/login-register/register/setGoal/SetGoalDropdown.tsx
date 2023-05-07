@@ -1,8 +1,8 @@
 import { InputLabel, MenuItem, FormControl, Select } from '@mui/material';
-import workoutGoals from '../../../../../assets/resources/workoutGoals.json';
-import { AppDispatch, RootState } from '../../../../../store/store';
+import workoutGoals from '../../../../assets/resources/workoutGoals.json';
+import { AppDispatch, RootState } from '../../../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUserSettings } from '../../../../../store/features/user/modalSlice';
+import { updateUserSettings } from '../../../../store/features/user/modalSlice';
 
 export function SetGoalDropdown() {
     const dispatch: AppDispatch = useDispatch();

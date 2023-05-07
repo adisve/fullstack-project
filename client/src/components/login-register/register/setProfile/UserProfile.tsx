@@ -1,11 +1,11 @@
 import { SetFitnessProfile } from './SetFitnessProfile';
 import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../../../../store/store';
+import { AppDispatch, RootState } from '../../../../store/store';
 import {
     decrementStep,
     incrementStep,
-} from '../../../../../store/features/user/modalSlice';
+} from '../../../../store/features/user/modalSlice';
 
 function UserProfile() {
     const dispatch: AppDispatch = useDispatch();

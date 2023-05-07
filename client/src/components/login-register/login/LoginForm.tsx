@@ -1,5 +1,4 @@
 import { Container, TextField, Button } from '@mui/material';
-import React from 'react';
 
 interface LoginFormProps {
     email: string;

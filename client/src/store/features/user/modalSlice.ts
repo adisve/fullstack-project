@@ -34,6 +34,12 @@ const modalSlice = createSlice({
         decrementStep(state) {
             state.currentStep--;
         },
+        updateUser(state, action: PayloadAction<Partial<User>>) {
+            state.user = {
+                ...state.user,
+                ...action.payload,
+            };
+        },
         updateUserSettings(
             state,
             action: PayloadAction<Partial<UserSettings>>
@@ -78,6 +84,7 @@ export const {
     incrementStep,
     decrementStep,
     updateUserSettings,
+    updateUser,
     setSuccessModal,
 } = modalSlice.actions;
 

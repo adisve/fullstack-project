@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { Box } from '@mui/material';
-import { RootState } from '../../../../store/store';
+import { RootState } from '../../../store/store';
 import ChooseWorkout from './chooseWorkout/ChooseWorkout';
 import SetGoal from './setGoal/SetGoal';
 import UserProfile from './setProfile/UserProfile';
