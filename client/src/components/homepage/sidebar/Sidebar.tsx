@@ -1,6 +1,6 @@
 import {
     faAmbulance,
-    faCog,
+    faDashboard,
     faDumbbell,
     faRunning,
     faUser,
@@ -14,6 +14,7 @@ import {
     ListItemIcon,
     ListItemText,
 } from '@mui/material';
+import { Link } from 'react-router-dom';
 
 type SidebarProps = {
     activeState: boolean;
@@ -28,8 +29,8 @@ function iconSelect(iconName: string) {
             return faDumbbell;
         case 'Profile':
             return faUser;
-        case 'Settings':
-            return faCog;
+        case 'Dashboard':
+            return faDashboard;
         default:
             return faAmbulance;
     }
@@ -53,21 +54,34 @@ export function Sidebar(props: SidebarProps) {
             onClose={() => toggleActiveState(false)}
         >
             <List>
-                {['Workouts', 'Exercises', 'Profile', 'Settings'].map(
+                {['Dashboard', 'Workouts', 'Exercises', 'Profile'].map(
                     (text, _) => (
                         <ListItem key={text}>
-                            <ListItemButton
-                                onClick={() => console.log('placeholder')}
-                            >
-                                <ListItemIcon
-                                    sx={{
-                                        margin: '0.2em',
-                                        textAlign: 'center',
+                            <ListItemButton>
+                                <Link
+                                    style={{
+                                        textDecoration: 'none',
                                     }}
+                                    to={`${text.toLowerCase()}`}
                                 >
-                                    <FontAwesomeIcon icon={iconSelect(text)} />
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
+                                    <ListItemText
+                                        primary={
+                                            <span>
+                                                <ListItemIcon
+                                                    sx={{
+                                                        margin: '0.2em',
+                                                        textAlign: 'center',
+                                                    }}
+                                                >
+                                                    <FontAwesomeIcon
+                                                        icon={iconSelect(text)}
+                                                    />
+                                                </ListItemIcon>
+                                                {text}
+                                            </span>
+                                        }
+                                    ></ListItemText>
+                                </Link>
                             </ListItemButton>
                         </ListItem>
                     )

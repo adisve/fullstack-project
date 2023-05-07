@@ -1,14 +1,12 @@
 import { Button, Container, TextField } from '@mui/material';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ThunkDispatch } from 'redux-thunk';
-import { RootState } from '../../../../../store/store';
+import { AppDispatch, RootState } from '../../../../../store/store';
 import {
     decrementStep,
     registerUser,
 } from '../../../../../store/features/user/modalSlice';
 import { PageStatus } from '../../../../../enums/pageStatus';
-type AppDispatch = ThunkDispatch<RootState, undefined, any>;
 
 export function CreateAccount() {
     const { modal } = useSelector((state: RootState) => state);

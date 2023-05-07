@@ -1,32 +1,23 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import './AuthenticationModal.css';
 import { Modal, Box, Container, Tab, Tabs } from '@mui/material';
 import { LoginForm } from './login/LoginForm';
-import { useDispatch, useSelector } from 'react-redux';
-import { isUserLoggedIn } from '../../../store/features/user/modalSlice';
-import { RootState } from '../../../store/store';
-import { ThunkDispatch } from 'redux-thunk';
 import { RegisterForm } from './register/RegisterForm';
 
-type AppDispatch = ThunkDispatch<RootState, undefined, any>;
+interface AuthenticationModalProps {
+    open: boolean;
+}
 
-export function AuthenticationModal() {
+export function AuthenticationModal({ open }: AuthenticationModalProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [value, setValue] = React.useState(0);
-
-    const dispatch: AppDispatch = useDispatch();
-    const { modal } = useSelector((state: RootState) => state);
-
-    useEffect(() => {
-        dispatch(isUserLoggedIn());
-    }, []);
 
     const handleChange = (_: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
     return (
-        <Modal style={{ height: '100vh' }} open={modal.showModal}>
+        <Modal style={{ height: '100vh' }} open={open}>
             <Box className="login-modal">
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     {/* Switcher between register and login */}

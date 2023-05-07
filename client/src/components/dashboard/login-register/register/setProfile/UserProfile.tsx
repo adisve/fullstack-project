@@ -1,17 +1,14 @@
 import { SetFitnessProfile } from './SetFitnessProfile';
 import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../../../store/store';
+import { AppDispatch, RootState } from '../../../../../store/store';
 import {
     decrementStep,
     incrementStep,
 } from '../../../../../store/features/user/modalSlice';
-import { ThunkDispatch } from 'redux-thunk';
-
-type LocalAppDispatch = ThunkDispatch<RootState, undefined, any>;
 
 function UserProfile() {
-    const dispatch: LocalAppDispatch = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
     const { modal } = useSelector((state: RootState) => state);
 
     const notAvailable = () => {

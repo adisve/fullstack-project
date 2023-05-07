@@ -7,7 +7,6 @@ import { User } from '../../interfaces/user';
 
 interface ModalState {
     status: PageStatus;
-    showModal: boolean;
     successModal: boolean;
     currentStep: number;
     user?: User;
@@ -15,7 +14,6 @@ interface ModalState {
 
 const initialState: ModalState = {
     status: PageStatus.success,
-    showModal: false,
     successModal: false,
     currentStep: 1,
 };
@@ -26,9 +24,6 @@ const modalSlice = createSlice({
     reducers: {
         setStatus(state, action: PayloadAction<PageStatus>) {
             state.status = action.payload;
-        },
-        setShowModal(state, action: PayloadAction<boolean>) {
-            state.showModal = action.payload;
         },
         setSuccessModal(state, action: PayloadAction<boolean>) {
             state.successModal = action.payload;
@@ -53,17 +48,6 @@ const modalSlice = createSlice({
         },
     },
 });
-
-export const isUserLoggedIn =
-    (): AppThunk => async (dispatch: Dispatch, getState) => {
-        const { auth } = getState();
-        const token = auth.token;
-        if (!token) {
-            dispatch(setShowModal(true));
-        } else {
-            dispatch(setShowModal(false));
-        }
-    };
 
 export const registerUser =
     (): AppThunk => async (dispatch: Dispatch, getState) => {
@@ -91,7 +75,6 @@ export const registerUser =
 
 export const {
     setStatus,
-    setShowModal,
     incrementStep,
     decrementStep,
     updateUserSettings,

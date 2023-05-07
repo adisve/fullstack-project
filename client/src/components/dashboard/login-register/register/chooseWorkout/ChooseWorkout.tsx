@@ -1,14 +1,8 @@
 import { ChooseWorkoutToggle } from './ChooseWorkoutToggle';
 import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../../../store/store';
-import {
-    setUserOnboarded,
-    incrementStep,
-} from '../../../../../store/features/user/modalSlice';
-import { ThunkDispatch } from 'redux-thunk';
-
-type AppDispatch = ThunkDispatch<RootState, undefined, any>;
+import { AppDispatch, RootState } from '../../../../../store/store';
+import { incrementStep } from '../../../../../store/features/user/modalSlice';
 
 function ChooseWorkout() {
     const dispatch: AppDispatch = useDispatch();
