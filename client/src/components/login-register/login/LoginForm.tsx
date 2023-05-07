@@ -1,7 +1,7 @@
 import { Container, TextField, Button } from '@mui/material';
-import { loginUser } from '../../../store/features/login-register-modal/modalSlice';
 import { AppDispatch } from '../../../store/store';
 import { useDispatch } from 'react-redux';
+import { loginUser } from '../../../store/features/auth/authSlice';
 
 interface LoginFormProps {
     email: string;

@@ -40,20 +40,22 @@ const authSlice = createSlice({
     },
 });
 
-export const login =
-    (username: string, password: string) => async (dispatch: any) => {
+export const loginUser =
+    (email: string, password: string) => async (dispatch: any) => {
         try {
             dispatch(setLoading());
-            const response = await instance.post('/auth/login', {
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ username, password }),
-            });
+            const response = await instance.post(
+                '/auth/login',
+                { email, password },
+                { headers: { 'Content-Type': 'application/json' } }
+            );
+            
             const data = await response.data;
+            console.log(data);
             if (data.token) {
                 dispatch(setToken(data.token));
             }
         } catch (error) {
-            console.error(error);
             dispatch(setError());
         }
     };

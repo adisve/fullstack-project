@@ -1,6 +1,4 @@
-import { Dispatch, PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { AppThunk } from '../types';
-import axios from 'axios';
+import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { PageStatus } from '../../../enums/pageStatus';
 import { UserSettings } from '../../interfaces/userSettings';
 import { User } from '../../interfaces/user';
@@ -64,37 +62,14 @@ const modalSlice = createSlice({
 
 export function registerUser() {
     return async function (dispatch: AppDispatch, getState: any) {
-        const { modal, auth } = getState();
-        const token = auth.token;
+        const { modal } = getState();
         const user = modal.user;
         dispatch(setRegisterStatus(PageStatus.loading));
         try {
-            const response = await instance.post(
-                `/auth/register`,
-                { body: JSON.stringify(user) },
-                {
-                    headers: { Authorization: `Bearer ${token}` },
-                }
-            );
+            await instance.post(`/auth/register`, { user });
             dispatch(setRegisterStatus(PageStatus.success));
         } catch (error) {
             dispatch(setRegisterStatus(PageStatus.error));
-        }
-    };
-}
-
-export function loginUser(email: string, password: string) {
-    return async function (dispatch: AppDispatch) {
-        console.log(email, password);
-        dispatch(setLoginStatus(PageStatus.loading));
-        try {
-            const response = await instance.post(`/auth/login`, {
-                body: JSON.stringify({ email, password }),
-            });
-            console.log(response);
-            dispatch(setLoginStatus(PageStatus.success));
-        } catch (error) {
-            dispatch(setLoginStatus(PageStatus.error));
         }
     };
 }
