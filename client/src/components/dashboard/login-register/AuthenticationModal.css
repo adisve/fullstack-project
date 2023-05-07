@@ -1,0 +1,23 @@
+.login-modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: auto;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 1.5rem;
+    padding: 0.5em;
+    margin: 2rem;
+    border: none;
+    outline: none;
+}
+
+.form-container {
+    padding: 1.5em;
+}
+
+.login-form {
+    padding: 1.5em !important;
+}

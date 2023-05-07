@@ -2,41 +2,22 @@ import { Dispatch, PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { AppThunk } from '../types';
 import axios from 'axios';
 import { PageStatus } from '../../../enums/pageStatus';
-
-interface UserSettings {
-    exercise: string[];
-    goal: string;
-    age: number | string;
-    gender: string;
-    weight: number | string;
-    height: number | string;
-    fitnessLevel: string;
-}
+import { UserSettings } from '../../interfaces/userSettings';
+import { User } from '../../interfaces/user';
 
 interface ModalState {
     status: PageStatus;
     showModal: boolean;
     successModal: boolean;
     currentStep: number;
-    userSettings: UserSettings;
+    user?: User;
 }
-
-const initialUserSettings: UserSettings = {
-    exercise: [],
-    goal: '',
-    age: 0 || '',
-    gender: '',
-    weight: 0 || '',
-    height: 0 || '',
-    fitnessLevel: '',
-};
 
 const initialState: ModalState = {
     status: PageStatus.success,
     showModal: false,
     successModal: false,
     currentStep: 1,
-    userSettings: initialUserSettings,
 };
 
 const modalSlice = createSlice({
@@ -58,54 +39,43 @@ const modalSlice = createSlice({
         decrementStep(state) {
             state.currentStep--;
         },
-        setExercise(state, action: PayloadAction<string[]>) {
-            state.userSettings.exercise = action.payload;
-        },
-        setGoal(state, action: PayloadAction<string>) {
-            state.userSettings.goal = action.payload;
-        },
-        setAge(state, action: PayloadAction<number | string>) {
-            state.userSettings.age = action.payload;
-        },
-        setGender(state, action: PayloadAction<string>) {
-            state.userSettings.gender = action.payload;
-        },
-        setWeight(state, action: PayloadAction<number | string>) {
-            state.userSettings.weight = action.payload;
-        },
-        setHeight(state, action: PayloadAction<number | string>) {
-            state.userSettings.height = action.payload;
-        },
-        setFitnessLevel(state, action: PayloadAction<string>) {
-            state.userSettings.fitnessLevel = action.payload;
+        updateUserSettings(
+            state,
+            action: PayloadAction<Partial<UserSettings>>
+        ) {
+            state.user = {
+                ...state.user,
+                settings: {
+                    ...state.user?.settings,
+                    ...action.payload,
+                },
+            };
         },
     },
 });
 
-export const isUserOnBoarded =
+export const isUserLoggedIn =
     (): AppThunk => async (dispatch: Dispatch, getState) => {
-        const { user, auth } = getState();
-        const onBoarded = user.user?.seen_greeting_modal;
+        const { auth } = getState();
         const token = auth.token;
-        if (!onBoarded && token) {
+        if (!token) {
             dispatch(setShowModal(true));
         } else {
             dispatch(setShowModal(false));
         }
     };
 
-export const handleSubmitData =
+export const registerUser =
     (): AppThunk => async (dispatch: Dispatch, getState) => {
-        const { modal, auth, user } = getState();
+        const { modal, auth } = getState();
         const token = auth.token;
-        const userId = user.user?._id;
-        const userSettings = modal.userSettings;
+        const user = modal.user;
         dispatch(setStatus(PageStatus.loading));
         axios
             .put(
-                `/api/greetingModal/${userId}`,
+                `/api/register`,
                 {
-                    body: JSON.stringify(userSettings),
+                    body: JSON.stringify(user),
                 },
                 {
                     headers: { Authorization: `Bearer ${token}` },
@@ -113,38 +83,9 @@ export const handleSubmitData =
             )
             .then((_) => {
                 dispatch(setStatus(PageStatus.success));
-                dispatch(setShowModal(false));
-                dispatch(setSuccessModal(true));
             })
             .catch((_) => {
                 dispatch(setStatus(PageStatus.error));
-                dispatch(setShowModal(false));
-            });
-    };
-
-export const handleUserOnboarded =
-    (): AppThunk => async (dispatch: Dispatch, getState) => {
-        const { auth, user } = getState();
-        const token = auth.token;
-        const userId = user.user?._id;
-        dispatch(setStatus(PageStatus.loading));
-        axios
-            .put(
-                `/api/greetingModal/${userId}/boarded`,
-                {
-                    body: JSON.stringify({ seen_greeting_modal: true }),
-                },
-                {
-                    headers: { Authorization: `Bearer ${token}` },
-                }
-            )
-            .then((_) => {
-                dispatch(setStatus(PageStatus.success));
-                dispatch(setShowModal(false));
-            })
-            .catch((_) => {
-                dispatch(setStatus(PageStatus.error));
-                dispatch(setShowModal(false));
             });
     };
 
@@ -153,13 +94,8 @@ export const {
     setShowModal,
     incrementStep,
     decrementStep,
-    setExercise,
-    setGoal,
-    setAge,
-    setGender,
-    setWeight,
-    setHeight,
-    setFitnessLevel,
+    updateUserSettings,
     setSuccessModal,
 } = modalSlice.actions;
+
 export default modalSlice.reducer;

@@ -1,6 +1,6 @@
 [
     {
-        "workoutCategory": "Cardiovascular",
+        "workoutCategory": "Cardio",
         "workouts": [
             "running",
             "jogging",
@@ -13,11 +13,11 @@
         ]
     },
     {
-        "workoutCategory": "Flexibility",
+        "workoutCategory": "Flex",
         "workouts": ["stretching", "yoga", "Pilates"]
     },
     {
-        "workoutCategory": "Strength training",
+        "workoutCategory": "Strength",
         "workouts": [
             "weightlifting",
             "bodyweight exercises",
@@ -26,7 +26,7 @@
         ]
     },
     {
-        "workoutCategory": "HIIT Training ",
+        "workoutCategory": "HIIT",
         "workouts": [
             "sprint intervals",
             "circuit training",
@@ -39,7 +39,7 @@
         "workouts": ["box jumps", "burpees", "plyo push-ups"]
     },
     {
-        "workoutCategory": "Bodyweight",
+        "workoutCategory": "Calisthenics",
         "workouts": ["push-ups", "pull-ups", "squats", "lunges"]
     },
     {
@@ -48,11 +48,11 @@
     },
 
     {
-        "workoutCategory": "Functional fitness",
+        "workoutCategory": "Functional",
         "workouts": ["kettlebell swings", "farmer's walks", "sled pushes"]
     },
     {
-        "workoutCategory": "Group fitness",
+        "workoutCategory": "Group",
         "workouts": [
             "aerobics",
             "dance fitness",
@@ -62,7 +62,7 @@
         ]
     },
     {
-        "workoutCategory": "Sports-specific",
+        "workoutCategory": "Sports",
         "workouts": ["basketball", "soccer", "tennis", "golf"]
     },
     {
@@ -76,11 +76,11 @@
         ]
     },
     {
-        "workoutCategory": "Mind-body",
+        "workoutCategory": "Mind/body",
         "workouts": ["tai chi", "qigong", "yoga"]
     },
     {
-        "workoutCategory": "Rehabilitation",
+        "workoutCategory": "Rehab",
         "workouts": ["streching", "walks"]
     }
 ]

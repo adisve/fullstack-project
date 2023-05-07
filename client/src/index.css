@@ -2,7 +2,6 @@
 
 :root {
     color-scheme: light dark !important;
-    color: rgba(255, 255, 255, 0.87) !important;
     background-color: #fefefe !important;
 }
 
@@ -11,9 +10,6 @@ html,
 span,
 button {
     font-family: 'Montserrat', sans-serif !important;
-    line-height: 1.5 !important;
-    font-weight: 400 !important;
-
     font-synthesis: none !important;
     text-rendering: optimizeLegibility !important;
     -webkit-font-smoothing: antialiased !important;
@@ -21,4 +17,8 @@ button {
     -webkit-text-size-adjust: 100% !important;
     color: #353e54;
     margin: 0px;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
 }

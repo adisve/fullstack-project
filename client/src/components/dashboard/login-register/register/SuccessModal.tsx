@@ -6,7 +6,7 @@ import { faDumbbell } from '@fortawesome/free-solid-svg-icons';
 import './GetStartedModal.css';
 import '../navbar/NavBar.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../store/store';
+import { AppDispatch, RootState } from '../../../../store/store';
 
 export function SuccessModal() {
     const dispatch: AppDispatch = useDispatch();

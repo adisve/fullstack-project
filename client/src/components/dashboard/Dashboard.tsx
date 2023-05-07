@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { Sidebar } from './sidebar/Sidebar';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
-import { LoginModal } from './login-register/LoginModal';
+import { AuthenticationModal } from './login-register/AuthenticationModal';
 
 export function Dashboard() {
     const [activeState, setActiveState] = useState(false);
@@ -16,7 +16,7 @@ export function Dashboard() {
     const token = useSelector((state: RootState) => state.auth.token);
 
     if (!token) {
-        return <LoginModal open={token == undefined} />;
+        return <AuthenticationModal open={token == undefined} />;
     }
 
     return (

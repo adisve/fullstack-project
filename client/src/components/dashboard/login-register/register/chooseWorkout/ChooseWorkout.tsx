@@ -1,34 +1,35 @@
 import { ChooseWorkoutToggle } from './ChooseWorkoutToggle';
 import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '../../../store/store';
+import { RootState } from '../../../../../store/store';
 import {
-    handleUserOnboarded,
+    setUserOnboarded,
     incrementStep,
-} from '../../../store/features/user/modalSlice';
+} from '../../../../../store/features/user/modalSlice';
 import { ThunkDispatch } from 'redux-thunk';
 
-type LocalAppDispatch = ThunkDispatch<RootState, undefined, any>;
+type AppDispatch = ThunkDispatch<RootState, undefined, any>;
 
 function ChooseWorkout() {
-    const dispatch: LocalAppDispatch = useDispatch();
+    const dispatch: AppDispatch = useDispatch();
     const { modal } = useSelector((state: RootState) => state);
+
+    const buttonDisabled = () => {
+        if (
+            modal.user?.settings?.exercises?.length === 0 ||
+            modal.user?.settings?.exercises === undefined
+        ) {
+            return true;
+        }
+        return false;
+    };
 
     return (
         <div>
             <ChooseWorkoutToggle />
             <div className="buttonGroup">
                 <Button
-                    className="setUpLater"
-                    variant="outlined"
-                    onClick={() => {
-                        dispatch(handleUserOnboarded());
-                    }}
-                >
-                    Set up later
-                </Button>
-                <Button
-                    disabled={modal.userSettings.exercise.length === 0}
+                    disabled={buttonDisabled()}
                     className="nextButton"
                     variant="contained"
                     onClick={() => dispatch(incrementStep())}

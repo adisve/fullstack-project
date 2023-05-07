@@ -1,12 +1,11 @@
 import { SetFitnessProfile } from './SetFitnessProfile';
 import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../../store/store';
+import { RootState } from '../../../../../store/store';
 import {
     decrementStep,
-    handleSubmitData,
-    handleUserOnboarded,
-} from '../../../store/features/user/modalSlice';
+    incrementStep,
+} from '../../../../../store/features/user/modalSlice';
 import { ThunkDispatch } from 'redux-thunk';
 
 type LocalAppDispatch = ThunkDispatch<RootState, undefined, any>;
@@ -14,6 +13,21 @@ type LocalAppDispatch = ThunkDispatch<RootState, undefined, any>;
 function UserProfile() {
     const dispatch: LocalAppDispatch = useDispatch();
     const { modal } = useSelector((state: RootState) => state);
+
+    const notAvailable = () => {
+        const { user } = modal;
+        return (
+            !user?.settings ||
+            !user?.settings.goal ||
+            !user?.settings.exercises ||
+            user?.settings.exercises.length === 0 ||
+            !user?.settings.fitnessLevel ||
+            !user?.settings.dob ||
+            !user?.settings.gender ||
+            !user?.settings.height ||
+            !user?.settings.weight
+        );
+    };
 
     return (
         <div>
@@ -26,20 +40,13 @@ function UserProfile() {
                     Previous
                 </Button>
                 <Button
-                    disabled={
-                        modal.userSettings.age === '' ||
-                        modal.userSettings.gender === '' ||
-                        modal.userSettings.weight === '' ||
-                        modal.userSettings.height === '' ||
-                        modal.userSettings.fitnessLevel === ''
-                    }
+                    disabled={notAvailable()}
                     variant="contained"
                     onClick={() => {
-                        dispatch(handleSubmitData());
-                        dispatch(handleUserOnboarded());
+                        dispatch(incrementStep());
                     }}
                 >
-                    Submit
+                    Continue
                 </Button>
             </div>
         </div>

@@ -1,8 +1,8 @@
 import { ToggleButton, ToggleButtonGroup } from '@mui/material';
-import workoutRoutines from '../../../assets/resources/workouts.json';
+import workoutRoutines from '../../../../../assets/resources/workouts.json';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../../store/store';
-import { setExercise } from '../../../store/features/user/modalSlice';
+import { AppDispatch, RootState } from '../../../../../store/store';
+import { updateUserSettings } from '../../../../../store/features/user/modalSlice';
 
 export function ChooseWorkoutToggle() {
     const dispatch: AppDispatch = useDispatch();
@@ -10,26 +10,31 @@ export function ChooseWorkoutToggle() {
 
     return (
         <>
-            <p>What are you interested in? Choose at least 1</p>
             <div className="modalContentFlexCenter">
                 <ToggleButtonGroup
                     className="chooseWorkoutButtonGroup"
-                    value={modal.userSettings.exercise}
-                    onChange={(event, value) => {
-                        dispatch(setExercise(value));
+                    value={modal.user?.settings?.exercises}
+                    onChange={(_, exercises) => {
+                        dispatch(updateUserSettings({ exercises: exercises }));
                     }}
                     aria-label="text formatting"
+                    sx={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        justifyContent: 'flex-start',
+                        alignItems: 'center',
+                    }}
                 >
                     {workoutRoutines.map(({ workoutCategory }) => (
                         <ToggleButton
                             key={workoutCategory}
                             className="chooseWorkoutButton"
                             value={workoutCategory}
-                            aria-label="bold"
                             sx={{
                                 '&.MuiToggleButtonGroup-grouped': {
-                                    borderRadius: '10px !important',
+                                    borderRadius: '20px !important',
                                     m: 0.5,
+                                    flexBasis: 'auto',
                                 },
                             }}
                         >

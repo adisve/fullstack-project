@@ -1,8 +1,11 @@
+import { UserSettings } from './userSettings';
+
 export interface User {
-    _id: string;
-    name: string;
-    email: string;
-    created_at: string;
-    updated_at: Date;
-    seen_greeting_modal: boolean;
+    name?: string;
+    email?: string;
+    password?: string;
+    created_at?: Date;
+    updated_at?: Date;
+    onboarded?: boolean;
+    settings?: UserSettings;
 }
