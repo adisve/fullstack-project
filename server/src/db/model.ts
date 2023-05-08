@@ -1,32 +1,30 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
-const userProfileSchema = new mongoose.Schema({
-    exercises: { type: Array, required: false },
-    goal: { type: String, required: false },
-    dob: { type: Number, required: false },
-    gender: { type: String, required: false },
-    weight: { type: Number, required: false },
-    height: { type: Number, required: false },
-    fitnessLevel: { type: String, required: false },
+const userSettingsSchema = new mongoose.Schema({
+    interests: { type: Array, required: true },
+    goals: { type: Array, required: true },
+    dob: { type: Date, required: true },
+    gender: { type: String, required: true },
+    weight: { type: Number, required: true },
+    height: { type: Number, required: true },
+    fitnessLevel: { type: String, required: true },
 });
 
-const UserProfile = mongoose.model('UserProfile', userProfileSchema);
+const UserProfile = mongoose.model('UserProfile', userSettingsSchema);
 
 const userSchema = new mongoose.Schema({
+    _id: { type: mongoose.Schema.Types.ObjectId, required: true },
     name: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
+    created_at: { type: Date, default: new Date(), required: true },
+    workoutModel: [{ type: mongoose.Types.ObjectId, ref: 'workoutModel' }],
+    settings: userSettingsSchema,
     role: {
         type: String,
-        enum: {
-            values: ['user', 'admin'],
-        },
+        enum: ['user', 'admin'],
     },
-    created_at: { type: Date, default: new Date(), required: true },
-    onboarded: { type: Boolean, default: false },
-    workoutModel: [{ type: mongoose.Types.ObjectId, ref: 'workoutModel' }],
-    userProfileSchema: userProfileSchema,
 });
 
 const saltRounds = 10;
@@ -52,15 +50,13 @@ const workoutSchema = new mongoose.Schema({
 });
 
 const User = mongoose.model('User', userSchema);
-const workoutModel = mongoose.model('workoutModel', workoutSchema);
+const Workout = mongoose.model('WorkoutInformation', workoutSchema);
 
 const createUser = (values: Record<string, any>) =>
     new User(values).save().then((User) => User.toObject());
 
 const createExercise = (values: Record<string, any>) =>
-    new workoutModel(values)
-        .save()
-        .then((workoutModel) => workoutModel.toObject());
+    new Workout(values).save().then((workoutModel) => workoutModel.toObject());
 
 const getUser = (_id: String) => User.find({ _id: _id });
 const getEmail = (email: String) => User.findOne({ email: email });
@@ -107,7 +103,7 @@ const updateSeenGreeting = async (id) => {
 
 export {
     User,
-    workoutModel,
+    Workout,
     createUser,
     getEmail,
     getUser,
