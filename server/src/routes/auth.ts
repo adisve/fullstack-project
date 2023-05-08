@@ -6,9 +6,12 @@ import {
     createUser,
     getEmail,
     updateUser,
-    createExercise,
     updateSeenGreeting,
+    createExercises,
+    Exercise,
+    UserProfile,
 } from '../db/model';
+import { getMatchedExercises } from './matchingExercise';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 dotenv.config({ path: './config.env' });
@@ -25,7 +28,6 @@ const router = Router();
 router.post('/login', async function (req: Request, res: Response) {
     try {
         const { email, password } = req.body;
-
         const user = await getEmail(email);
         if (!user) {
             return res.status(404).json({
@@ -56,37 +58,38 @@ router.post('/login', async function (req: Request, res: Response) {
 
 router.get('/login', async function (req: Request, res: Response) {
     if ((req.session as ISession)._id) {
-    const _id = (req.session as ISession)._id;
+        const _id = (req.session as ISession)._id;
 
-    const userDetails = await getUser(_id);
-    console.log(userDetails);
+        const userDetails = await getUser(_id);
+        console.log(userDetails);
 
-    return res
-        .status(200)
-        .json({ id: (req.session as ISession)._id, userDetails: userDetails });
+        return res.status(200).json({
+            id: (req.session as ISession)._id,
+            userDetails: userDetails,
+        });
     }
 });
 
-router.post(
-    '/workoutInformation',
-    async function (req: Request, res: Response) {
-        const { interests, fitnessLevel, name, sets, reps } = req.body;
-        const exer = {
-            interests: interests,
-            fitnessLevel: fitnessLevel,
-            name: name,
-            sets: sets,
-            reps: reps,
-        };
-        console.log(exer);
-        const inputExercise = await createExercise({
-            exercise: exer,
-        });
-        return res.status(200).json({
-            message: 'Exercise added',
-        });
-    }
-);
+// router.post(
+//     '/workoutInformation',
+//     async function (req: Request, res: Response) {
+//         const { interests, fitnessLevel, name, sets, reps } = req.body;
+//         const exer = {
+//             interests: interests,
+//             fitnessLevel: fitnessLevel,
+//             name: name,
+//             sets: sets,
+//             reps: reps,
+//         };
+//         console.log(exer);
+//         const inputExercise = await createExercise({
+//             exercise: exer,
+//         });
+//         return res.status(200).json({
+//             message: 'Exercise added',
+//         });
+//     }
+// );
 
 router.get(
     '/workoutInformation',
@@ -141,30 +144,30 @@ router.get('/logout', async function (req: Request, res: Response) {
 
 router.put('/greetingModal/:_id', async function (req: Request, res: Response) {
     if ((req.session as ISession)._id) {
-        const _id = req.params._id;
-        const { userSettings } = req.body;
+    const _id = req.params._id;
+    const userSettings = req.body;
 
-        const interests = userSettings.interests;
-        const goals = userSettings.goals;
-        const age = userSettings.age;
-        const height = userSettings.height;
-        const weight = userSettings.weight;
-        const gender = userSettings.gender;
-        const fitnessLevel = userSettings.fitnessLevel;
-        console.log(gender);
-        const updatedUser = await updateUser(
-            _id,
-            interests,
-            goals,
-            age,
-            gender,
-            weight,
-            height,
-            fitnessLevel
-        );
-        return res.status(200).send(JSON.stringify(updatedUser));
+    const interests = userSettings.interests;
+    const goals = userSettings.goals;
+    const age = userSettings.age;
+    const height = userSettings.height;
+    const weight = userSettings.weight;
+    const gender = userSettings.gender;
+    const fitnessLevel = userSettings.fitnessLevel;
+    console.log(gender);
+    const updatedUser = await updateUser(
+        _id,
+        interests,
+        goals,
+        age,
+        gender,
+        weight,
+        height,
+        fitnessLevel
+    );
+    return res.status(200).send(JSON.stringify(updatedUser));
     } else {
-        res.status(404).json({ message: 'User not found' });
+     res.status(404).json({ message: 'User not found' });
     }
 });
 
@@ -172,11 +175,11 @@ router.put(
     '/greetingModal/:_id/boarded',
     async function (req: Request, res: Response) {
         if ((req.session as ISession)._id) {
-        const _id = req.params._id;
-        const updated = updateSeenGreeting(_id);
+            const _id = req.params._id;
+            const updated = updateSeenGreeting(_id);
 
-        res.status(200).json({ message: 'Value updated' });
-    }
+            res.status(200).json({ message: 'Value updated' });
+        }
     }
 );
 
@@ -185,5 +188,30 @@ router.get('/greetingModal/:_id', async function (req: Request, res: Response) {
         return res.status(200);
     }
 });
+
+router.get('/createExercises', async function (req: Request, res: Response) {
+    await createExercises();
+    return res.status(200).json({ message: 'Value updated' });
+});
+
+router.get('/recommendExercises/:_id', async function (req: Request, res: Response) {
+   const recommendExercises = await getMatchedExercises(req, res)
+
+});
+
+router.get('/savedExercises/:_id', async function (req: Request, res: Response) {
+    const id = req.params._id;
+    const user = await User.findById(id).populate(
+        'userProfileSchema.Exercise'
+    );
+
+    const userExercise = user.userProfileSchema.Exercise;
+    if (userExercise === undefined || userExercise.length == 0) {
+        res.status(500).json({ error: 'Exercises cannot be retrieved' });
+    } else {
+        res.status(200).json({ exercise: userExercise });
+    }
+
+    });
 
 export default router;

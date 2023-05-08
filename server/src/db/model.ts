@@ -9,6 +9,7 @@ const userProfileSchema = new mongoose.Schema({
     weight: { type: Number, required: false },
     height: { type: Number, required: false },
     fitnessLevel: { type: String, required: false },
+    Exercise: [{ type: mongoose.Types.ObjectId, ref: 'Exercise' }]
 });
 
 const UserProfile = mongoose.model('UserProfile', userProfileSchema);
@@ -19,7 +20,6 @@ const userSchema = new mongoose.Schema({
     password: { type: String, required: true },
     created_at: { type: Date, default: new Date(), required: true },
     seen_greeting_modal: { type: Boolean, default: false },
-    workoutModel: [{ type: mongoose.Types.ObjectId, ref: 'workoutModel' }],
     userProfileSchema: userProfileSchema,
 });
 
@@ -33,28 +33,26 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
-const workoutSchema = new mongoose.Schema({
-    date: { type: Date, default: new Date(), required: true },
-    exercise: {
+const exerciseSchema = new mongoose.Schema({
         interests: { type: String, required: true },
         fitnessLevel: { type: String, required: true },
         name: { type: String, required: true },
         sets: { type: Number, required: true },
         reps: { type: Number, required: true },
-    },
-    created_at: { type: Date, default: new Date(), required: true },
+
+
 });
 
 const User = mongoose.model('User', userSchema);
-const workoutModel = mongoose.model('workoutModel', workoutSchema);
+const Exercise = mongoose.model('Exercise', exerciseSchema);
 
 const createUser = (values: Record<string, any>) =>
     new User(values).save().then((User) => User.toObject());
 
-const createExercise = (values: Record<string, any>) =>
-    new workoutModel(values)
-        .save()
-        .then((workoutModel) => workoutModel.toObject());
+// const createExercise = (values: Record<string, any>) =>
+//     new Exercise(values)
+//         .save()
+//         .then((Exercise) => Exercise.toObject());
 
 const getUser = (_id: String) => User.find({ _id: _id });
 const getEmail = (email: String) => User.findOne({ email: email });
@@ -99,14 +97,65 @@ const updateSeenGreeting = async (id) => {
     }
 };
 
+async function createExercises() {
+    const fitnessLevel = ['beginner', 'intermediate', 'expert'];
+    const interests = [
+        'Cardiovascular',
+        'Weightloss',
+        'Stamina',
+        'Strength building',
+    ];
+
+    const exerciseTypes = [
+        'pushups',
+        'pullups',
+        'lunges',
+        'mountain climbers',
+        'squats',
+        'shoulder press',
+    ];
+    const exerciseCount = 10;
+    const beginnerReps = 20;
+    const intermediateReps = 35;
+    const expertReps = 50;
+
+    const sets = 3;
+    const exercises = [];
+    for (let i = 0; i < exerciseCount; i++) {
+        const test =
+            fitnessLevel[Math.floor(Math.random() * fitnessLevel.length)];
+        let repss = -1;
+        if (test === 'beginner') {
+            repss = beginnerReps;
+        } else if (test === 'intermediate') {
+            repss = intermediateReps;
+        } else {
+            repss = expertReps;
+        }
+        const exercise = {
+                interests:
+                    interests[Math.floor(Math.random() * interests.length)],
+                fitnessLevel: test,
+                name: exerciseTypes[
+                    Math.floor(Math.random() * exerciseTypes.length)
+                ],
+                sets: sets,
+                reps: repss,
+          
+        };
+        exercises.push(exercise);
+    }
+    const insertExercise = await Exercise.insertMany(exercises);
+    console.log(exercises);
+}
 export {
     User,
-    workoutModel,
+    Exercise,
     createUser,
     getEmail,
     getUser,
     updateUser,
     UserProfile,
-    createExercise,
     updateSeenGreeting,
+    createExercises,
 };
