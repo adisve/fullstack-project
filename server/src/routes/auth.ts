@@ -1,10 +1,20 @@
 import { Request, Response } from 'express';
 import { Router } from 'express';
-import { getUser, createUser, getEmail, createExercise } from '../db/model';
+import {
+    User,
+    getUser,
+    createUser,
+    getEmail,
+    updateUser,
+    Exercise,
+    updateSeenGreeting
+} from '../db/model';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 dotenv.config({ path: './config.env' });
 const bodyParser = require('body-parser');
+import { createExercises } from './generatingExercises';
+import { getMatchedExercises } from './ExerciseRecommendation';
 
 import { Session } from 'express-session';
 
@@ -63,23 +73,6 @@ route.get('/login', async function (req: Request, res: Response) {
     }
 });
 
-route.post('/workoutInformation', async function (req: Request, res: Response) {
-    const { interests, fitnessLevel, name, sets, reps } = req.body;
-    const exer = {
-        interests: interests,
-        fitnessLevel: fitnessLevel,
-        name: name,
-        sets: sets,
-        reps: reps,
-    };
-    console.log(exer);
-    await createExercise({
-        exercise: exer,
-    });
-    return res.status(200).json({
-        message: 'Exercise added',
-    });
-});
 
 route.get(
     '/workoutInformation',
@@ -137,5 +130,50 @@ route.get('/logout', async function (req: Request, res: Response) {
         });
     }
 });
+// use this route to implement the update seen greating. Link that to the skip button and the user will only see the form once
+route.put(
+    '/greetingModal/:_id/boarded',
+    async function (req: Request, res: Response) {
+        if ((req.session as ISession)._id) {
+            const _id = req.params._id;
+            const updated = updateSeenGreeting(_id);
+
+            res.status(200).json({ message: 'Value updated' });
+        }
+    }
+);
+
+route.get('/createExercises', async function (req: Request, res: Response) {
+    await createExercises();
+    return res.status(200).json({ message: 'Value updated' });
+});
+
+route.get(
+    '/recommendExercises/:_id',
+    async function (req: Request, res: Response) {
+        const recommendExercises = await getMatchedExercises(req, res);
+    }
+);
+
+route.get(
+    '/savedExercises/:_id',
+    async function (req: Request, res: Response) {
+        const id = req.params._id;
+        const user = await User.findById(id).populate(
+            'Exercise'
+        );
+
+        const userExercise = user.Exercise;
+        if (userExercise === undefined || userExercise.length == 0) {
+            res.status(500).json({ error: 'Exercises cannot be retrieved' });
+        } else {
+            res.status(200).json({ exercise: userExercise });
+        }
+    }
+);
+
+
+
+
 
 export default route;

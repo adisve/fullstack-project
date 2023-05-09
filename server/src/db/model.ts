@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema({
         height: { type: Number, required: true },
         fitnessLevel: { type: String, required: true },
     },
+    //using this field if the user is given the choice to skip the inetrest form
+    seen_greeting_modal: { type: Boolean, default: false },
+
+    Exercise: [{ type: mongoose.Types.ObjectId, ref: 'Exercise' }],
     role: {
         type: String,
         enum: ['user', 'admin'],
@@ -38,15 +42,12 @@ userSchema.pre('save', async function (next) {
 });
 
 const exerciseSchema = new mongoose.Schema({
-    date: { type: Date, default: new Date(), required: true },
-    exercise: {
         interests: { type: String, required: true },
         fitnessLevel: { type: String, required: true },
         name: { type: String, required: true },
         sets: { type: Number, required: true },
         reps: { type: Number, required: true },
-    },
-    created_at: { type: Date, default: new Date(), required: true },
+        
 });
 
 const User = mongoose.model('User', userSchema);
@@ -90,6 +91,21 @@ const updateUser = (
         },
         { upsert: true }
     );
+// updating the seen_greeting_modal to true if the form is already shown to user and he skipped it
+    const updateSeenGreeting = async (id) => {
+        try {
+            const updatedResult = await User.findByIdAndUpdate(
+                { _id: id },
+                {
+                    seen_greeting_modal: true,
+                }
+            );
+            console.log(updatedResult);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
 
 export {
     User,
@@ -99,4 +115,5 @@ export {
     getUser,
     updateUser,
     createExercise,
+    updateSeenGreeting
 };
