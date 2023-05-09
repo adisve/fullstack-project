@@ -17,8 +17,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import './Exercises.css';
+import { useState } from 'react';
+import { AddExerciseModal } from './addExerciseModal/AddExerciseModal';
 
 export function Exercises() {
+    const [exerciseModalActive, setExerciseModalActive] = useState(false);
+
     return (
         <Grid
             container={true}
@@ -33,7 +37,11 @@ export function Exercises() {
             {EXERCISES.map((exercise) => (
                 <ExerciseCard {...exercise} />
             ))}
-            <Fab className="add-exercise" variant="extended">
+            <Fab
+                className="add-exercise"
+                variant="extended"
+                onClick={() => setExerciseModalActive(true)}
+            >
                 <FontAwesomeIcon
                     icon={faPlus}
                     size="lg"
@@ -41,6 +49,10 @@ export function Exercises() {
                 />
                 <h4>Add Exercise</h4>
             </Fab>
+            <AddExerciseModal
+                open={exerciseModalActive}
+                handleClose={setExerciseModalActive}
+            />
         </Grid>
     );
 }
