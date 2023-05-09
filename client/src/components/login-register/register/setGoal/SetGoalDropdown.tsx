@@ -9,15 +9,9 @@ export function SetGoalDropdown() {
     const { modal } = useSelector((state: RootState) => state);
     return (
         <div className="form-multiple">
-            <FormControl>
+            <FormControl fullWidth>
                 <InputLabel>Goal</InputLabel>
                 <Select
-                    id="my-simple-select"
-                    sx={{
-                        '& #my-simple-select': {
-                            fontSize: '0.95rem',
-                        },
-                    }}
                     value={
                         modal.user?.settings?.goal
                             ? modal.user?.settings.goal
@@ -27,8 +21,6 @@ export function SetGoalDropdown() {
                         const goal = event.target.value;
                         dispatch(updateUserSettings({ goal: goal }));
                     }}
-                    autoWidth
-                    label="Goal"
                 >
                     <MenuItem value="">
                         <em>Select goal</em>

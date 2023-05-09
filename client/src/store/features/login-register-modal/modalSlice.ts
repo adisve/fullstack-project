@@ -14,10 +14,13 @@ interface ModalState {
 }
 
 const initialState: ModalState = {
-    registerStatus: PageStatus.success,
-    loginStatus: PageStatus.success,
+    registerStatus: PageStatus.initial,
+    loginStatus: PageStatus.initial,
     successModal: false,
     currentStep: 1,
+    user: {
+        settings: {},
+    },
 };
 
 const modalSlice = createSlice({
@@ -64,6 +67,7 @@ export function registerUser() {
     return async function (dispatch: AppDispatch, getState: any) {
         const { modal } = getState();
         const user = modal.user;
+        console.log(user.settings);
         dispatch(setRegisterStatus(PageStatus.loading));
         try {
             await instance.post(

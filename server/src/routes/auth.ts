@@ -6,7 +6,6 @@ import {
     getEmail,
     updateUser,
     createExercise,
-    updateSeenGreeting,
 } from '../db/model';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
@@ -97,6 +96,7 @@ app.post('/register', async function (req: Request, res: Response) {
         const email = user.email;
         const password = user.password;
         const name = user.name;
+        const settings = user.settings;
 
         if (!email || !password || !name) {
             return res.status(400).json({
@@ -114,6 +114,7 @@ app.post('/register', async function (req: Request, res: Response) {
                     email,
                     name,
                     password,
+                    settings: settings,
                 });
                 return res.status(200).json({
                     message: 'created account',
@@ -137,53 +138,6 @@ app.get('/logout', async function (req: Request, res: Response) {
                 res.redirect('/auth/login');
             }
         });
-    }
-});
-
-app.put('/greetingModal/:_id', async function (req: Request, res: Response) {
-    if ((req.session as ISession)._id) {
-        const _id = req.params._id;
-        const { userSettings } = req.body;
-
-        const interests = userSettings.interests;
-        const goals = userSettings.goals;
-        const age = userSettings.age;
-        const height = userSettings.height;
-        const weight = userSettings.weight;
-        const gender = userSettings.gender;
-        const fitnessLevel = userSettings.fitnessLevel;
-        console.log(gender);
-        const updatedUser = await updateUser(
-            _id,
-            interests,
-            goals,
-            age,
-            gender,
-            weight,
-            height,
-            fitnessLevel
-        );
-        return res.status(200).send(JSON.stringify(updatedUser));
-    } else {
-        res.status(404).json({ message: 'User not found' });
-    }
-});
-
-app.put(
-    '/greetingModal/:_id/boarded',
-    async function (req: Request, res: Response) {
-        if ((req.session as ISession)._id) {
-            const _id = req.params._id;
-            const updated = updateSeenGreeting(_id);
-
-            res.status(200).json({ message: 'Value updated' });
-        }
-    }
-);
-
-app.get('/greetingModal/:_id', async function (req: Request, res: Response) {
-    if ((req.session as ISession)._id) {
-        return res.status(200);
     }
 });
 

@@ -4,20 +4,18 @@ import { updateUserSettings } from '../../../../store/features/login-register-mo
 import { AppDispatch, RootState } from '../../../../store/store';
 import workoutRoutines from '../../../../assets/resources/workouts.json';
 
-export function ChooseWorkoutToggle() {
+export function ExerciseSelectionToggles() {
     const dispatch: AppDispatch = useDispatch();
     const { modal } = useSelector((state: RootState) => state);
 
     return (
         <>
-            <div className="modalContentFlexCenter">
+            <div>
                 <ToggleButtonGroup
-                    className="choose-workout-button-group"
-                    value={modal.user?.settings?.exercises}
-                    onChange={(_, exercises) => {
-                        dispatch(updateUserSettings({ exercises: exercises }));
+                    value={modal.user?.settings?.interests}
+                    onChange={(_, interests) => {
+                        dispatch(updateUserSettings({ interests: interests }));
                     }}
-                    aria-label="text formatting"
                     sx={{
                         display: 'flex',
                         flexWrap: 'wrap',
@@ -31,7 +29,7 @@ export function ChooseWorkoutToggle() {
                             className="exercise-toggle"
                             value={workoutCategory}
                         >
-                            <span className="workouts">{workoutCategory}</span>
+                            <span>{workoutCategory}</span>
                         </ToggleButton>
                     ))}
                 </ToggleButtonGroup>

@@ -1,5 +1,5 @@
 export interface UserSettings {
-    exercises?: string[];
+    interests?: string[];
     goal?: string;
     dob?: Date;
     gender?: string;

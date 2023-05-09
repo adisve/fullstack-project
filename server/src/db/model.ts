@@ -3,7 +3,7 @@ import bcrypt from 'bcrypt';
 
 const userSettingsSchema = new mongoose.Schema({
     interests: { type: Array, required: true },
-    goals: { type: Array, required: true },
+    goal: { type: String, required: true },
     dob: { type: Date, required: true },
     gender: { type: String, required: true },
     weight: { type: Number, required: true },
@@ -19,8 +19,8 @@ const userSchema = new mongoose.Schema({
         required: true,
         auto: true,
     },
-    name: { type: String, required: true },
-    email: { type: String, required: true },
+    name: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     created_at: { type: Date, default: new Date(), required: true },
     workoutModel: [{ type: mongoose.Types.ObjectId, ref: 'workoutModel' }],
@@ -28,6 +28,8 @@ const userSchema = new mongoose.Schema({
     role: {
         type: String,
         enum: ['user', 'admin'],
+        default: 'user',
+        required: true,
     },
 });
 
@@ -78,7 +80,7 @@ const updateUser = (
         _id,
         {
             $set: {
-                userProfileSchema: {
+                settings: {
                     interests: interests,
                     goals: goals,
                     age: age,
@@ -91,19 +93,6 @@ const updateUser = (
         },
         { upsert: true }
     );
-const updateSeenGreeting = async (id) => {
-    try {
-        const updatedResult = await User.findByIdAndUpdate(
-            { _id: id },
-            {
-                seen_greeting_modal: true,
-            }
-        );
-        console.log(updatedResult);
-    } catch (error) {
-        console.log(error);
-    }
-};
 
 export {
     User,
@@ -114,5 +103,4 @@ export {
     updateUser,
     UserProfile,
     createExercise,
-    updateSeenGreeting,
 };

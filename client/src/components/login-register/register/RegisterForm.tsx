@@ -7,7 +7,7 @@ import {
     incrementStep,
     registerUser,
 } from '../../../store/features/login-register-modal/modalSlice';
-import { ChooseWorkoutToggle } from './chooseWorkout/ChooseWorkoutToggle';
+import { ExerciseSelectionToggles } from './exerciseSelection/ExerciseSelectionToggles';
 import { SetGoalDropdown } from './setGoal/SetGoalDropdown';
 import { SetFitnessProfile } from './setProfile/SetFitnessProfile';
 
@@ -18,7 +18,7 @@ export function RegisterForm() {
     const page = () => {
         switch (modal.currentStep) {
             case 1:
-                return <ChooseWorkoutToggle />;
+                return <ExerciseSelectionToggles />;
             case 2:
                 return <SetGoalDropdown />;
             case 3:
@@ -46,8 +46,8 @@ export function RegisterForm() {
         switch (modal.currentStep) {
             case 1:
                 return (
-                    modal.user?.settings?.exercises?.length === 0 ||
-                    modal.user?.settings?.exercises === undefined
+                    modal.user?.settings?.interests?.length === 0 ||
+                    modal.user?.settings?.interests === undefined
                 );
             case 2:
                 return modal.user?.settings?.goal === undefined;
@@ -55,8 +55,8 @@ export function RegisterForm() {
                 return (
                     !user?.settings ||
                     !user?.settings.goal ||
-                    !user?.settings.exercises ||
-                    user?.settings.exercises.length === 0 ||
+                    !user?.settings.interests ||
+                    user?.settings.interests.length === 0 ||
                     !user?.settings.fitnessLevel ||
                     !user?.settings.dob ||
                     !user?.settings.gender ||
