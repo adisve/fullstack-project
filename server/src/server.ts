@@ -25,6 +25,7 @@ app.use(
         secret: secret,
         resave: false,
         saveUninitialized: false,
+        name: 'ProTracker',
         cookie: {
             maxAge: 1000 * 60 * 60 * 24, // 24 hours
         },
