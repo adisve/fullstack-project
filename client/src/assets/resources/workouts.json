@@ -1,0 +1,86 @@
+[
+    {
+        "workoutCategory": "Cardio",
+        "workouts": [
+            "running",
+            "jogging",
+            "cycling",
+            "swimming",
+            "rowing",
+            "jumping rope",
+            "dancing",
+            "kickboxing"
+        ]
+    },
+    {
+        "workoutCategory": "Flex",
+        "workouts": ["stretching", "yoga", "Pilates"]
+    },
+    {
+        "workoutCategory": "Strength",
+        "workouts": [
+            "weightlifting",
+            "bodyweight exercises",
+            "resistance band exercises",
+            "kettlebell exercises"
+        ]
+    },
+    {
+        "workoutCategory": "HIIT",
+        "workouts": [
+            "sprint intervals",
+            "circuit training",
+            "mountain climbers",
+            "rope jumping"
+        ]
+    },
+    {
+        "workoutCategory": "Plyometric",
+        "workouts": ["box jumps", "burpees", "plyo push-ups"]
+    },
+    {
+        "workoutCategory": "Calisthenics",
+        "workouts": ["push-ups", "pull-ups", "squats", "lunges"]
+    },
+    {
+        "workoutCategory": "Core",
+        "workouts": ["planks", "Russian twists", "leg raises"]
+    },
+
+    {
+        "workoutCategory": "Functional",
+        "workouts": ["kettlebell swings", "farmer's walks", "sled pushes"]
+    },
+    {
+        "workoutCategory": "Group",
+        "workouts": [
+            "aerobics",
+            "dance fitness",
+            "spinning",
+            "barre",
+            "boot camp"
+        ]
+    },
+    {
+        "workoutCategory": "Sports",
+        "workouts": ["basketball", "soccer", "tennis", "golf"]
+    },
+    {
+        "workoutCategory": "Outdoor",
+        "workouts": [
+            "hiking",
+            "trail running",
+            "biking",
+            "kayaking",
+            "paddleboarding"
+        ]
+    },
+    {
+        "workoutCategory": "Mind/body",
+        "workouts": ["tai chi", "qigong", "yoga"]
+    },
+    {
+        "workoutCategory": "Rehab",
+        "workouts": ["streching", "walks"]
+    }
+]

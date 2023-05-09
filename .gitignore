@@ -116,3 +116,5 @@ dist
 # FuseBox cache
 .fusebox/
 
+# Build since it's a generated dir
+build/

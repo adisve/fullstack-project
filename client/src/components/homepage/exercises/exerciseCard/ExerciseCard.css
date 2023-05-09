@@ -1,0 +1,17 @@
+.exercise-card {
+    border-radius: 20px !important;
+    opacity: 0.95;
+    margin: 1.2em;
+    width: 21.4em;
+    height: 16em;
+    aspect-ratio: 2/3;
+}
+
+.exercise-card:hover {
+    opacity: 1;
+}
+
+.exercise-description {
+    height: 5.2em;
+    overflow: auto;
+}

@@ -3,14 +3,13 @@ export interface Exercise {
     sets: number;
     reps: number;
     weight: number;
-  }
-  
-  export interface Workout {
+}
+
+export interface Workout {
     _id: string;
     user_id: string;
     date: Date;
     exercises: Exercise[];
     created_at: Date;
     updated_at: Date;
-  }
-  
+}

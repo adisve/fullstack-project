@@ -1,0 +1,82 @@
+[
+    {
+        "_id": "5f8d0a6a4b9b1f0b3c9b9b1f",
+        "name": "Pushups",
+        "description": "Pushups are a fast and effective exercise for building strength. They can be done from virtually anywhere and don’t require any equipment.",
+        "reps": 10,
+        "sets": 3,
+        "weight": 0
+    },
+    {
+        "_id": "5f8d0a6a4b9b1f0b3c9b9b20",
+        "name": "Squats",
+        "description": "Squats are a compound exercise that strengthens the glutes, quads, and hamstrings. They also engage your core.",
+        "reps": 10,
+        "sets": 3,
+        "weight": 0
+    },
+    {
+        "_id": "5f8d0a6a4b9b1f0b3c9b9b21",
+        "name": "Lunges",
+        "description": "Lunges are a great exercise for strengthening, sculpting and building several muscles/muscle groups, including the quadriceps (or thighs), the gluteus maximus (or buttocks) as well as the hamstrings.",
+        "reps": 10,
+        "sets": 3,
+        "weight": 0
+    },
+    {
+        "_id": "5f8d0a6a4b9b1f0b3c9b9b22",
+        "name": "Pullups",
+        "description": "Pullups are an excellent exercise for strengthening the back muscles. They also engage the arms and shoulders, and challenge your grip strength.",
+        "reps": 10,
+        "sets": 3,
+        "weight": 0
+    },
+    {
+        "_id": "5f8d0a6a4b9b1f0b3c9b9b23",
+        "name": "Deadlifts",
+        "description": "The deadlift is a weight training exercise in which a loaded barbell or bar is lifted off the ground to the level of the hips, then lowered to the ground.",
+        "reps": 10,
+        "sets": 3,
+        "weight": 0
+    },
+    {
+        "_id": "5f8d0a6a4b9b1f0b3c9b9b24",
+        "name": "Bench Press",
+        "description": "The bench press is an upper-body strength-training exercise that consists of pressing a weight upwards from a supine position.",
+        "reps": 10,
+        "sets": 3,
+        "weight": 0
+    },
+    {
+        "_id": "5f8d0a6a4b9b1f0b3c9b9b25",
+        "name": "Bicep Curls",
+        "description": "The biceps curl is a pulling exercise that works the biceps brachii muscles on the front of the upper arm.",
+        "reps": 10,
+        "sets": 3,
+        "weight": 0
+    },
+    {
+        "_id": "5f8d0a6a4b9b1f0b3c9b9b26",
+        "name": "Tricep Extensions",
+        "description": "The triceps extension is a strength training exercise used for strengthening the triceps muscles in the back of the upper arm.",
+        "reps": 10,
+        "sets": 3,
+        "weight": 0
+    },
+    {
+        "_id": "5f8d0a6a4b9b1f0b3c9b9b27",
+        "name": "Shoulder Press",
+        "description": "The shoulder press is a weight training exercise in which a weight is pressed from the shoulders until it is locked out overhead.",
+        "reps": 10,
+        "sets": 3,
+        "weight": 0
+    },
+    {
+        "_id": "5f8d0a6a4b9b1f0b3c9b9b28",
+        "name": "Situps",
+        "description": "The sit-up is an abdominal endurance training exercise commonly performed to strengthen and tone the abdominal muscles.",
+        "reps": 10,
+        "sets": 3,
+        "weight": 0
+    }
+]
