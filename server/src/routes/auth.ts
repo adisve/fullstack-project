@@ -1,17 +1,10 @@
 import { Request, Response } from 'express';
 import { Router } from 'express';
-import {
-    User,
-    getUser,
-    createUser,
-    getEmail,
-    updateUser,
-    createExercise,
-    updateSeenGreeting,
-} from '../db/model';
+import { getUser, createUser, getEmail, createExercise } from '../db/model';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 dotenv.config({ path: './config.env' });
+const bodyParser = require('body-parser');
 
 import { Session } from 'express-session';
 
@@ -20,9 +13,11 @@ export interface ISession extends Session {
     Email?: string;
 }
 
-const router = Router();
+const route = Router();
 
-router.post('/login', async function (req: Request, res: Response) {
+route.use(bodyParser.urlencoded({ extended: true }));
+
+route.post('/login', async function (req: Request, res: Response) {
     try {
         const { email, password } = req.body;
 
@@ -54,48 +49,51 @@ router.post('/login', async function (req: Request, res: Response) {
     }
 });
 
-router.get('/login', async function (req: Request, res: Response) {
+route.get('/login', async function (req: Request, res: Response) {
     if ((req.session as ISession)._id) {
-    const _id = (req.session as ISession)._id;
+        const _id = (req.session as ISession)._id;
 
-    const userDetails = await getUser(_id);
-    console.log(userDetails);
+        const userDetails = await getUser(_id);
+        console.log(userDetails);
 
-    return res
-        .status(200)
-        .json({ id: (req.session as ISession)._id, userDetails: userDetails });
+        return res.status(200).json({
+            id: (req.session as ISession)._id,
+            userDetails: userDetails,
+        });
     }
 });
 
-router.post(
-    '/workoutInformation',
-    async function (req: Request, res: Response) {
-        const { interests, fitnessLevel, name, sets, reps } = req.body;
-        const exer = {
-            interests: interests,
-            fitnessLevel: fitnessLevel,
-            name: name,
-            sets: sets,
-            reps: reps,
-        };
-        console.log(exer);
-        const inputExercise = await createExercise({
-            exercise: exer,
-        });
-        return res.status(200).json({
-            message: 'Exercise added',
-        });
-    }
-);
+route.post('/workoutInformation', async function (req: Request, res: Response) {
+    const { interests, fitnessLevel, name, sets, reps } = req.body;
+    const exer = {
+        interests: interests,
+        fitnessLevel: fitnessLevel,
+        name: name,
+        sets: sets,
+        reps: reps,
+    };
+    console.log(exer);
+    await createExercise({
+        exercise: exer,
+    });
+    return res.status(200).json({
+        message: 'Exercise added',
+    });
+});
 
-router.get(
+route.get(
     '/workoutInformation',
     async function (req: Request, res: Response) {}
 );
 
-router.post('/register', async function (req: Request, res: Response) {
+route.post('/register', async function (req: Request, res: Response) {
     try {
-        const { email, password, name } = req.body;
+        const { user } = req.body;
+
+        const email = user.email;
+        const password = user.password;
+        const name = user.name;
+        const settings = user.settings;
 
         if (!email || !password || !name) {
             return res.status(400).json({
@@ -109,10 +107,11 @@ router.post('/register', async function (req: Request, res: Response) {
                     .status(400)
                     .json({ message: 'Email already exists' });
             } else {
-                const user = await createUser({
+                await createUser({
                     email,
                     name,
                     password,
+                    settings: settings,
                 });
                 return res.status(200).json({
                     message: 'created account',
@@ -120,14 +119,14 @@ router.post('/register', async function (req: Request, res: Response) {
             }
         }
     } catch (error) {
-        console.error('Unable to register');
-        return res.status(400).json({
+        console.error(`Unable to register: ${error.message}`);
+        return res.status(500).json({
             message: 'Could not create account',
         });
     }
 });
 
-router.get('/logout', async function (req: Request, res: Response) {
+route.get('/logout', async function (req: Request, res: Response) {
     if ((req.session as ISession)._id) {
         req.session.destroy(function (err) {
             if (err) {
@@ -139,51 +138,4 @@ router.get('/logout', async function (req: Request, res: Response) {
     }
 });
 
-router.put('/greetingModal/:_id', async function (req: Request, res: Response) {
-    if ((req.session as ISession)._id) {
-        const _id = req.params._id;
-        const { userSettings } = req.body;
-
-        const interests = userSettings.interests;
-        const goals = userSettings.goals;
-        const age = userSettings.age;
-        const height = userSettings.height;
-        const weight = userSettings.weight;
-        const gender = userSettings.gender;
-        const fitnessLevel = userSettings.fitnessLevel;
-        console.log(gender);
-        const updatedUser = await updateUser(
-            _id,
-            interests,
-            goals,
-            age,
-            gender,
-            weight,
-            height,
-            fitnessLevel
-        );
-        return res.status(200).send(JSON.stringify(updatedUser));
-    } else {
-        res.status(404).json({ message: 'User not found' });
-    }
-});
-
-router.put(
-    '/greetingModal/:_id/boarded',
-    async function (req: Request, res: Response) {
-        if ((req.session as ISession)._id) {
-        const _id = req.params._id;
-        const updated = updateSeenGreeting(_id);
-
-        res.status(200).json({ message: 'Value updated' });
-    }
-    }
-);
-
-router.get('/greetingModal/:_id', async function (req: Request, res: Response) {
-    if ((req.session as ISession)._id) {
-        return res.status(200);
-    }
-});
-
-export default router;
+export default route;

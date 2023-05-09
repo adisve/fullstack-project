@@ -3,3 +3,9 @@
     color: #353e54;
     border: solid 0.02em transparent;
 }
+
+@media only screen and (max-width: 768px) {
+    #footer {
+        display: none;
+    }
+}
