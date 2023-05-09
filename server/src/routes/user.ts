@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import express from 'express';
-const router = express.Router();
+const route = express.Router();
 
-router.get('/', async (req: Request, res: Response) => {
+route.get('/', async (req: Request, res: Response) => {
     res.json({ message: 'user route' });
 });
 
-export default router;
+export default route;
