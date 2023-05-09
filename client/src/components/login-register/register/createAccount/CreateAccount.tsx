@@ -13,8 +13,8 @@ export function CreateAccount() {
     const dispatch: AppDispatch = useDispatch();
     return (
         <>
-            <Container className="login-form">
-                <div style={{ marginBottom: '1.5rem' }}>
+            <Container className="form-multiple">
+                <div>
                     <TextField
                         label="Username"
                         fullWidth
@@ -25,7 +25,7 @@ export function CreateAccount() {
                         }}
                     />
                 </div>
-                <div style={{ marginBottom: '1.5rem' }}>
+                <div>
                     <TextField
                         label="Email"
                         fullWidth
@@ -36,7 +36,7 @@ export function CreateAccount() {
                         }}
                     />
                 </div>
-                <div style={{ marginBottom: '1.5rem' }}>
+                <div>
                     <TextField
                         type="password"
                         label="Password"
@@ -54,24 +54,6 @@ export function CreateAccount() {
                         Please try again later.
                     </h4>
                 )}
-                <div className="buttonGroup">
-                    <Button
-                        variant="outlined"
-                        onClick={() => {
-                            dispatch(decrementStep());
-                        }}
-                    >
-                        Previous
-                    </Button>
-                    <Button
-                        variant="contained"
-                        onClick={() => {
-                            dispatch(registerUser());
-                        }}
-                    >
-                        Register
-                    </Button>
-                </div>
             </Container>
         </>
     );

@@ -17,8 +17,8 @@ export function AuthenticationModal({ open }: AuthenticationModalProps) {
         setValue(newValue);
     };
     return (
-        <Modal style={{ height: '100vh' }} open={open}>
-            <Box className="login-modal">
+        <Modal open={open}>
+            <Box className="auth-modal">
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     {/* Switcher between register and login */}
                     <Tabs value={value} onChange={handleChange}>

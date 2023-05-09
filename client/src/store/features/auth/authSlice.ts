@@ -49,7 +49,7 @@ export const loginUser =
                 { email, password },
                 { headers: { 'Content-Type': 'application/json' } }
             );
-            
+
             const data = await response.data;
             console.log(data);
             if (data.token) {

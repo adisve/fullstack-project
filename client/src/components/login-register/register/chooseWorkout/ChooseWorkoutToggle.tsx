@@ -12,7 +12,7 @@ export function ChooseWorkoutToggle() {
         <>
             <div className="modalContentFlexCenter">
                 <ToggleButtonGroup
-                    className="chooseWorkoutButtonGroup"
+                    className="choose-workout-button-group"
                     value={modal.user?.settings?.exercises}
                     onChange={(_, exercises) => {
                         dispatch(updateUserSettings({ exercises: exercises }));
@@ -28,15 +28,8 @@ export function ChooseWorkoutToggle() {
                     {workoutRoutines.map(({ workoutCategory }) => (
                         <ToggleButton
                             key={workoutCategory}
-                            className="chooseWorkoutButton"
+                            className="exercise-toggle"
                             value={workoutCategory}
-                            sx={{
-                                '&.MuiToggleButtonGroup-grouped': {
-                                    borderRadius: '20px !important',
-                                    m: 0.5,
-                                    flexBasis: 'auto',
-                                },
-                            }}
                         >
                             <span className="workouts">{workoutCategory}</span>
                         </ToggleButton>

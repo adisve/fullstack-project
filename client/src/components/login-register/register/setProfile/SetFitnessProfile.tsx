@@ -1,5 +1,6 @@
 import {
     Box,
+    Container,
     FormControl,
     InputAdornment,
     InputLabel,
@@ -27,15 +28,11 @@ export function SetFitnessProfile() {
     };
 
     return (
-        <Box
-            className="modalContentCenter fitnessForm"
-            component="form"
-            noValidate
-            autoComplete="off"
-        >
-            <FormControl fullWidth style={{ marginTop: '1rem' }}>
+        <Container className="form-multiple">
+            <FormControl fullWidth>
                 <TextField
-                    label="Date of Birth"
+                    inputProps={{ style: { fontSize: 14 } }}
+                    InputLabelProps={{ style: { fontSize: 14 } }}
                     type="date"
                     value={
                         modal.user?.settings?.dob
@@ -44,9 +41,6 @@ export function SetFitnessProfile() {
                                   .split('T')[0]
                             : ''
                     }
-                    InputLabelProps={{
-                        shrink: true,
-                    }}
                     onChange={(event) => {
                         const dateOfBirth = new Date(event.target.value);
                         dispatch(updateUserSettings({ dob: dateOfBirth }));
@@ -54,10 +48,9 @@ export function SetFitnessProfile() {
                 />
             </FormControl>
 
-            <FormControl fullWidth style={{ marginTop: '1rem' }}>
+            <FormControl fullWidth>
                 <InputLabel>Gender</InputLabel>
                 <Select
-                    className="setFitnessInput"
                     value={value(modal.user?.settings?.gender)}
                     label="Gender"
                     onChange={(event) => {
@@ -76,8 +69,6 @@ export function SetFitnessProfile() {
             </FormControl>
 
             <TextField
-                style={{ marginTop: '1rem' }}
-                className="setFitnessInput"
                 label="Weight"
                 onChange={(event) => {
                     const weightString = event.target.value;
@@ -88,7 +79,6 @@ export function SetFitnessProfile() {
                 }}
                 value={value(modal.user?.settings?.weight)}
                 type="number"
-                id="outlined-start-adornment"
                 InputProps={{
                     endAdornment: (
                         <InputAdornment position="end">kg</InputAdornment>
@@ -101,8 +91,6 @@ export function SetFitnessProfile() {
             />
 
             <TextField
-                style={{ marginTop: '1rem' }}
-                className="setFitnessInput"
                 label="Height"
                 value={value(modal.user?.settings?.height)}
                 onChange={(event) => {
@@ -125,10 +113,9 @@ export function SetFitnessProfile() {
                 }}
             />
 
-            <FormControl fullWidth style={{ marginTop: '1rem' }}>
+            <FormControl fullWidth>
                 <InputLabel>Current fitness level</InputLabel>
                 <Select
-                    className="setFitnessInput"
                     value={value(modal.user?.settings?.fitnessLevel)}
                     label="Current fitness level"
                     onChange={(event) => {
@@ -147,6 +134,6 @@ export function SetFitnessProfile() {
                     })}
                 </Select>
             </FormControl>
-        </Box>
+        </Container>
     );
 }

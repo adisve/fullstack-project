@@ -66,7 +66,11 @@ export function registerUser() {
         const user = modal.user;
         dispatch(setRegisterStatus(PageStatus.loading));
         try {
-            await instance.post(`/auth/register`, { user });
+            await instance.post(
+                `/auth/register`,
+                { user },
+                { headers: { 'Content-Type': 'application/json' } }
+            );
             dispatch(setRegisterStatus(PageStatus.success));
         } catch (error) {
             dispatch(setRegisterStatus(PageStatus.error));

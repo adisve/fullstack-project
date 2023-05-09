@@ -14,7 +14,11 @@ const userSettingsSchema = new mongoose.Schema({
 const UserProfile = mongoose.model('UserProfile', userSettingsSchema);
 
 const userSchema = new mongoose.Schema({
-    _id: { type: mongoose.Schema.Types.ObjectId, required: true },
+    _id: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true,
+        auto: true,
+    },
     name: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },

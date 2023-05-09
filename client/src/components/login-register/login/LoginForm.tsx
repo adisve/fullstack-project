@@ -19,14 +19,14 @@ export function LoginForm({
     const dispatch: AppDispatch = useDispatch();
 
     return (
-        <>
+        <div className="login-container">
             <Container>
                 <h2>Log in to your account</h2>
             </Container>
             <Container className="login-form">
                 <div style={{ marginBottom: '1.5rem' }}>
                     <TextField
-                        label="Email/Username"
+                        label="Email"
                         fullWidth
                         value={email}
                         onChange={(event) => setEmail(event.target.value)}
@@ -51,6 +51,6 @@ export function LoginForm({
                     Log in
                 </Button>
             </Container>
-        </>
+        </div>
     );
 }

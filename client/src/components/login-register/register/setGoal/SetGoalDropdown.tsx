@@ -8,14 +8,16 @@ export function SetGoalDropdown() {
     const dispatch: AppDispatch = useDispatch();
     const { modal } = useSelector((state: RootState) => state);
     return (
-        <div className="modalContentCenter">
-            <FormControl className="goalForm">
-                <InputLabel id="demo-simple-select-autowidth-label">
-                    Goal
-                </InputLabel>
+        <div className="form-multiple">
+            <FormControl>
+                <InputLabel>Goal</InputLabel>
                 <Select
-                    labelId="demo-simple-select-autowidth-label"
-                    id="demo-simple-select-autowidth"
+                    id="my-simple-select"
+                    sx={{
+                        '& #my-simple-select': {
+                            fontSize: '0.95rem',
+                        },
+                    }}
                     value={
                         modal.user?.settings?.goal
                             ? modal.user?.settings.goal
