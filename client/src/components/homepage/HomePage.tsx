@@ -7,14 +7,23 @@ import { Sidebar } from './sidebar/Sidebar';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store';
 import { AuthenticationModal } from '../login-register/AuthenticationModal';
+import { AuthStatus } from '../../store/features/auth/authSlice';
+import LoadingSpinner from '../general/LoadingSpinner';
 
 export function HomePage() {
     const [activeState, setActiveState] = useState(false);
 
-    const token = useSelector((state: RootState) => state.auth.token);
+    const authStatus = useSelector((state: RootState) => state.auth.status);
 
-    if (!token) {
-        return <AuthenticationModal open={token == undefined} />;
+    if (
+        authStatus == AuthStatus.unauthenticated ||
+        authStatus == AuthStatus.error
+    ) {
+        return <AuthenticationModal open={true} />;
+    }
+
+    if (authStatus == AuthStatus.loading) {
+        return <LoadingSpinner />;
     }
 
     return (

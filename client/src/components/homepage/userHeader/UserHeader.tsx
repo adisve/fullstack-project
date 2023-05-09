@@ -2,6 +2,8 @@ import { Avatar, Button, Container } from '@mui/material';
 import './UserHeader.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBars, faChevronCircleDown } from '@fortawesome/free-solid-svg-icons';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
 
 type UserHeaderProps = {
     toggleDrawer: any;
@@ -10,6 +12,7 @@ type UserHeaderProps = {
 
 export default function UserHeader(userHeaderProps: UserHeaderProps) {
     const { toggleDrawer, drawerState } = userHeaderProps;
+    const { auth } = useSelector((state: RootState) => state);
 
     return (
         <Container
@@ -26,12 +29,12 @@ export default function UserHeader(userHeaderProps: UserHeaderProps) {
         >
             <Avatar
                 sx={{ width: 50, height: 50 }}
-                alt="User Name"
+                alt="User avatar"
                 src="/static/images/avatar/1.jpg"
             />
             <div className="user-header-text" style={{ display: 'block' }}>
-                <p>Hello, user</p>
-                <p>Thursday, 10 Sep</p>
+                <p>Hello, {auth.user?.name}</p>
+                <p>{new Date().toDateString()}</p>
             </div>
             <FontAwesomeIcon
                 style={{ color: '#727ee5', marginLeft: '0.5em' }}

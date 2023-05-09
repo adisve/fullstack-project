@@ -1,17 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
-
-const userSettingsSchema = new mongoose.Schema({
-    interests: { type: Array, required: true },
-    goal: { type: String, required: true },
-    dob: { type: Date, required: true },
-    gender: { type: String, required: true },
-    weight: { type: Number, required: true },
-    height: { type: Number, required: true },
-    fitnessLevel: { type: String, required: true },
-});
-
-const UserProfile = mongoose.model('UserProfile', userSettingsSchema);
+const saltRounds = 10;
 
 const userSchema = new mongoose.Schema({
     _id: {
@@ -23,8 +12,15 @@ const userSchema = new mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
     created_at: { type: Date, default: new Date(), required: true },
-    workoutModel: [{ type: mongoose.Types.ObjectId, ref: 'workoutModel' }],
-    settings: userSettingsSchema,
+    settings: {
+        interests: { type: Array, required: true },
+        goal: { type: String, required: true },
+        dob: { type: Date, required: true },
+        gender: { type: String, required: true },
+        weight: { type: Number, required: true },
+        height: { type: Number, required: true },
+        fitnessLevel: { type: String, required: true },
+    },
     role: {
         type: String,
         enum: ['user', 'admin'],
@@ -32,8 +28,6 @@ const userSchema = new mongoose.Schema({
         required: true,
     },
 });
-
-const saltRounds = 10;
 
 userSchema.pre('save', async function (next) {
     const user = this;
@@ -43,7 +37,7 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
-const workoutSchema = new mongoose.Schema({
+const exerciseSchema = new mongoose.Schema({
     date: { type: Date, default: new Date(), required: true },
     exercise: {
         interests: { type: String, required: true },
@@ -56,16 +50,19 @@ const workoutSchema = new mongoose.Schema({
 });
 
 const User = mongoose.model('User', userSchema);
-const Workout = mongoose.model('WorkoutInformation', workoutSchema);
+const Exercise = mongoose.model('Exercise', exerciseSchema);
 
 const createUser = (values: Record<string, any>) =>
     new User(values).save().then((User) => User.toObject());
 
 const createExercise = (values: Record<string, any>) =>
-    new Workout(values).save().then((workoutModel) => workoutModel.toObject());
+    new Exercise(values)
+        .save()
+        .then((exerciseModel) => exerciseModel.toObject());
 
 const getUser = (_id: String) => User.find({ _id: _id });
 const getEmail = (email: String) => User.findOne({ email: email });
+
 const updateUser = (
     _id: String,
     interests: Array<String>,
@@ -96,11 +93,10 @@ const updateUser = (
 
 export {
     User,
-    Workout,
+    Exercise,
     createUser,
     getEmail,
     getUser,
     updateUser,
-    UserProfile,
     createExercise,
 };

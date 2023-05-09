@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import axios from 'axios';
 import instance from '../../../config/axios';
+import { User } from '../../interfaces/user';
 
 export enum AuthStatus {
     loading,
@@ -10,12 +10,12 @@ export enum AuthStatus {
 }
 
 interface AuthState {
-    token: string | null;
+    sessionId?: string;
+    user?: User;
     status: AuthStatus;
 }
 
 const initialState: AuthState = {
-    token: null,
     status: AuthStatus.unauthenticated,
 };
 
@@ -23,42 +23,54 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setToken(state, action: PayloadAction<string>) {
-            state.token = action.payload;
-            state.status = AuthStatus.authenticated;
+        setSession(state, action: PayloadAction<string>) {
+            state.sessionId = action.payload;
         },
-        clearToken(state) {
-            state.token = null;
-            state.status = AuthStatus.unauthenticated;
+        setUser(state, action: PayloadAction<User>) {
+            state.user = action.payload;
         },
-        setLoading(state) {
-            state.status = AuthStatus.loading;
+        clearSession(state) {
+            state.sessionId = undefined;
         },
-        setError(state) {
-            state.status = AuthStatus.error;
+        clearUser(state) {
+            state.user = undefined;
+        },
+        setAuthStatus(state, action: PayloadAction<AuthStatus>) {
+            state.status = action.payload;
         },
     },
 });
 
+export const logOutUser = () => (dispatch: any) => {
+    dispatch(clearSession());
+    dispatch(clearUser());
+    dispatch(setAuthStatus(AuthStatus.unauthenticated));
+};
+
 export const loginUser =
     (email: string, password: string) => async (dispatch: any) => {
         try {
-            dispatch(setLoading());
+            dispatch(setAuthStatus(AuthStatus.loading));
             const response = await instance.post(
                 '/auth/login',
                 { email, password },
                 { headers: { 'Content-Type': 'application/json' } }
             );
 
-            const data = await response.data;
-            console.log(data);
-            if (data.token) {
-                dispatch(setToken(data.token));
+            const { user, id } = await response.data;
+            console.log(`User ${JSON.stringify(user)}`);
+            if (id && user) {
+                dispatch(setSession(id));
+                dispatch(setUser(user));
+                dispatch(setAuthStatus(AuthStatus.authenticated));
+            } else {
+                dispatch(setAuthStatus(AuthStatus.unauthenticated));
             }
         } catch (error) {
-            dispatch(setError());
+            dispatch(setAuthStatus(AuthStatus.error));
         }
     };
 
-export const { setToken, clearToken, setLoading, setError } = authSlice.actions;
+export const { setSession, clearSession, setAuthStatus, setUser, clearUser } =
+    authSlice.actions;
 export default authSlice.reducer;

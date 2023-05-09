@@ -1,12 +1,6 @@
 import { Request, Response } from 'express';
 import { Router } from 'express';
-import {
-    getUser,
-    createUser,
-    getEmail,
-    updateUser,
-    createExercise,
-} from '../db/model';
+import { getUser, createUser, getEmail, createExercise } from '../db/model';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 dotenv.config({ path: './config.env' });
@@ -19,11 +13,11 @@ export interface ISession extends Session {
     Email?: string;
 }
 
-const app = Router();
+const route = Router();
 
-app.use(bodyParser.urlencoded({ extended: true }));
+route.use(bodyParser.urlencoded({ extended: true }));
 
-app.post('/login', async function (req: Request, res: Response) {
+route.post('/login', async function (req: Request, res: Response) {
     try {
         const { email, password } = req.body;
 
@@ -55,7 +49,7 @@ app.post('/login', async function (req: Request, res: Response) {
     }
 });
 
-app.get('/login', async function (req: Request, res: Response) {
+route.get('/login', async function (req: Request, res: Response) {
     if ((req.session as ISession)._id) {
         const _id = (req.session as ISession)._id;
 
@@ -69,7 +63,7 @@ app.get('/login', async function (req: Request, res: Response) {
     }
 });
 
-app.post('/workoutInformation', async function (req: Request, res: Response) {
+route.post('/workoutInformation', async function (req: Request, res: Response) {
     const { interests, fitnessLevel, name, sets, reps } = req.body;
     const exer = {
         interests: interests,
@@ -87,9 +81,12 @@ app.post('/workoutInformation', async function (req: Request, res: Response) {
     });
 });
 
-app.get('/workoutInformation', async function (req: Request, res: Response) {});
+route.get(
+    '/workoutInformation',
+    async function (req: Request, res: Response) {}
+);
 
-app.post('/register', async function (req: Request, res: Response) {
+route.post('/register', async function (req: Request, res: Response) {
     try {
         const { user } = req.body;
 
@@ -129,7 +126,7 @@ app.post('/register', async function (req: Request, res: Response) {
     }
 });
 
-app.get('/logout', async function (req: Request, res: Response) {
+route.get('/logout', async function (req: Request, res: Response) {
     if ((req.session as ISession)._id) {
         req.session.destroy(function (err) {
             if (err) {
@@ -141,4 +138,4 @@ app.get('/logout', async function (req: Request, res: Response) {
     }
 });
 
-export default app;
+export default route;

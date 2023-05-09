@@ -13,8 +13,39 @@
     width: 50vw;
 }
 
+.register-form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .login-container {
     display: flex;
+}
+
+.login-form {
+    padding: 2rem;
+}
+
+.success-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+}
+
+.success-image {
+    height: 40px;
+    width: 40px;
+    margin-right: 1rem;
+}
+
+.success-box {
+    background: rgb(150, 228, 150);
+    border-radius: 20px;
+    padding: 0.5rem;
+    text-align: center;
 }
 
 .exercise-toggle {

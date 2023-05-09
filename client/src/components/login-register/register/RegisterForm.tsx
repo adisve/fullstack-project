@@ -10,6 +10,9 @@ import {
 import { ExerciseSelectionToggles } from './exerciseSelection/ExerciseSelectionToggles';
 import { SetGoalDropdown } from './setGoal/SetGoalDropdown';
 import { SetFitnessProfile } from './setProfile/SetFitnessProfile';
+import { PageStatus } from '../../../enums/pageStatus';
+import LoadingSpinner from '../../general/LoadingSpinner';
+import SuccessIcon from '../../../assets/success_icon.png';
 
 export function RegisterForm() {
     const dispatch: AppDispatch = useDispatch();
@@ -73,6 +76,25 @@ export function RegisterForm() {
     const showPreviousButton = (): boolean => {
         return modal.currentStep > 1;
     };
+
+    if (modal.registerStatus == PageStatus.success) {
+        return (
+            <div className="success-container">
+                <img
+                    className="success-image"
+                    src={SuccessIcon}
+                    alt="Success lottie"
+                />
+                <Container className="success-box">
+                    <h3>Successfully registered account!</h3>
+                </Container>
+            </div>
+        );
+    }
+
+    if (modal.registerStatus == PageStatus.loading) {
+        return <LoadingSpinner />;
+    }
 
     return (
         <Container className="register-form-container">

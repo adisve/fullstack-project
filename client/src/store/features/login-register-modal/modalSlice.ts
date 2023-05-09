@@ -67,8 +67,9 @@ export function registerUser() {
     return async function (dispatch: AppDispatch, getState: any) {
         const { modal } = getState();
         const user = modal.user;
-        console.log(user.settings);
+
         dispatch(setRegisterStatus(PageStatus.loading));
+
         try {
             await instance.post(
                 `/auth/register`,
