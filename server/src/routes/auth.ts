@@ -3,14 +3,15 @@ import { Router } from 'express';
 import { getUser, createUser, getEmail, createExercise } from '../db/model';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
-dotenv.config({ path: './config.env' });
-const bodyParser = require('body-parser');
 
+dotenv.config({ path: './config.env' });
+import bodyParser from 'body-parser';
 import { Session } from 'express-session';
 
 export interface ISession extends Session {
     _id?: any;
     Email?: string;
+    role?: 'user' | 'admin';
 }
 
 const route = Router();
@@ -35,6 +36,7 @@ route.post('/login', async function (req: Request, res: Response) {
         } else {
             (req.session as ISession)._id = user._id;
             (req.session as ISession).Email = user.email;
+            (req.session as ISession).role = user.role;
         }
 
         res.status(200).json({
@@ -132,7 +134,9 @@ route.get('/logout', async function (req: Request, res: Response) {
             if (err) {
                 console.log(err);
             } else {
-                res.redirect('/auth/login');
+                res.status(200).json({
+                    message: 'logged out',
+                });
             }
         });
     }
