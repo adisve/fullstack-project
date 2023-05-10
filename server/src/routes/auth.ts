@@ -8,7 +8,7 @@ import {
     updateUser,
     Exercise,
     updateSeenGreeting,
-    updateCreatedExercise
+    updateCreatedExercise,
 } from '../db/model';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
@@ -73,7 +73,6 @@ route.get('/login', async function (req: Request, res: Response) {
         });
     }
 });
-
 
 route.post('/register', async function (req: Request, res: Response) {
     try {
@@ -153,38 +152,51 @@ route.get(
 //users adding their own exercises
 route.put('/addExercise/:_id', async function (req: Request, res: Response) {
     const id = req.params._id;
-    console.log(id)
-    const userData = req.body
-    const interests = userData.interests
-    const fitnessLevel =userData.fitnessLevel;
-    const name = userData.name
-    const sets = userData.sets
+    console.log(id);
+    const userData = req.body;
+    const interests = userData.interests;
+    const fitnessLevel = userData.fitnessLevel;
+    const name = userData.name;
+    const sets = userData.sets;
     const reps = userData.reps;
-    
-    const updatedUser = await updateCreatedExercise(id, interests, fitnessLevel, name, sets, reps);
-   
+
+    const updatedUser = await updateCreatedExercise(
+        id,
+        interests,
+        fitnessLevel,
+        name,
+        sets,
+        reps
+    );
+
     return res.status(200).json({ message: 'Exercises created' });
 });
-    
-route.get(
-    '/savedExercises/:_id',
-    async function (req: Request, res: Response) {
-        const id = req.params._id;
-        const user = await User.findById(id).populate(
-            'Exercise'
-        );
+// Getting all the execrises created and recommended to the user.
+route.get('/allExercises/:_id', async function (req: Request, res: Response) {
+    const allExercises = [];
+    const id = req.params._id;
+    const user = await User.findById(id).populate('Exercise');
+    const createdExercises = user.createdExercises;
+    console.log(createdExercises);
 
-        const userExercise = user.Exercise;
-        if (userExercise === undefined || userExercise.length == 0) {
-            res.status(500).json({ error: 'Exercises cannot be retrieved' });
+    const userExercise = user.Exercise;
+    console.log(userExercise);
+    if (userExercise === undefined || userExercise.length == 0) {
+        res.status(500).json({ error: 'Exercises cannot be retrieved' });
+    } else {
+        if (
+            createdExercises == null ||
+            typeof createdExercises === 'undefined'
+        ) {
+            allExercises.push(userExercise);
         } else {
-            res.status(200).json({ exercise: userExercise });
+            allExercises.push(userExercise);
+            allExercises.push(createdExercises);
+            console.log(allExercises);
         }
+
+        res.status(200).json({ exercise: allExercises });
     }
-);
-
-
-
-
+});
 
 export default route;
