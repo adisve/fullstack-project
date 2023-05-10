@@ -7,7 +7,8 @@ import {
     getEmail,
     updateUser,
     Exercise,
-    updateSeenGreeting
+    updateSeenGreeting,
+    updateCreatedExercise
 } from '../db/model';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
@@ -74,11 +75,6 @@ route.get('/login', async function (req: Request, res: Response) {
 });
 
 
-route.get(
-    '/workoutInformation',
-    async function (req: Request, res: Response) {}
-);
-
 route.post('/register', async function (req: Request, res: Response) {
     try {
         const { user } = req.body;
@@ -142,7 +138,7 @@ route.put(
         }
     }
 );
-
+// generating exercises automatically
 route.get('/createExercises', async function (req: Request, res: Response) {
     await createExercises();
     return res.status(200).json({ message: 'Value updated' });
@@ -154,7 +150,22 @@ route.get(
         const recommendExercises = await getMatchedExercises(req, res);
     }
 );
-
+//users adding their own exercises
+route.put('/addExercise/:_id', async function (req: Request, res: Response) {
+    const id = req.params._id;
+    console.log(id)
+    const userData = req.body
+    const interests = userData.interests
+    const fitnessLevel =userData.fitnessLevel;
+    const name = userData.name
+    const sets = userData.sets
+    const reps = userData.reps;
+    
+    const updatedUser = await updateCreatedExercise(id, interests, fitnessLevel, name, sets, reps);
+   
+    return res.status(200).json({ message: 'Exercises created' });
+});
+    
 route.get(
     '/savedExercises/:_id',
     async function (req: Request, res: Response) {

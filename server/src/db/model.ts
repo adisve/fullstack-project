@@ -2,6 +2,15 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 const saltRounds = 10;
 
+const exerciseSchema = new mongoose.Schema({
+    interests: { type: String, required: true },
+    fitnessLevel: { type: String, required: true },
+    name: { type: String, required: true },
+    sets: { type: Number, required: true },
+    reps: { type: Number, required: true },
+});
+const Exercise = mongoose.model('Exercise', exerciseSchema);
+
 const userSchema = new mongoose.Schema({
     _id: {
         type: mongoose.Schema.Types.ObjectId,
@@ -25,6 +34,16 @@ const userSchema = new mongoose.Schema({
     seen_greeting_modal: { type: Boolean, default: false },
 
     Exercise: [{ type: mongoose.Types.ObjectId, ref: 'Exercise' }],
+    createdExercises: {
+        type: {
+            interests: { type: String, required: true },
+            fitnessLevel: { type: String, required: true },
+            name: { type: String, required: true },
+            sets: { type: Number, required: true },
+            reps: { type: Number, required: true },
+        },
+        required: false,
+    },
     role: {
         type: String,
         enum: ['user', 'admin'],
@@ -41,17 +60,7 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
-const exerciseSchema = new mongoose.Schema({
-        interests: { type: String, required: true },
-        fitnessLevel: { type: String, required: true },
-        name: { type: String, required: true },
-        sets: { type: Number, required: true },
-        reps: { type: Number, required: true },
-        
-});
-
 const User = mongoose.model('User', userSchema);
-const Exercise = mongoose.model('Exercise', exerciseSchema);
 
 const createUser = (values: Record<string, any>) =>
     new User(values).save().then((User) => User.toObject());
@@ -64,7 +73,7 @@ const createExercise = (values: Record<string, any>) =>
 const getUser = (_id: String) => User.find({ _id: _id });
 const getEmail = (email: String) => User.findOne({ email: email });
 
-const updateUser = (
+function updateUser(
     _id: String,
     interests: Array<String>,
     goals: Array<String>,
@@ -73,7 +82,7 @@ const updateUser = (
     weight: Number,
     height: Number,
     fitnessLevel: String
-) =>
+) {
     User.findByIdAndUpdate(
         _id,
         {
@@ -91,21 +100,48 @@ const updateUser = (
         },
         { upsert: true }
     );
-// updating the seen_greeting_modal to true if the form is already shown to user and he skipped it
-    const updateSeenGreeting = async (id) => {
-        try {
-            const updatedResult = await User.findByIdAndUpdate(
-                { _id: id },
-                {
-                    seen_greeting_modal: true,
-                }
-            );
-            console.log(updatedResult);
-        } catch (error) {
-            console.log(error);
-        }
-    };
+}
 
+function updateCreatedExercise(
+    id,
+    interests: String,
+    fitnessLevel: String,
+    name: String,
+    sets: Number,
+    reps: Number
+) {
+    const updatedUser = User.findByIdAndUpdate(
+        id,
+        {
+            $set: {
+                createdExercises: {
+                    interests: interests,
+                    fitnessLevel: fitnessLevel,
+                    name: name,
+                    sets: sets,
+                    reps: reps,
+                },
+            },
+        },
+        { upsert: true, new: true }
+    );
+    return updatedUser;
+}
+
+// updating the seen_greeting_modal to true if the form is already shown to user and he skipped it
+async function updateSeenGreeting(id) {
+    try {
+        const updatedResult = await User.findByIdAndUpdate(
+            { _id: id },
+            {
+                seen_greeting_modal: true,
+            }
+        );
+        console.log(updatedResult);
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 export {
     User,
@@ -115,5 +151,6 @@ export {
     getUser,
     updateUser,
     createExercise,
-    updateSeenGreeting
+    updateSeenGreeting,
+    updateCreatedExercise,
 };
