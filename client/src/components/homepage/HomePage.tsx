@@ -10,6 +10,8 @@ import { AuthenticationModal } from '../login-register/AuthenticationModal';
 import { AuthStatus } from '../../store/features/auth/authSlice';
 import LoadingSpinner from '../general/LoadingSpinner';
 
+import './HomePage.css';
+
 export function HomePage() {
     const [activeState, setActiveState] = useState(false);
 
@@ -28,14 +30,7 @@ export function HomePage() {
 
     return (
         <>
-            <Container
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                }}
-            >
+            <Container className="home-page">
                 <UserHeader
                     toggleDrawer={setActiveState}
                     drawerState={activeState}

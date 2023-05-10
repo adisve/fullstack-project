@@ -24,16 +24,7 @@ export function Exercises() {
     const [exerciseModalActive, setExerciseModalActive] = useState(false);
 
     return (
-        <Grid
-            container={true}
-            sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative',
-            }}
-        >
+        <Grid container={true} className="exercises-grid">
             {EXERCISES.map((exercise) => (
                 <ExerciseCard {...exercise} />
             ))}
