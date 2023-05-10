@@ -60,8 +60,9 @@ const createExercise = (values: Record<string, any>) =>
         .save()
         .then((exerciseModel) => exerciseModel.toObject());
 
-const getUser = (_id: String) => User.find({ _id: _id });
-const getEmail = (email: String) => User.findOne({ email: email });
+const getUserById = (_id: String) => User.find({ _id: _id });
+const getUserByEmail = (email: String) => User.findOne({ email: email });
+const getUserByName = (name: String) => User.findOne({ name: name });
 
 const updateUser = (
     _id: String,
@@ -95,8 +96,9 @@ export {
     User,
     Exercise,
     createUser,
-    getEmail,
-    getUser,
+    getUserByEmail,
+    getUserById,
+    getUserByName,
     updateUser,
     createExercise,
 };

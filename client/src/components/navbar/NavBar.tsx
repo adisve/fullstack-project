@@ -16,9 +16,6 @@ export function NavBar() {
                         <Link href="/homepage" id="link-group">
                             Dashboard
                         </Link>
-                        <Link href="/login" id="link-group">
-                            Login
-                        </Link>
                         <Link href="/about-us" id="link-group">
                             About Us
                         </Link>

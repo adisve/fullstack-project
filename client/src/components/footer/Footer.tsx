@@ -10,9 +10,6 @@ export function Footer() {
                 </Toolbar>
                 <Toolbar disableGutters={true}>
                     <Stack direction={'row'} spacing={3}>
-                        <Link href="/login" id="link-group">
-                            Contact Info
-                        </Link>
                         <Link href="/about-us" id="link-group">
                             About Us
                         </Link>
