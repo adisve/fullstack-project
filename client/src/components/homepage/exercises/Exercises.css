@@ -1,0 +1,10 @@
+.add-exercise {
+    border-radius: 20px !important;
+    position: fixed !important;
+    bottom: 20px;
+    left: 50%;
+    background-color: #fff !important;
+    transform: translateX(-50%) !important;
+    text-transform: none !important;
+    font-size: 1em !important;
+}

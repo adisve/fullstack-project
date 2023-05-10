@@ -1,0 +1,78 @@
+.auth-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 1.5rem;
+    padding: 0.5em;
+    border: none;
+    outline: none;
+    height: 60vh;
+    width: 50vw;
+}
+
+.register-form-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    display: flex;
+}
+
+.login-form {
+    padding: 2rem;
+}
+
+.success-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50vh;
+}
+
+.success-image {
+    height: 40px;
+    width: 40px;
+    margin-right: 1rem;
+}
+
+.success-box {
+    background: rgb(150, 228, 150);
+    border-radius: 20px;
+    padding: 0.5rem;
+    text-align: center;
+}
+
+.exercise-toggle {
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    margin: 0.25rem !important;
+    padding: 0.4rem !important;
+    outline: #6370e4 1px solid !important;
+    border-radius: 20px !important;
+}
+
+.form-multiple > * {
+    padding: 0.5rem !important;
+}
+
+@media only screen and (max-width: 797px) {
+    .login-container {
+        display: block;
+    }
+    .exercise-toggle {
+        font-size: 0.55rem !important;
+    }
+    .modal-button {
+        font-size: 0.75rem !important;
+    }
+    .auth-modal {
+        height: 70vh;
+        width: 60vw;
+    }
+}

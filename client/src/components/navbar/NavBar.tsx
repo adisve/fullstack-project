@@ -13,7 +13,7 @@ export function NavBar() {
                 </Toolbar>
                 <Toolbar disableGutters>
                     <Stack direction={'row'} spacing={6}>
-                        <Link href="/dashboard" id="link-group">
+                        <Link href="/homepage" id="link-group">
                             Dashboard
                         </Link>
                         <Link href="/login" id="link-group">

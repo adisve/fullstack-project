@@ -3,3 +3,9 @@
     background-color: transparent !important;
     border: solid 0.02em transparent;
 }
+
+@media only screen and (max-width: 768px) {
+    #footer {
+        display: none;
+    }
+}

@@ -1,25 +1,76 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import instance from '../../../config/axios';
+import { User } from '../../interfaces/user';
+
+export enum AuthStatus {
+    loading,
+    authenticated,
+    unauthenticated,
+    error,
+}
 
 interface AuthState {
-    token: string | null;
+    sessionId?: string;
+    user?: User;
+    status: AuthStatus;
 }
 
 const initialState: AuthState = {
-    token: null,
+    status: AuthStatus.unauthenticated,
 };
 
 const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        setToken(state, action: PayloadAction<string>) {
-            state.token = action.payload;
+        setSession(state, action: PayloadAction<string>) {
+            state.sessionId = action.payload;
         },
-        clearToken(state) {
-            state.token = null;
+        setUser(state, action: PayloadAction<User>) {
+            state.user = action.payload;
+        },
+        clearSession(state) {
+            state.sessionId = undefined;
+        },
+        clearUser(state) {
+            state.user = undefined;
+        },
+        setAuthStatus(state, action: PayloadAction<AuthStatus>) {
+            state.status = action.payload;
         },
     },
 });
 
-export const { setToken, clearToken } = authSlice.actions;
+export const logOutUser = () => (dispatch: any) => {
+    dispatch(clearSession());
+    dispatch(clearUser());
+    dispatch(setAuthStatus(AuthStatus.unauthenticated));
+};
+
+export const loginUser =
+    (email: string, password: string) => async (dispatch: any) => {
+        try {
+            dispatch(setAuthStatus(AuthStatus.loading));
+            const response = await instance.post(
+                '/auth/login',
+                { email, password },
+                { headers: { 'Content-Type': 'application/json' } }
+            );
+
+            const { user, id } = await response.data;
+            console.log(`User ${JSON.stringify(user)}`);
+            if (id && user) {
+                dispatch(setSession(id));
+                dispatch(setUser(user));
+                dispatch(setAuthStatus(AuthStatus.authenticated));
+            } else {
+                dispatch(setAuthStatus(AuthStatus.unauthenticated));
+            }
+        } catch (error) {
+            dispatch(setAuthStatus(AuthStatus.error));
+        }
+    };
+
+export const { setSession, clearSession, setAuthStatus, setUser, clearUser } =
+    authSlice.actions;
 export default authSlice.reducer;
