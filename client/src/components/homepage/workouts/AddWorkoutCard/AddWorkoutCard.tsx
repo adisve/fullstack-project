@@ -1,8 +1,13 @@
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Card, CardActionArea, Fab } from '@mui/material';
+import { Card, CardActionArea } from '@mui/material';
 
-export function AddWorkoutCard() {
+type AddWorkoutCardProps = {
+    workoutAdded: (added: boolean) => void;
+};
+
+export function AddWorkoutCard(props: AddWorkoutCardProps) {
+    const { workoutAdded } = props;
     return (
         <Card
             sx={{
@@ -12,7 +17,7 @@ export function AddWorkoutCard() {
                 borderRadius: '20px',
             }}
         >
-            <CardActionArea>
+            <CardActionArea onClick={() => workoutAdded(true)}>
                 <h1>
                     <FontAwesomeIcon icon={faPlus} size="lg" />
                 </h1>

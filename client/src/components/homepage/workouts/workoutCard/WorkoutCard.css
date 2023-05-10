@@ -1,4 +1,6 @@
 .workout-card {
     border-radius: 20px !important;
     opacity: 0.95;
+    width: 24em;
+    height: 29em;
 }

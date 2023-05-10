@@ -11,9 +11,9 @@
  */
 
 import {
-    faEdit,
+    faPen,
+    faPlus,
     faTrash,
-    faWeight,
     faWeightHanging,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -31,7 +31,6 @@ import {
     Typography,
     Divider,
     CardActions,
-    Button,
     Fab,
 } from '@mui/material';
 import './WorkoutCard.css';
@@ -70,7 +69,25 @@ export function WorkoutCard(props: WorkoutProps) {
                     ' ' +
                     presentDate(date)
                 }
-                subheader={`Duration: ${workoutDuration}`}
+                subheader={
+                    withActions ? (
+                        <CardActions sx={{ justifyContent: 'center' }}>
+                            {workoutDuration} minutes &nbsp;
+                            <Fab
+                                size="small"
+                                color="secondary"
+                                aria-label="delete"
+                                onClick={() => console.log('delete')}
+                            >
+                                <FontAwesomeIcon icon={faPen} />
+                            </Fab>
+                        </CardActions>
+                    ) : (
+                        <Typography variant="body2" color="text.secondary">
+                            {workoutDuration} minutes
+                        </Typography>
+                    )
+                }
             />
             <CardContent>
                 <CardContent sx={{ marginTop: '0px' }}>
@@ -79,7 +96,7 @@ export function WorkoutCard(props: WorkoutProps) {
                     </Typography>
                 </CardContent>
                 <Divider />
-                <TableContainer>
+                <TableContainer sx={{ maxHeight: '18em' }}>
                     <Table>
                         <TableHead>
                             <TableRow>
@@ -131,6 +148,27 @@ export function WorkoutCard(props: WorkoutProps) {
                             variant="extended"
                             sx={{
                                 backgroundColor: (theme) =>
+                                    theme.palette.primary.main,
+                                color: (theme) =>
+                                    theme.palette.getContrastText(
+                                        theme.palette.success.main
+                                    ),
+                                padding: '0.6em',
+                            }}
+                        >
+                            Submit
+                            <FontAwesomeIcon
+                                icon={faPlus}
+                                style={{
+                                    marginLeft: '1em',
+                                }}
+                            />
+                        </Fab>
+                        <Fab
+                            size="small"
+                            variant="extended"
+                            sx={{
+                                backgroundColor: (theme) =>
                                     theme.palette.success.main,
                                 color: (theme) =>
                                     theme.palette.getContrastText(
@@ -141,7 +179,7 @@ export function WorkoutCard(props: WorkoutProps) {
                         >
                             Add
                             <FontAwesomeIcon
-                                icon={faEdit}
+                                icon={faPlus}
                                 style={{
                                     marginLeft: '1em',
                                 }}

@@ -7,8 +7,13 @@ import { Box, Container, Divider, Grid } from '@mui/material';
 import WORKOUTS from './workouts.json';
 import { WorkoutCard } from './workoutCard/WorkoutCard';
 import { AddWorkoutCard } from './AddWorkoutCard/AddWorkoutCard';
+import { useState } from 'react';
 
 export function Workouts() {
+    const [addingWorkout, setAddingWorkout] = useState(false);
+
+    const nowDate = new Date();
+
     return (
         <Container
             sx={{
@@ -20,7 +25,23 @@ export function Workouts() {
             <h1>Today</h1>
             <Divider />
             {/* <WorkoutCard {...WORKOUTS[0]} withActions={true} /> */}
-            <AddWorkoutCard />
+            {!addingWorkout ? (
+                <AddWorkoutCard workoutAdded={setAddingWorkout} />
+            ) : (
+                <WorkoutCard
+                    {...{
+                        _id: '',
+                        user_id: '',
+                        date: '',
+                        exercises: [],
+                        createdAt: '2020-10-19T00:00:00.000Z',
+                        updatedAt: '2020-10-19T00:00:00.000Z',
+                        workoutDuration: 0,
+                        notes: '',
+                    }}
+                    withActions={true}
+                />
+            )}
 
             <h1>Previously</h1>
             <br />
@@ -37,7 +58,7 @@ export function Workouts() {
             >
                 <Divider />
                 {WORKOUTS.map((workout) => (
-                    <Grid item style={{ width: '23em' }}>
+                    <Grid item>
                         <WorkoutCard {...workout} withActions={false} />
                     </Grid>
                 ))}

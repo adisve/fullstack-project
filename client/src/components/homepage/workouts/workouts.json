@@ -66,6 +66,22 @@
                 "reps": 10,
                 "sets": 3,
                 "weight": 0
+            },
+            {
+                "_id": "5f8d0a6a4b9b1f0b3c9b9b1f",
+                "name": "Pushups",
+                "description": "Pushups are a fast and effective exercise for building strength. They can be done from virtually anywhere and don’t require any equipment.",
+                "reps": 10,
+                "sets": 3,
+                "weight": 0
+            },
+            {
+                "_id": "5f8d0a6a4b9b1f0b3c9b9b20",
+                "name": "Squats",
+                "description": "Squats are a compound exercise that strengthens the glutes, quads, and hamstrings. They also engage your core.",
+                "reps": 10,
+                "sets": 3,
+                "weight": 0
             }
         ]
     },
