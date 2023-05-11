@@ -20,5 +20,8 @@ button {
 }
 
 body {
+    padding: 0px;
+    margin: 0px;
+    color: #353e54;
     font-family: 'Montserrat', sans-serif;
 }

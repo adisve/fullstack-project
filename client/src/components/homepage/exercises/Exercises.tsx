@@ -33,7 +33,7 @@ export function Exercises() {
             {EXERCISES.map((exercise) => (
                 <ExerciseCard {...exercise} />
             ))}
-            <Fab className="add-exercise" variant="extended">
+            <Fab className="floating-btn" variant="extended">
                 <FontAwesomeIcon
                     icon={faPlus}
                     size="lg"

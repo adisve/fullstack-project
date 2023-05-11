@@ -45,6 +45,7 @@ export function LoginForm({
                 <Button
                     variant="contained"
                     fullWidth
+                    className="primary-btn"
                     onClick={() => {
                         dispatch(loginUser(email, password));
                     }}
