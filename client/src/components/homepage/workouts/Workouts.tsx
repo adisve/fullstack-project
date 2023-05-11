@@ -13,6 +13,13 @@ export function Workouts() {
     const [addingWorkout, setAddingWorkout] = useState(false);
 
     const nowDate = new Date();
+    const preparedSpoofWorkouts = WORKOUTS.map((workout) => {
+        return {
+            ...workout,
+            createdAt: new Date(workout.createdAt),
+            updatedAt: new Date(workout.updatedAt),
+        };
+    });
 
     return (
         <Container
@@ -32,10 +39,9 @@ export function Workouts() {
                     {...{
                         _id: '',
                         userId: '',
-                        date: '',
                         exercises: [],
-                        createdAt: '2020-10-19T00:00:00.000Z',
-                        updatedAt: '2020-10-19T00:00:00.000Z',
+                        createdAt: nowDate,
+                        updatedAt: nowDate,
                         workoutDuration: 0,
                         notes: '',
                     }}
@@ -57,7 +63,7 @@ export function Workouts() {
                 spacing={2}
             >
                 <Divider />
-                {WORKOUTS.map((workout) => (
+                {preparedSpoofWorkouts.map((workout) => (
                     <Grid item>
                         <WorkoutCard {...workout} withActions={false} />
                     </Grid>

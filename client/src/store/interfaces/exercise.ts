@@ -5,6 +5,6 @@ export interface Exercise {
     reps: number;
     weight: number;
     description: string;
-    interests: string[];
-    fitnessLevel: string;
+    interests?: string[];
+    fitnessLevel?: string;
 }
