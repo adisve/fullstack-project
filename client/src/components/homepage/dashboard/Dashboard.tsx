@@ -12,14 +12,6 @@ export function Dashboard() {
                     actionDescription="Look through a collection of workouts, tailored to your profile."
                 />
             </Box>
-            <Fab className="floating-btn" variant="extended">
-                <FontAwesomeIcon
-                    icon={faPlus}
-                    size="lg"
-                    style={{ marginRight: '1em' }}
-                />
-                <h4>Add Workout</h4>
-            </Fab>
         </Container>
     );
 }
