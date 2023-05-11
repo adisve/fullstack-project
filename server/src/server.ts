@@ -36,7 +36,8 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/auth', authRoute);
 app.use('/api/user', isLoggedIn, userRoute);
-app.use('/api/admin', isLoggedIn, isAdmin, adminRoute);
+// app.use('/api/admin', isLoggedIn, isAdmin, adminRoute);
+app.use('/api/admin', adminRoute);
 
 app.listen(port, () => {
     connect()
