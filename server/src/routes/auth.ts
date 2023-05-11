@@ -1,6 +1,12 @@
 import { Request, Response } from 'express';
 import { Router } from 'express';
-import { getUser, createUser, getEmail, createExercise } from '../db/model';
+import {
+    getUserById,
+    getUserByName,
+    createUser,
+    getUserByEmail,
+    createExercise,
+} from '../db/model';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 dotenv.config({ path: './config.env' });
@@ -10,7 +16,7 @@ import { Session } from 'express-session';
 
 export interface ISession extends Session {
     _id?: any;
-    Email?: string;
+    email?: string;
 }
 
 const route = Router();
@@ -21,7 +27,7 @@ route.post('/login', async function (req: Request, res: Response) {
     try {
         const { email, password } = req.body;
 
-        const user = await getEmail(email);
+        const user = await getUserByEmail(email);
         if (!user) {
             return res.status(404).json({
                 message: 'User not found',
@@ -34,7 +40,7 @@ route.post('/login', async function (req: Request, res: Response) {
             });
         } else {
             (req.session as ISession)._id = user._id;
-            (req.session as ISession).Email = user.email;
+            (req.session as ISession).email = user.email;
         }
 
         res.status(200).json({
@@ -53,12 +59,47 @@ route.get('/login', async function (req: Request, res: Response) {
     if ((req.session as ISession)._id) {
         const _id = (req.session as ISession)._id;
 
-        const userDetails = await getUser(_id);
+        const userDetails = await getUserById(_id);
         console.log(userDetails);
 
         return res.status(200).json({
             id: (req.session as ISession)._id,
             userDetails: userDetails,
+        });
+    }
+});
+
+route.get('/userExists', async function (req: Request, res: Response) {
+    try {
+        const { username, email } = req.query;
+
+        if (!username && !email) {
+            return res.status(400).json({
+                message: 'Please provide a username or email',
+            });
+        }
+
+        let user;
+        if (username) {
+            user = await getUserByName(username.toString());
+        } else {
+            user = await getUserByEmail(email.toString());
+        }
+
+        if (user) {
+            return res.status(400).json({
+                message: 'User exists',
+                user: user,
+            });
+        } else {
+            return res.status(200).json({
+                message: 'User not found',
+            });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            message: 'Could not check for account availability',
         });
     }
 });
@@ -100,7 +141,7 @@ route.post('/register', async function (req: Request, res: Response) {
                 message: 'Invalid email or password',
             });
         } else {
-            const userExists = await getEmail(email);
+            const userExists = await getUserByEmail(email);
             if (userExists) {
                 console.error('User email already exists');
                 return res
