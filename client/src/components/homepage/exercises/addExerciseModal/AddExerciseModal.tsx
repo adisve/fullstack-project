@@ -18,8 +18,8 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import './AddExerciseModal.css';
 import { addExercise } from '../../../../store/features/auth/exerciseModificationSlice';
-import { Exercise } from '../../../../store/interfaces/workout';
 import { AppDispatch } from '../../../../store/store';
+import { Exercise } from '../../../../store/interfaces/exercise';
 
 interface ExerciseModalProps {
     open: boolean;

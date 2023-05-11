@@ -1,16 +1,11 @@
-export interface Exercise {
-    interests?: string[];
-    name: string;
-    sets: number;
-    reps: number;
-    weight: number;
-    description: string;
-}
+import { Exercise } from './exercise';
 
 export interface Workout {
-    user_id: string;
-    date: Date;
+    _id: string;
+    userId: string;
     exercises: Exercise[];
-    created_at: Date;
-    updated_at: Date;
+    createdAt: Date;
+    updatedAt: Date;
+    notes: string;
+    workoutDuration: number;
 }

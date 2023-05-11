@@ -1,7 +1,7 @@
 [
     {
         "_id": "5f8d0b8b0b3a3c0b3c3b3c3b",
-        "user_id": "5f8d0b8b0b3a3c0b3c3b3c3b",
+        "userId": "5f8d0b8b0b3a3c0b3c3b3c3b",
         "date": "2020-10-19T00:00:00.000Z",
         "createdAt": "2020-10-19T00:00:00.000Z",
         "updatedAt": "2020-10-19T00:00:00.000Z",
@@ -36,7 +36,7 @@
     },
     {
         "_id": "5f8d0b8b0b3a3c0b3c3b3c3b",
-        "user_id": "5f8d0b8b0b3a3c0b3c3b3c3b",
+        "userId": "5f8d0b8b0b3a3c0b3c3b3c3b",
         "date": "2020-10-19T00:00:00.000Z",
         "createdAt": "2020-10-19T00:00:00.000Z",
         "updatedAt": "2020-10-19T00:00:00.000Z",
@@ -87,7 +87,7 @@
     },
     {
         "_id": "5f8d0b8b0b3a3c0b3c3b3c3b",
-        "user_id": "5f8d0b8b0b3a3c0b3c3b3c3b",
+        "userId": "5f8d0b8b0b3a3c0b3c3b3c3b",
         "date": "2020-10-19T00:00:00.000Z",
         "createdAt": "2020-10-19T00:00:00.000Z",
         "updatedAt": "2020-10-19T00:00:00.000Z",
@@ -122,7 +122,7 @@
     },
     {
         "_id": "5f8d0b8b0b3a3c0b3c3b3c3b",
-        "user_id": "5f8d0b8b0b3a3c0b3c3b3c3b",
+        "userId": "5f8d0b8b0b3a3c0b3c3b3c3b",
         "date": "2020-10-19T00:00:00.000Z",
         "createdAt": "2020-10-19T00:00:00.000Z",
         "updatedAt": "2020-10-19T00:00:00.000Z",
@@ -157,7 +157,7 @@
     },
     {
         "_id": "5f8d0b8b0b3a3c0b3c3b3c3b",
-        "user_id": "5f8d0b8b0b3a3c0b3c3b3c3b",
+        "userId": "5f8d0b8b0b3a3c0b3c3b3c3b",
         "date": "2020-10-19T00:00:00.000Z",
         "createdAt": "2020-10-19T00:00:00.000Z",
         "updatedAt": "2020-10-19T00:00:00.000Z",

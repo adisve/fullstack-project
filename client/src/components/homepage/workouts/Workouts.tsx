@@ -4,13 +4,22 @@
  */
 
 import { Container, Divider, Grid } from '@mui/material';
-import workouts from './workouts.json';
+import WORKOUTS from './workouts.json';
 import { WorkoutCard } from './workoutCard/WorkoutCard';
 import { AddWorkoutCard } from './AddWorkoutCard/AddWorkoutCard';
 import { useState } from 'react';
 
 export function Workouts() {
     const [addingWorkout, setAddingWorkout] = useState(false);
+
+    const nowDate = new Date();
+    const preparedSpoofWorkouts = WORKOUTS.map((workout) => {
+        return {
+            ...workout,
+            createdAt: new Date(workout.createdAt),
+            updatedAt: new Date(workout.updatedAt),
+        };
+    });
 
     return (
         <Container
@@ -28,11 +37,10 @@ export function Workouts() {
                 <WorkoutCard
                     {...{
                         _id: '',
-                        user_id: '',
-                        date: '',
+                        userId: '',
                         exercises: [],
-                        createdAt: '2020-10-19T00:00:00.000Z',
-                        updatedAt: '2020-10-19T00:00:00.000Z',
+                        createdAt: nowDate,
+                        updatedAt: nowDate,
                         workoutDuration: 0,
                         notes: '',
                     }}
@@ -54,13 +62,9 @@ export function Workouts() {
                 spacing={2}
             >
                 <Divider />
-                {workouts.map((workout, index) => (
-                    <Grid key={index} item>
-                        <WorkoutCard
-                            key={index}
-                            {...workout}
-                            withActions={false}
-                        />
+                {preparedSpoofWorkouts.map((workout) => (
+                    <Grid item>
+                        <WorkoutCard {...workout} withActions={false} />
                     </Grid>
                 ))}
             </Grid>

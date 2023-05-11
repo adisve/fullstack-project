@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { Dispatch } from 'redux';
-import { Exercise, Workout } from '../../interfaces/workout';
+import { Workout } from '../../interfaces/workout';
 import { AppThunk } from '../types';
-
+import { Exercise } from '../../interfaces/exercise';
 interface WorkoutsState {
     workout?: Workout;
     loading: boolean;

@@ -1,7 +1,7 @@
 /**
  * @typedef Workout
  * @property {string} _id
- * @property {string} user_id
+ * @property {string} userId
  * @property {Date} date
  * @property {Exercise[]} exercises
  * @property {Date} createdAt
@@ -34,23 +34,16 @@ import {
     Fab,
 } from '@mui/material';
 import './WorkoutCard.css';
+import { Workout } from '../../../../store/interfaces/workout';
 
-type WorkoutProps = {
-    _id: string;
-    user_id: string;
-    date: string;
-    exercises: any[];
-    createdAt: string;
-    updatedAt: string;
-    workoutDuration: number;
-    notes: string;
+type WorkoutProps = Workout & {
     withActions: boolean;
 };
 
 export function WorkoutCard(props: WorkoutProps) {
-    const { date, exercises, workoutDuration, notes, withActions } = props;
+    const { exercises, workoutDuration, notes, withActions, createdAt } = props;
 
-    function presentDate(date: string) {
+    function presentDate(date: Date) {
         const dateObj = new Date(date);
         const day = dateObj.getDate();
         const month = dateObj.getMonth();
@@ -63,11 +56,11 @@ export function WorkoutCard(props: WorkoutProps) {
         <Card className="workout-card">
             <CardHeader
                 title={
-                    new Date(date).toLocaleString('en-us', {
+                    new Date(createdAt).toLocaleString('en-us', {
                         weekday: 'long',
                     }) +
                     ' ' +
-                    presentDate(date)
+                    presentDate(createdAt)
                 }
                 subheader={
                     withActions ? (
