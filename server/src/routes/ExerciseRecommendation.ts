@@ -1,21 +1,20 @@
 import { Request, Response } from 'express';
-import {
-    User,
-    Exercise,
-} from '../db/model';
+import { User, Exercise, updateExercises } from '../db/model';
+
 
 async function getMatchedExercises(req: Request, res: Response) {
-  const userId = req.params._id;
-    const user = await User.findById(userId).populate(
-        'Exercise'
-    );
-   
+    const id = req.params._id;
+
+    const user = await User.findById(id)
+
     if (!user) {
         return res.status(404).json({ error: 'User not found' });
     }
+   
     const fitnessLevel = user.settings.fitnessLevel;
-    const interests = user.settings.interests;
-
+    
+    console.log(fitnessLevel)
+   
     let exerciseCount: number;
     if (fitnessLevel === 'none') {
         exerciseCount = 3;
@@ -26,24 +25,37 @@ async function getMatchedExercises(req: Request, res: Response) {
         exerciseCount = 7;
     } else if (fitnessLevel === 'somewhatExpert') {
         exerciseCount = 9;
-    }
-    else {
+    } else {
         exerciseCount = 11;
     }
-    let matchedExercises = [];
+     
+    const exercises = await Exercise.find({
+        interests: user.settings.interests,
+        fitnessLevel: user.settings.fitnessLevel,
+    }).limit(exerciseCount);
+    console.log(exercises)
 
-    matchedExercises = await Exercise.find({
-        interests: { $in: interests },
-        fitnessLevel: { $in: fitnessLevel },
-    });
-   
+    const addingExercises = exercises.map((exercise) => ({
+        interests: exercise.interests,
+        fitnessLevel: exercise.fitnessLevel,
+        name: exercise.name,
+        sets: exercise.sets,
+        reps: exercise.reps,
+    }));
+    console.log(addingExercises)
+    
+    User.findByIdAndUpdate(
+        id,
+        { $push: { exercises: addingExercises } },
+        
+    )
+        .then((updatedUser) => {
+            return res.status(200).json({ message: 'Exercises created' });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 
-    user.Exercise = matchedExercises.map(
-        (exercise) => exercise._id
-    );
-    user.save();
-    res.json({ exercises: matchedExercises });
-
+    
 }
-export { getMatchedExercises }
-
+export{getMatchedExercises}

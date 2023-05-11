@@ -33,17 +33,14 @@ const userSchema = new mongoose.Schema({
     //using this field if the user is given the choice to skip the inetrest form
     seen_greeting_modal: { type: Boolean, default: false },
 
-    Exercise: [{ type: mongoose.Types.ObjectId, ref: 'Exercise' }],
-    createdExercises: {
-        type: {
-            interests: { type: String, required: true },
-            fitnessLevel: { type: String, required: true },
-            name: { type: String, required: true },
-            sets: { type: Number, required: true },
-            reps: { type: Number, required: true },
-        },
-        required: false,
-    },
+    // Exercise: [{ type: mongoose.Types.ObjectId, ref: 'Exercise' }],
+    exercises: [{
+        interests: { type: String, required: true },
+        fitnessLevel: { type: String, required: true },
+        name: { type: String, required: true },
+        sets: { type: Number, required: true },
+        reps: { type: Number, required: true },
+    }],
     role: {
         type: String,
         enum: ['user', 'admin'],
@@ -66,9 +63,9 @@ const createUser = (values: Record<string, any>) =>
     new User(values).save().then((User) => User.toObject());
 
 const createExercise = (values: Record<string, any>) =>
-    new Exercise(values)
+    new User(values)
         .save()
-        .then((exerciseModel) => exerciseModel.toObject());
+        .then((exercises) => exercises.toObject());
 
 const getUser = (_id: String) => User.find({ _id: _id });
 const getEmail = (email: String) => User.findOne({ email: email });
@@ -102,7 +99,7 @@ function updateUser(
     );
 }
 
-function updateCreatedExercise(
+function updateExercises(
     id,
     interests: String,
     fitnessLevel: String,
@@ -114,7 +111,7 @@ function updateCreatedExercise(
         id,
         {
             $set: {
-                createdExercises: {
+                exercises: {
                     interests: interests,
                     fitnessLevel: fitnessLevel,
                     name: name,
@@ -143,6 +140,8 @@ async function updateSeenGreeting(id) {
     }
 }
 
+
+
 export {
     User,
     Exercise,
@@ -152,5 +151,5 @@ export {
     updateUser,
     createExercise,
     updateSeenGreeting,
-    updateCreatedExercise,
+    updateExercises,
 };

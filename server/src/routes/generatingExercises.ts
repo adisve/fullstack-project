@@ -65,7 +65,8 @@ async function createExercises() {
         exercises.push(exercise);
     }
     const insertExercise = await Exercise.insertMany(exercises);
-    console.log(exercises);
+   
 }
 
-export {createExercises}
+export { createExercises }
+

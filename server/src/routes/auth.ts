@@ -5,10 +5,7 @@ import {
     getUser,
     createUser,
     getEmail,
-    updateUser,
-    Exercise,
     updateSeenGreeting,
-    updateCreatedExercise,
 } from '../db/model';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
@@ -143,59 +140,56 @@ route.get('/createExercises', async function (req: Request, res: Response) {
     return res.status(200).json({ message: 'Value updated' });
 });
 
+//users adding their own exercises
+route.post('/addExercise/:_id', async function (req: Request, res: Response) {
+    const id = req.params._id;
+    const userData = req.body;
+
+    console.log(userData);
+    User.findByIdAndUpdate(
+        id,
+        { $push: { exercises: userData } },
+        { new: true }
+    )
+        .then((updatedUser) => {
+            return res.status(200).json({ message: 'Exercises created' });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+
+});
+
 route.get(
     '/recommendExercises/:_id',
     async function (req: Request, res: Response) {
-        const recommendExercises = await getMatchedExercises(req, res);
+        try {
+            const user = await User.findById(req.params._id);
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
+            } else {
+                const recommendExercises = await getMatchedExercises(req, res);
+            }
+        } catch (err) {
+            console.error(err);
+            return res.status(500).json({ message: 'Server error' });
+        }
     }
 );
-//users adding their own exercises
-route.put('/addExercise/:_id', async function (req: Request, res: Response) {
-    const id = req.params._id;
-    console.log(id);
-    const userData = req.body;
-    const interests = userData.interests;
-    const fitnessLevel = userData.fitnessLevel;
-    const name = userData.name;
-    const sets = userData.sets;
-    const reps = userData.reps;
 
-    const updatedUser = await updateCreatedExercise(
-        id,
-        interests,
-        fitnessLevel,
-        name,
-        sets,
-        reps
-    );
-
-    return res.status(200).json({ message: 'Exercises created' });
-});
 // Getting all the execrises created and recommended to the user.
-route.get('/allExercises/:_id', async function (req: Request, res: Response) {
-    const allExercises = [];
-    const id = req.params._id;
-    const user = await User.findById(id).populate('Exercise');
-    const createdExercises = user.createdExercises;
-    console.log(createdExercises);
-
-    const userExercise = user.Exercise;
-    console.log(userExercise);
-    if (userExercise === undefined || userExercise.length == 0) {
-        res.status(500).json({ error: 'Exercises cannot be retrieved' });
-    } else {
-        if (
-            createdExercises == null ||
-            typeof createdExercises === 'undefined'
-        ) {
-            allExercises.push(userExercise);
+route.get('/getUser/:_id', async function (req: Request, res: Response) {
+    try {
+        const user = await User.findById(req.params._id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
         } else {
-            allExercises.push(userExercise);
-            allExercises.push(createdExercises);
-            console.log(allExercises);
+            const exercise = user.exercises;
+            return res.status(200).json({user});
         }
-
-        res.status(200).json({ exercise: allExercises });
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Server error' });
     }
 });
 
