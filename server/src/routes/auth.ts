@@ -5,14 +5,12 @@ import {
     getUser,
     createUser,
     getEmail,
-    updateSeenGreeting,
+    updateOnBoarded,
 } from '../db/model';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 dotenv.config({ path: './config.env' });
 const bodyParser = require('body-parser');
-import { createExercises } from './generatingExercises';
-import { getMatchedExercises } from './ExerciseRecommendation';
 
 import { Session } from 'express-session';
 
@@ -128,69 +126,11 @@ route.put(
     async function (req: Request, res: Response) {
         if ((req.session as ISession)._id) {
             const _id = req.params._id;
-            const updated = updateSeenGreeting(_id);
+            const updated = updateOnBoarded(_id);
 
             res.status(200).json({ message: 'Value updated' });
         }
     }
 );
-// generating exercises automatically
-route.get('/createExercises', async function (req: Request, res: Response) {
-    await createExercises();
-    return res.status(200).json({ message: 'Value updated' });
-});
-
-//users adding their own exercises
-route.post('/addExercise/:_id', async function (req: Request, res: Response) {
-    const id = req.params._id;
-    const userData = req.body;
-
-    console.log(userData);
-    User.findByIdAndUpdate(
-        id,
-        { $push: { exercises: userData } },
-        { new: true }
-    )
-        .then((updatedUser) => {
-            return res.status(200).json({ message: 'Exercises created' });
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-
-});
-
-route.get(
-    '/recommendExercises/:_id',
-    async function (req: Request, res: Response) {
-        try {
-            const user = await User.findById(req.params._id);
-            if (!user) {
-                return res.status(404).json({ message: 'User not found' });
-            } else {
-                const recommendExercises = await getMatchedExercises(req, res);
-            }
-        } catch (err) {
-            console.error(err);
-            return res.status(500).json({ message: 'Server error' });
-        }
-    }
-);
-
-// Getting all the execrises created and recommended to the user.
-route.get('/getUser/:_id', async function (req: Request, res: Response) {
-    try {
-        const user = await User.findById(req.params._id);
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        } else {
-            const exercise = user.exercises;
-            return res.status(200).json({user});
-        }
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({ message: 'Server error' });
-    }
-});
 
 export default route;

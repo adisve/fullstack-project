@@ -9,7 +9,7 @@ const app: Application = express();
 const port: string | number = process.env.PORT || 7036;
 import session from 'express-session';
 import authRoute from './routes/auth';
-
+import externalRoute from './routes/external';
 app.use(cors());
 app.set('trust proxy', true);
 app.use(express.json());
@@ -28,6 +28,7 @@ app.use(
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/auth', authRoute);
+app.use('/auth', externalRoute);
 
 app.listen(port, () => {
     connect()

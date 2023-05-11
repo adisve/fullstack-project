@@ -3,8 +3,9 @@ import bcrypt from 'bcrypt';
 const saltRounds = 10;
 
 const exerciseSchema = new mongoose.Schema({
-    interests: { type: String, required: true },
-    fitnessLevel: { type: String, required: true },
+    description:{type: String, required: false},
+    interests: { type: String, required: false},
+    fitnessLevel: { type: String, required:false},
     name: { type: String, required: true },
     sets: { type: Number, required: true },
     reps: { type: Number, required: true },
@@ -30,17 +31,10 @@ const userSchema = new mongoose.Schema({
         height: { type: Number, required: true },
         fitnessLevel: { type: String, required: true },
     },
-    //using this field if the user is given the choice to skip the inetrest form
-    seen_greeting_modal: { type: Boolean, default: false },
+ 
+    onboarded: { type: Boolean, default: false },
 
-    // Exercise: [{ type: mongoose.Types.ObjectId, ref: 'Exercise' }],
-    exercises: [{
-        interests: { type: String, required: true },
-        fitnessLevel: { type: String, required: true },
-        name: { type: String, required: true },
-        sets: { type: Number, required: true },
-        reps: { type: Number, required: true },
-    }],
+    exercises: [exerciseSchema],
     role: {
         type: String,
         enum: ['user', 'admin'],
@@ -125,13 +119,13 @@ function updateExercises(
     return updatedUser;
 }
 
-// updating the seen_greeting_modal to true if the form is already shown to user and he skipped it
-async function updateSeenGreeting(id) {
+// updating the updateOnboarded to true if the form is already shown to user and he skipped it
+async function updateOnBoarded(id) {
     try {
         const updatedResult = await User.findByIdAndUpdate(
             { _id: id },
             {
-                seen_greeting_modal: true,
+                updateOnBoarded: true,
             }
         );
         console.log(updatedResult);
@@ -150,6 +144,6 @@ export {
     getUser,
     updateUser,
     createExercise,
-    updateSeenGreeting,
+    updateOnBoarded,
     updateExercises,
 };
