@@ -1,3 +1,7 @@
+.modal-style::-webkit-scrollbar {
+    display: none; /* for Chrome, Safari, and Opera */
+}
+
 .modal-style {
     position: absolute;
     top: 50%;
@@ -11,8 +15,10 @@
     border-radius: 0.5rem;
     box-shadow: 1.5rem;
     padding: 2rem;
-}
 
+    overflow-y: scroll;
+    max-height: 80%;
+}
 .center {
     width: 100%;
     text-align: center;
@@ -22,8 +28,8 @@
 }
 
 .content-center {
-    text-align: left;
-    padding: 20px;
+    text-align: center;
+    padding: 10px;
 }
 .content-center.heading {
     margin-left: 5px;
@@ -33,4 +39,23 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+}
+.grid-data {
+    margin-bottom: 20px;
+}
+
+.admin-board {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 700px) {
+    .modal-style {
+        max-width: 90%;
+        width: 80%;
+        padding: 1rem;
+    }
+    .content-center {
+        padding: 5px;
+    }
 }

@@ -22,6 +22,8 @@ import '../../login-register/AuthenticationModal.css';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useState } from 'react';
+import { PageStatus } from '../../../enums/pageStatus';
+import LoadingSpinner from '../../general/LoadingSpinner';
 
 export function EditModal() {
     const dispatch: AppDispatch = useDispatch();
@@ -41,10 +43,14 @@ export function EditModal() {
         setNewRole(event.target.value as string);
     };
 
+    if (admin.adminPageStatus == PageStatus.loading) {
+        return <LoadingSpinner />;
+    }
+
     return (
         <>
             <Modal
-                className="modal"
+                className="modal edit-modal"
                 open={admin.editDeleteModal}
                 onClose={() => dispatch(showDeleteEditModal(false))}
                 aria-labelledby="modal-modal-title"

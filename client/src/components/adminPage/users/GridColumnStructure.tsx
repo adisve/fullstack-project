@@ -7,6 +7,7 @@ export const columns: GridColDef[] = [
         sortable: false,
         editable: false,
         filterable: false,
+        hideable: false,
         renderCell: (cellValues) => {
             return <EditDeleteButton />;
         },
@@ -15,10 +16,26 @@ export const columns: GridColDef[] = [
         field: '_id',
         headerName: 'ID',
         width: 230,
+        hideable: false,
     },
-    { field: 'name', headerName: 'Name', width: 130 },
-    { field: 'email', headerName: 'Email', width: 230 },
-    { field: 'role', headerName: 'Role', width: 100 },
+    {
+        field: 'name',
+        headerName: 'Name',
+        width: 130,
+        hideable: false,
+    },
+    {
+        field: 'email',
+        headerName: 'Email',
+        width: 230,
+        hideable: false,
+    },
+    {
+        field: 'role',
+        headerName: 'Role',
+        width: 100,
+        hideable: false,
+    },
     {
         field: 'created_at',
         headerName: 'Joined',

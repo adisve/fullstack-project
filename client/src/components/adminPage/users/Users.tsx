@@ -34,6 +34,7 @@ export function Users() {
         <>
             <h3>User Data</h3>
             <div
+                className="grid-data"
                 style={{
                     height: 550,
                     width: '100%',
