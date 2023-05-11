@@ -16,49 +16,58 @@ import {
 } from '@mui/material';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { addExercise } from '../../../../store/features/placeholder/workoutsSlicePlaceholder';
 import './AddExerciseModal.css';
+import { addExercise } from '../../../../store/features/auth/exerciseModificationSlice';
+import { Exercise } from '../../../../store/interfaces/workout';
+import { AppDispatch } from '../../../../store/store';
 
-type ExerciseModalProps = {
+interface ExerciseModalProps {
     open: boolean;
     handleClose: any;
-};
+}
 
 const StyledDialog = styled((props: any) => <Dialog {...props} />)(({ _ }) => ({
-    // Set border radius to 20px
     '& .MuiDialog-paper': {
         borderRadius: 20,
     },
 }));
 
-export function AddExerciseModal(props: ExerciseModalProps) {
-    const { open, handleClose } = props;
-
-    const [exerciseName, setExerciseName] = useState('');
-    const [exerciseDescription, setExerciseDescription] = useState('');
-    const [exerciseSets, setExerciseSets] = useState('');
-    const [exerciseReps, setExerciseReps] = useState('');
-    const [exerciseWeight, setExerciseWeight] = useState('');
-    const dispatch = useDispatch();
+export function AddExerciseModal({ open, handleClose }: ExerciseModalProps) {
+    const [exerciseData, setExerciseData] = useState({
+        name: '',
+        description: '',
+        sets: '',
+        reps: '',
+        weight: '',
+    });
+    const dispatch: AppDispatch = useDispatch();
 
     const handleSubmit = () => {
-        dispatch(
-            addExercise({
-                _id: 'placeholder',
-                name: exerciseName,
-                description: exerciseDescription,
-                sets: Number.parseInt(exerciseSets),
-                reps: Number.parseInt(exerciseReps),
-                weight: Number.parseInt(exerciseWeight),
-            })
-        );
-        handleClose(false);
+        const exercise: Exercise = {
+            name: exerciseData.name,
+            sets: Number.parseInt(exerciseData.sets),
+            reps: Number.parseInt(exerciseData.reps),
+            weight: Number.parseInt(exerciseData.weight),
+            description: exerciseData.description,
+        };
+        dispatch(addExercise(exercise));
+        handleClose();
 
-        setExerciseDescription('');
-        setExerciseName('');
-        setExerciseReps('');
-        setExerciseSets('');
-        setExerciseWeight('');
+        setExerciseData({
+            name: '',
+            description: '',
+            sets: '',
+            reps: '',
+            weight: '',
+        });
+    };
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = event.target;
+        setExerciseData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
     };
 
     return (
@@ -90,11 +99,9 @@ export function AddExerciseModal(props: ExerciseModalProps) {
                                 id="exercise-name"
                                 label="Exercise Name"
                                 variant="outlined"
-                                value={exerciseName}
+                                value={exerciseData.name}
                                 required={true}
-                                onChange={(e) =>
-                                    setExerciseName(e.target.value)
-                                }
+                                onChange={handleChange}
                                 helperText="Name of the exercise"
                             />
 
@@ -102,10 +109,8 @@ export function AddExerciseModal(props: ExerciseModalProps) {
                                 id="exercise-description"
                                 label="Exercise Description"
                                 variant="outlined"
-                                value={exerciseDescription}
-                                onChange={(e) =>
-                                    setExerciseDescription(e.target.value)
-                                }
+                                value={exerciseData.description}
+                                onChange={handleChange}
                                 helperText="Description on how to perform the exercise"
                             />
                         </FormGroup>
@@ -124,10 +129,8 @@ export function AddExerciseModal(props: ExerciseModalProps) {
                                 variant="outlined"
                                 type="number"
                                 required={true}
-                                value={exerciseSets}
-                                onChange={(e) =>
-                                    setExerciseSets(e.target.value)
-                                }
+                                value={exerciseData.sets}
+                                onChange={handleChange}
                                 sx={{ width: '20ch' }}
                             />
                             <TextField
@@ -136,10 +139,8 @@ export function AddExerciseModal(props: ExerciseModalProps) {
                                 variant="outlined"
                                 type="number"
                                 required={true}
-                                value={exerciseReps}
-                                onChange={(e) =>
-                                    setExerciseReps(e.target.value)
-                                }
+                                value={exerciseData.reps}
+                                onChange={handleChange}
                                 sx={{ width: '20ch' }}
                             />
 
@@ -149,10 +150,8 @@ export function AddExerciseModal(props: ExerciseModalProps) {
                                 variant="outlined"
                                 type="number"
                                 required={true}
-                                value={exerciseWeight}
-                                onChange={(e) =>
-                                    setExerciseWeight(e.target.value)
-                                }
+                                value={exerciseData.weight}
+                                onChange={handleChange}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">

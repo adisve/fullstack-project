@@ -3,16 +3,14 @@
 
  */
 
-import { Box, Container, Divider, Grid } from '@mui/material';
-import WORKOUTS from './workouts.json';
+import { Container, Divider, Grid } from '@mui/material';
+import workouts from './workouts.json';
 import { WorkoutCard } from './workoutCard/WorkoutCard';
 import { AddWorkoutCard } from './AddWorkoutCard/AddWorkoutCard';
 import { useState } from 'react';
 
 export function Workouts() {
     const [addingWorkout, setAddingWorkout] = useState(false);
-
-    const nowDate = new Date();
 
     return (
         <Container
@@ -24,7 +22,6 @@ export function Workouts() {
         >
             <h1>Today</h1>
             <Divider />
-            {/* <WorkoutCard {...WORKOUTS[0]} withActions={true} /> */}
             {!addingWorkout ? (
                 <AddWorkoutCard workoutAdded={setAddingWorkout} />
             ) : (
@@ -57,9 +54,13 @@ export function Workouts() {
                 spacing={2}
             >
                 <Divider />
-                {WORKOUTS.map((workout) => (
-                    <Grid item>
-                        <WorkoutCard {...workout} withActions={false} />
+                {workouts.map((workout, index) => (
+                    <Grid key={index} item>
+                        <WorkoutCard
+                            key={index}
+                            {...workout}
+                            withActions={false}
+                        />
                     </Grid>
                 ))}
             </Grid>

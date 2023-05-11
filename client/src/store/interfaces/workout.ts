@@ -1,5 +1,5 @@
 export interface Exercise {
-    _id: string;
+    interests?: string[];
     name: string;
     sets: number;
     reps: number;
@@ -8,7 +8,6 @@ export interface Exercise {
 }
 
 export interface Workout {
-    _id: string;
     user_id: string;
     date: Date;
     exercises: Exercise[];

@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import instance from '../../../config/axios';
 import { User } from '../../interfaces/user';
+import { Exercise } from '../../interfaces/workout';
+import { AppDispatch } from '../../store';
 
 export enum AuthStatus {
     loading,
@@ -58,7 +60,7 @@ export const loginUser =
             );
 
             const { user, id } = await response.data;
-            console.log(`User ${JSON.stringify(user)}`);
+
             if (id && user) {
                 dispatch(setSession(id));
                 dispatch(setUser(user));
@@ -70,6 +72,8 @@ export const loginUser =
             dispatch(setAuthStatus(AuthStatus.error));
         }
     };
+
+
 
 export const { setSession, clearSession, setAuthStatus, setUser, clearUser } =
     authSlice.actions;

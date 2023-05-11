@@ -107,8 +107,8 @@ export function WorkoutCard(props: WorkoutProps) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {exercises.map((exercise) => (
-                                <TableRow>
+                            {exercises.map((exercise, index) => (
+                                <TableRow key={index}>
                                     <TableCell>
                                         <Chip label={exercise.name} />
                                     </TableCell>
