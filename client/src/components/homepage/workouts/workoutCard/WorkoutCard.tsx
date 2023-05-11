@@ -1,7 +1,7 @@
 /**
  * @typedef Workout
  * @property {string} _id
- * @property {string} user_id
+ * @property {string} userId
  * @property {Date} date
  * @property {Exercise[]} exercises
  * @property {Date} createdAt
@@ -37,7 +37,7 @@ import './WorkoutCard.css';
 
 type WorkoutProps = {
     _id: string;
-    user_id: string;
+    userId: string;
     date: string;
     exercises: any[];
     createdAt: string;

@@ -1,4 +1,5 @@
 import { UserSettings } from './userSettings';
+import { Workout } from './workout';
 
 export interface User {
     name?: string;
@@ -7,4 +8,5 @@ export interface User {
     created_at?: Date;
     updated_at?: Date;
     settings?: UserSettings;
+    workouts?: Workout[];
 }

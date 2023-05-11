@@ -1,4 +1,4 @@
-import { Exercise } from '../../interfaces/workout';
+import { Exercise } from '../../interfaces/exercise';
 import EXERCISES from '../../../components/homepage/exercises/exercises.json';
 
 export function addExercise(exercise: Exercise) {

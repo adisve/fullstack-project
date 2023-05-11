@@ -31,7 +31,7 @@ export function Workouts() {
                 <WorkoutCard
                     {...{
                         _id: '',
-                        user_id: '',
+                        userId: '',
                         date: '',
                         exercises: [],
                         createdAt: '2020-10-19T00:00:00.000Z',
