@@ -1,0 +1,36 @@
+.modal-style {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 50%;
+    min-width: 25%;
+    border: none;
+    outline: none;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 1.5rem;
+    padding: 2rem;
+}
+
+.center {
+    width: 100%;
+    text-align: center;
+}
+.center button {
+    margin-left: 3px;
+}
+
+.content-center {
+    text-align: left;
+    padding: 20px;
+}
+.content-center.heading {
+    margin-left: 5px;
+}
+
+.change-data {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
