@@ -3,6 +3,7 @@ import { Box, Button, Container } from '@mui/material';
 import { AppDispatch, RootState } from '../../../store/store';
 import { CreateAccount } from './createAccount/CreateAccount';
 import {
+    checkUserAvailability,
     decrementStep,
     incrementStep,
     registerUser,
@@ -21,26 +22,26 @@ export function RegisterForm() {
     const page = () => {
         switch (modal.currentStep) {
             case 1:
-                return <ExerciseSelectionToggles />;
-            case 2:
-                return <SetGoalDropdown />;
-            case 3:
-                return <SetFitnessProfile />;
-            case 4:
                 return <CreateAccount />;
+            case 2:
+                return <ExerciseSelectionToggles />;
+            case 3:
+                return <SetGoalDropdown />;
+            case 4:
+                return <SetFitnessProfile />;
         }
     };
 
     const title = () => {
         switch (modal.currentStep) {
             case 1:
-                return 'Choose interests';
-            case 2:
-                return 'Set your goal';
-            case 3:
-                return 'Set up your profile';
-            case 4:
                 return 'Create an account';
+            case 2:
+                return 'Choose interests';
+            case 3:
+                return 'Set your goal';
+            case 4:
+                return 'Set up your profile';
         }
     };
 
@@ -48,13 +49,16 @@ export function RegisterForm() {
         const { user } = modal;
         switch (modal.currentStep) {
             case 1:
+                return !user?.name || !user?.email || !user?.password;
+            case 2:
                 return (
                     modal.user?.settings?.interests?.length === 0 ||
                     modal.user?.settings?.interests === undefined
                 );
-            case 2:
-                return modal.user?.settings?.goal === undefined;
             case 3:
+                return modal.user?.settings?.goal === undefined;
+
+            case 4:
                 return (
                     !user?.settings ||
                     !user?.settings.goal ||
@@ -66,8 +70,6 @@ export function RegisterForm() {
                     !user?.settings.height ||
                     !user?.settings.weight
                 );
-            case 4:
-                return !user?.name || !user?.email || !user?.password;
             default:
                 return true;
         }
@@ -80,11 +82,6 @@ export function RegisterForm() {
     if (modal.registerStatus == PageStatus.success) {
         return (
             <div className="success-container">
-                <img
-                    className="success-image"
-                    src={SuccessIcon}
-                    alt="Success lottie"
-                />
                 <Container className="success-box">
                     <h3>Successfully registered account!</h3>
                 </Container>
@@ -114,6 +111,9 @@ export function RegisterForm() {
                     variant="contained"
                     onClick={() => {
                         switch (modal.currentStep) {
+                            case 1:
+                                dispatch(checkUserAvailability());
+                                break;
                             case 4:
                                 dispatch(registerUser());
                                 break;

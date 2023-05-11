@@ -1,8 +1,8 @@
 import { InputLabel, MenuItem, FormControl, Select } from '@mui/material';
-import workoutGoals from '../../../../assets/resources/workoutGoals.json';
 import { AppDispatch, RootState } from '../../../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserSettings } from '../../../../store/features/login-register-modal/modalSlice';
+import { WorkoutGoal } from '../../../../enums/workoutGoal';
 
 export function SetGoalDropdown() {
     const dispatch: AppDispatch = useDispatch();
@@ -26,11 +26,17 @@ export function SetGoalDropdown() {
                         <em>Select goal</em>
                     </MenuItem>
 
-                    {workoutGoals.goals.map((goal) => (
-                        <MenuItem key={goal} value={goal}>
-                            {goal}
-                        </MenuItem>
-                    ))}
+                    {(
+                        Object.keys(WorkoutGoal) as Array<
+                            keyof typeof WorkoutGoal
+                        >
+                    ).map((key) => {
+                        return (
+                            <MenuItem key={key} value={key}>
+                                {WorkoutGoal[key]}
+                            </MenuItem>
+                        );
+                    })}
                 </Select>
             </FormControl>
         </div>
