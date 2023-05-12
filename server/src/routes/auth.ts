@@ -41,12 +41,8 @@ route.post('/login', async function (req: Request, res: Response) {
             });
         } else {
             (req.session as ISession)._id = user._id;
-<<<<<<< HEAD
-            (req.session as ISession).Email = user.email;
-            (req.session as ISession).role = user.role;
-=======
             (req.session as ISession).email = user.email;
->>>>>>> f374ec2c2161f8a5b7e36850702492181919846b
+            (req.session as ISession).role = user.role;
         }
 
         res.status(200).json({

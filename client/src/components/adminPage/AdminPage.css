@@ -49,6 +49,18 @@
     margin-bottom: 20px;
 }
 
+/* //////////////////////////////////// */
+.stats-section {
+    margin-bottom: 3rem;
+}
+
+.pie-chart {
+    display: flex !important;
+    justify-content: center !important;
+    padding-bottom: 2rem;
+    align-items: center;
+}
+
 @media only screen and (max-width: 700px) {
     .modal-style {
         max-width: 90%;

@@ -14,7 +14,6 @@ route.get('/allUsers', async (req: Request, res: Response) => {
 });
 
 route.put('/userData/:id', async (req: Request, res: Response) => {
-    console.log(req.body);
     const id = req.params.id;
     try {
         const updatedUser = await User.findOneAndUpdate(

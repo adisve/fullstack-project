@@ -9,6 +9,8 @@ import { AuthStatus } from '../../store/features/auth/authSlice';
 import { RootState } from '../../store/store';
 import LoadingSpinner from '../general/LoadingSpinner';
 import { Navigate } from 'react-router-dom';
+import { UsersSignedUp } from './stats/UsersSignedUp';
+import { WorkoutsInSystem } from './stats/WorkoutsInSystem';
 
 export function AdminPage() {
     // const authStatus = useSelector((state: RootState) => state.auth.status);
@@ -36,8 +38,7 @@ export function AdminPage() {
                 }}
             >
                 <h1>Admin dashboard</h1>
-                {/* <Stats />
-                <Divider /> */}
+                <Stats />
                 <Users />
             </Container>
         </>
