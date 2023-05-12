@@ -3,7 +3,7 @@ import { Session } from 'express-session';
 
 interface ISession extends Session {
     _id: string;
-    Email: string;
+    email: string;
     role: string;
 }
 

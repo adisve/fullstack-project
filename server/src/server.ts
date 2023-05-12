@@ -24,9 +24,7 @@ app.use(
     session({
         secret: secret,
         resave: false,
-        // TODO: saving saveUninitialized to true might solve the problem
         saveUninitialized: false,
-        name: 'ProTracker',
         cookie: {
             maxAge: 1000 * 60 * 60 * 24, // 24 hours
         },
@@ -37,11 +35,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/auth', authRoute);
 app.use('/api/user', isLoggedIn, userRoute);
-
-// TODO: cookies to check
-// TODO: uncomment later
-// app.use('/api/admin', isLoggedIn, isAdmin, adminRoute);
-app.use('/api/admin', adminRoute);
+app.use('/api/admin', isLoggedIn, isAdmin, adminRoute);
 
 app.listen(port, () => {
     connect()
