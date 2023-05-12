@@ -15,8 +15,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../../store/store';
 import {
     deleteUser,
-    showDeleteEditModal,
     updateUser,
+    showDeleteUpdateModal,
 } from '../../../store/features/admin/adminSlice';
 import '../../login-register/AuthenticationModal.css';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
@@ -36,7 +36,6 @@ export function EditModal() {
         return <></>;
     }
     const [newName, setName] = useState(user.name);
-    const [newEmail, setEmail] = useState(user.email);
     const [newRole, setNewRole] = useState(role);
 
     const handleChange = (event: SelectChangeEvent) => {
@@ -51,8 +50,8 @@ export function EditModal() {
         <>
             <Modal
                 className="modal edit-modal"
-                open={admin.editDeleteModal}
-                onClose={() => dispatch(showDeleteEditModal(false))}
+                open={admin.deleteUpdateModal}
+                onClose={() => dispatch(showDeleteUpdateModal(false))}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >
@@ -97,11 +96,9 @@ export function EditModal() {
                             />
                             <TextField
                                 id="outlined"
+                                disabled
                                 label="Email"
-                                value={newEmail}
-                                onChange={(event) =>
-                                    setEmail(event.target.value)
-                                }
+                                value={user.email}
                             />
                             <FormControl>
                                 <InputLabel id="demo-simple-select-label">
@@ -128,7 +125,7 @@ export function EditModal() {
                             <div className="center">
                                 <Button
                                     onClick={() =>
-                                        dispatch(showDeleteEditModal(false))
+                                        dispatch(showDeleteUpdateModal(false))
                                     }
                                     size="small"
                                 >
@@ -137,12 +134,7 @@ export function EditModal() {
                                 <Button
                                     onClick={() =>
                                         dispatch(
-                                            updateUser(
-                                                id,
-                                                newName!,
-                                                newEmail!,
-                                                newRole
-                                            )
+                                            updateUser(id, newName!, newRole)
                                         )
                                     }
                                     size="small"

@@ -28,6 +28,7 @@ export function UsersSignedUp() {
             month: 'short',
             day: 'numeric',
         });
+
         const currentMonth = new Date().getMonth();
 
         for (const date of dates) {

@@ -6,7 +6,8 @@ import { User } from '../../interfaces/user';
 interface AdminState {
     adminPageStatus: PageStatus;
     users: any;
-    editDeleteModal: boolean;
+    allUsers: User[];
+    deleteUpdateModal: boolean;
     editUser?: User;
     editUserId: string;
     userRole: string;
@@ -15,12 +16,13 @@ interface AdminState {
 const initialState: AdminState = {
     adminPageStatus: PageStatus.initial,
     users: [],
-    editDeleteModal: false,
+    deleteUpdateModal: false,
     editUser: {
         settings: {},
     },
     editUserId: '',
     userRole: '',
+    allUsers: [],
 };
 
 const adminSlice = createSlice({
@@ -33,24 +35,48 @@ const adminSlice = createSlice({
         getAllUsers(state, action: PayloadAction<[]>) {
             state.users = action.payload;
         },
-        showDeleteEditModal(state, action: PayloadAction<boolean>) {
-            state.editDeleteModal = action.payload;
+        showDeleteUpdateModal(state, action: PayloadAction<boolean>) {
+            state.deleteUpdateModal = action.payload;
         },
-        setUserEdit(state, action: PayloadAction<User>) {
+        setEditUser(state, action: PayloadAction<User>) {
             state.editUser = action.payload;
         },
         setEditUserId(state, action: PayloadAction<string>) {
             state.editUserId = action.payload;
         },
-        setUserRole(state, action: PayloadAction<string>) {
+        setEditUserRole(state, action: PayloadAction<string>) {
             state.userRole = action.payload;
+        },
+        updateUserDetails(
+            state,
+            action: PayloadAction<{
+                id: string;
+                name: string;
+                role: string;
+            }>
+        ) {
+            const { id, name, role } = action.payload;
+            return {
+                ...state,
+                users: state.users.map((user: any) =>
+                    user._id === id ? { ...user, name, role } : user
+                ),
+            };
+            //
+        },
+        removeUser(state, action: PayloadAction<string>) {
+            return {
+                ...state,
+                users: state.users.filter(
+                    (user: any) => user._id !== action.payload
+                ),
+            };
         },
     },
 });
 
 export const fetchAllUsers = () => async (dispatch: any) => {
     dispatch(setAdminPageStatus(PageStatus.loading));
-
     try {
         const response = await instance.get('/api/admin/allUsers', {
             headers: { 'Content-Type': 'application/json' },
@@ -64,23 +90,19 @@ export const fetchAllUsers = () => async (dispatch: any) => {
 };
 
 export const updateUser =
-    (id: string, name: string, email: string, role: string) =>
-    async (dispatch: any) => {
+    (id: string, name: string, role: string) => async (dispatch: any) => {
         dispatch(setAdminPageStatus(PageStatus.loading));
-
         try {
             const response = await instance.put(
                 `/api/admin/userData/${id}`,
-                { name, email, role },
+                { name, role },
                 {
                     headers: { 'Content-Type': 'application/json' },
                 }
             );
-            const users = await response.data;
-            dispatch(fetchAllUsers());
-
-            dispatch(showDeleteEditModal(false));
-            dispatch(getAllUsers(users));
+            await response.data;
+            dispatch(updateUserDetails({ id, name, role }));
+            dispatch(showDeleteUpdateModal(false));
             dispatch(setAdminPageStatus(PageStatus.success));
         } catch (error) {
             dispatch(setAdminPageStatus(PageStatus.error));
@@ -93,11 +115,9 @@ export const deleteUser = (id: string) => async (dispatch: any) => {
         const response = await instance.delete(`/api/admin/deleteUser/${id}`, {
             headers: { 'Content-Type': 'application/json' },
         });
-        const users = await response.data;
-        dispatch(fetchAllUsers());
-
-        dispatch(showDeleteEditModal(false));
-        dispatch(getAllUsers(users));
+        await response.data;
+        dispatch(removeUser(id));
+        dispatch(showDeleteUpdateModal(false));
         dispatch(setAdminPageStatus(PageStatus.success));
     } catch (error) {
         dispatch(setAdminPageStatus(PageStatus.error));
@@ -107,9 +127,11 @@ export const deleteUser = (id: string) => async (dispatch: any) => {
 export const {
     getAllUsers,
     setAdminPageStatus,
-    showDeleteEditModal,
-    setUserEdit,
+    showDeleteUpdateModal,
+    setEditUser,
     setEditUserId,
-    setUserRole,
+    setEditUserRole,
+    updateUserDetails,
+    removeUser,
 } = adminSlice.actions;
 export default adminSlice.reducer;

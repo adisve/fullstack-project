@@ -4,9 +4,9 @@ import { AppDispatch, RootState } from '../../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
 import {
     fetchAllUsers,
+    setEditUser,
     setEditUserId,
-    setUserEdit,
-    setUserRole,
+    setEditUserRole,
 } from '../../../store/features/admin/adminSlice';
 import { PageStatus } from '../../../enums/pageStatus';
 import LoadingSpinner from '../../general/LoadingSpinner';
@@ -26,22 +26,16 @@ export function Users() {
         return <LoadingSpinner />;
     }
 
-    if (admin.editDeleteModal === true) {
+    if (admin.deleteUpdateModal === true) {
         return <EditModal />;
     }
 
     return (
         <>
             <h3>User Data</h3>
-            <div
-                className="grid-data"
-                style={{
-                    height: 550,
-                    width: '100%',
-                }}
-            >
+            <div className="grid-data">
                 {admin.adminPageStatus == PageStatus.error && (
-                    <p style={{ color: 'red' }}>
+                    <p className="warning-text">
                         Unable to load user data, please try again later!
                     </p>
                 )}
@@ -60,20 +54,10 @@ export function Users() {
                         const editUser: User = {
                             name: row.row.name,
                             email: row.row.email,
-                            settings: {
-                                interests: row.row.settings?.interests || [],
-                                goal: '',
-                                dob: new Date(row.row.settings?.dob),
-                                gender: row.row.settings?.gender || '',
-                                weight: row.row.settings?.weight || 0,
-                                height: row.row.settings?.height || 0,
-                                fitnessLevel:
-                                    row.row.settings?.fitnessLevel || '',
-                            },
                         };
-                        dispatch(setUserEdit(editUser));
+                        dispatch(setEditUser(editUser));
                         dispatch(setEditUserId(id));
-                        dispatch(setUserRole(String(row.row.role)));
+                        dispatch(setEditUserRole(String(row.row.role)));
                     }}
                 />
             </div>
