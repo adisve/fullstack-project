@@ -48,5 +48,3 @@ export const addWorkout =
     };
 
 export const { setStatus } = workoutsModificationSlice.actions;
-
-export default workoutsModificationSlice.reducer;

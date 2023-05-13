@@ -27,6 +27,9 @@ import { presentDate } from './workoutCardUtils';
 import { useState } from 'react';
 import { PickExerciseModal } from '../pickExerciseModal/PickExerciseModal';
 import { ChangeDurationNoteModal } from '../changeDurationNoteModal/ChangeDurationNoteModal';
+import { AppDispatch } from '../../../../store/store';
+import { useDispatch } from 'react-redux';
+import { addWorkout } from '../../../../store/features/auth/workoutsModificationSlice';
 
 type WorkoutProps = Workout & {
     withActions: boolean;
@@ -50,6 +53,23 @@ export function WorkoutCard(props: WorkoutProps) {
 
     const [changeDurationNoteModalActive, setChangeDurationNoteModalActive] =
         useState(false);
+
+    const dispatch: AppDispatch = useDispatch();
+
+    const handleAddWorkouts = () => {
+        const workout: Workout = {
+            _id: '',
+            userId: '',
+            exercises: exercises_,
+            createdAt: createdAt,
+            updatedAt: createdAt,
+            workoutDuration: workoutDuration_,
+            notes: notes_,
+        };
+
+        dispatch(addWorkout(workout));
+        setAddingWorkout(false);
+    };
 
     return (
         <Card
@@ -162,6 +182,7 @@ export function WorkoutCard(props: WorkoutProps) {
                                     ),
                                 padding: '0.6em',
                             }}
+                            onClick={handleAddWorkouts}
                         >
                             Submit
                             <FontAwesomeIcon
