@@ -45,6 +45,7 @@ export function Workouts() {
                         notes: '',
                     }}
                     withActions={true}
+                    setAddingWorkout={setAddingWorkout}
                 />
             )}
 
@@ -64,7 +65,11 @@ export function Workouts() {
                 <Divider />
                 {preparedSpoofWorkouts.map((workout) => (
                     <Grid item>
-                        <WorkoutCard {...workout} withActions={false} />
+                        <WorkoutCard
+                            {...workout}
+                            withActions={false}
+                            setAddingWorkout={setAddingWorkout}
+                        />
                     </Grid>
                 ))}
             </Grid>

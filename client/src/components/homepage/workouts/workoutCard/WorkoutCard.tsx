@@ -1,15 +1,3 @@
-/**
- * @typedef Workout
- * @property {string} _id
- * @property {string} userId
- * @property {Date} date
- * @property {Exercise[]} exercises
- * @property {Date} createdAt
- * @property {Date} updatedAt
- * @property {number} workoutDuration
- * @property {string} notes
- */
-
 import {
     faPen,
     faPlus,
@@ -35,25 +23,41 @@ import {
 } from '@mui/material';
 import './WorkoutCard.css';
 import { Workout } from '../../../../store/interfaces/workout';
+import { presentDate } from './workoutCardUtils';
+import { useState } from 'react';
+import { PickExerciseModal } from '../pickExerciseModal/PickExerciseModal';
+import { ChangeDurationNoteModal } from '../changeDurationNoteModal/ChangeDurationNoteModal';
 
 type WorkoutProps = Workout & {
     withActions: boolean;
+    setAddingWorkout: any;
 };
 
 export function WorkoutCard(props: WorkoutProps) {
-    const { exercises, workoutDuration, notes, withActions, createdAt } = props;
+    const {
+        exercises,
+        workoutDuration,
+        notes,
+        withActions,
+        createdAt,
+        setAddingWorkout,
+    } = props;
+    const [exercises_, setExercises_] = useState(exercises);
+    const [workoutDuration_, setWorkoutDuration_] = useState(workoutDuration);
+    const [notes_, setNotes_] = useState(notes);
+    const [pickExerciseModalActive, setPickExerciseModalActive] =
+        useState(false);
 
-    function presentDate(date: Date) {
-        const dateObj = new Date(date);
-        const day = dateObj.getDate();
-        const month = dateObj.getMonth();
-        const year = dateObj.getFullYear();
-
-        return `${month}-${day}-${year}`;
-    }
+    const [changeDurationNoteModalActive, setChangeDurationNoteModalActive] =
+        useState(false);
 
     return (
-        <Card className="workout-card">
+        <Card
+            className={
+                'workout-card' +
+                (withActions ? ' workout-card-with-actions' : '')
+            }
+        >
             <CardHeader
                 title={
                     new Date(createdAt).toLocaleString('en-us', {
@@ -65,27 +69,35 @@ export function WorkoutCard(props: WorkoutProps) {
                 subheader={
                     withActions ? (
                         <CardActions sx={{ justifyContent: 'center' }}>
-                            {workoutDuration} minutes &nbsp;
+                            {workoutDuration_} minutes &nbsp;
                             <Fab
                                 size="small"
                                 color="secondary"
                                 aria-label="delete"
-                                onClick={() => console.log('delete')}
+                                onClick={() =>
+                                    setChangeDurationNoteModalActive(true)
+                                }
                             >
                                 <FontAwesomeIcon icon={faPen} />
                             </Fab>
                         </CardActions>
                     ) : (
                         <Typography variant="body2" color="text.secondary">
-                            {workoutDuration} minutes
+                            {workoutDuration_} minutes
                         </Typography>
                     )
                 }
             />
             <CardContent>
-                <CardContent sx={{ marginTop: '0px' }}>
+                <CardContent
+                    sx={
+                        withActions
+                            ? { padding: '0px', marginTop: '0px' }
+                            : { marginTop: '0px' }
+                    }
+                >
                     <Typography variant="body2" color="text.secondary">
-                        {notes}
+                        {notes_}
                     </Typography>
                 </CardContent>
                 <Divider />
@@ -100,7 +112,7 @@ export function WorkoutCard(props: WorkoutProps) {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {exercises.map((exercise, index) => (
+                            {exercises_.map((exercise, index) => (
                                 <TableRow key={index}>
                                     <TableCell>
                                         <Chip label={exercise.name} />
@@ -132,6 +144,8 @@ export function WorkoutCard(props: WorkoutProps) {
                     <CardActions
                         sx={{
                             display: 'flex',
+                            position: 'absolute',
+                            bottom: '0',
                             float: 'right',
                             margin: '0.6em',
                         }}
@@ -169,6 +183,7 @@ export function WorkoutCard(props: WorkoutProps) {
                                     ),
                                 padding: '0.6em',
                             }}
+                            onClick={() => setPickExerciseModalActive(true)}
                         >
                             Add
                             <FontAwesomeIcon
@@ -190,6 +205,7 @@ export function WorkoutCard(props: WorkoutProps) {
                                     theme.palette.error.main,
                                 padding: '0.6em',
                             }}
+                            onClick={() => setAddingWorkout(false)}
                         >
                             Delete
                             <FontAwesomeIcon
@@ -200,6 +216,22 @@ export function WorkoutCard(props: WorkoutProps) {
                     </CardActions>
                 )}
             </CardContent>
+
+            <PickExerciseModal
+                open={pickExerciseModalActive}
+                handleClose={setPickExerciseModalActive}
+                currentExercises={exercises_}
+                setExercises={setExercises_}
+            />
+
+            <ChangeDurationNoteModal
+                open={changeDurationNoteModalActive}
+                handleClose={setChangeDurationNoteModalActive}
+                currentDuration={workoutDuration_}
+                setDuration={setWorkoutDuration_}
+                currentNotes={notes_}
+                setNotes={setNotes_}
+            />
         </Card>
     );
 }

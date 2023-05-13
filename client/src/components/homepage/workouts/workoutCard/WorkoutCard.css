@@ -3,4 +3,9 @@
     opacity: 0.95;
     width: 24em;
     height: 29em;
+    position: relative !important;
+}
+
+.workout-card-with-actions {
+    height: 32em;
 }
