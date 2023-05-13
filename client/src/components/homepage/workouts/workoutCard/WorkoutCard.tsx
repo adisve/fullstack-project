@@ -1,21 +1,10 @@
-import {
-    faPen,
-    faPlus,
-    faTrash,
-    faWeightHanging,
-} from '@fortawesome/free-solid-svg-icons';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     Card,
     CardHeader,
     CardContent,
-    Chip,
-    Table,
     TableContainer,
-    TableRow,
-    TableCell,
-    TableBody,
-    TableHead,
     Typography,
     Divider,
     CardActions,
@@ -23,13 +12,14 @@ import {
 } from '@mui/material';
 import './WorkoutCard.css';
 import { Workout } from '../../../../store/interfaces/workout';
-import { presentDate } from './workoutCardUtils';
+import { presentDate, WorkoutCardActions } from './workoutCardUtils';
 import { useState } from 'react';
 import { PickExerciseModal } from '../pickExerciseModal/PickExerciseModal';
 import { ChangeDurationNoteModal } from '../changeDurationNoteModal/ChangeDurationNoteModal';
 import { AppDispatch } from '../../../../store/store';
 import { useDispatch } from 'react-redux';
 import { addWorkout } from '../../../../store/features/auth/workoutsModificationSlice';
+import { WorkoutCardTable } from './WorkoutCardTable';
 
 type WorkoutProps = Workout & {
     withActions: boolean;
@@ -122,118 +112,18 @@ export function WorkoutCard(props: WorkoutProps) {
                 </CardContent>
                 <Divider />
                 <TableContainer sx={{ maxHeight: '18em' }}>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Exercise</TableCell>
-                                <TableCell>Sets</TableCell>
-                                <TableCell>Reps</TableCell>
-                                <TableCell>Weight (kg)</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {exercises_.map((exercise, index) => (
-                                <TableRow key={index}>
-                                    <TableCell>
-                                        <Chip label={exercise.name} />
-                                    </TableCell>
-                                    <TableCell>
-                                        <Chip label={exercise.sets} />
-                                    </TableCell>
-                                    <TableCell>
-                                        <Chip label={exercise.reps} />
-                                    </TableCell>
-                                    <TableCell>
-                                        <Chip
-                                            label={
-                                                <span>
-                                                    {exercise.weight}{' '}
-                                                    <FontAwesomeIcon
-                                                        icon={faWeightHanging}
-                                                    />
-                                                </span>
-                                            }
-                                        />
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
+                    <WorkoutCardTable exercises={exercises_} />
                 </TableContainer>
+
                 {withActions && (
-                    <CardActions
-                        sx={{
-                            display: 'flex',
-                            position: 'absolute',
-                            bottom: '0',
-                            float: 'right',
-                            margin: '0.6em',
-                        }}
-                    >
-                        <Fab
-                            size="small"
-                            variant="extended"
-                            sx={{
-                                backgroundColor: (theme) =>
-                                    theme.palette.primary.main,
-                                color: (theme) =>
-                                    theme.palette.getContrastText(
-                                        theme.palette.success.main
-                                    ),
-                                padding: '0.6em',
-                            }}
-                            onClick={handleAddWorkouts}
-                        >
-                            Submit
-                            <FontAwesomeIcon
-                                icon={faPlus}
-                                style={{
-                                    marginLeft: '1em',
-                                }}
-                            />
-                        </Fab>
-                        <Fab
-                            size="small"
-                            variant="extended"
-                            sx={{
-                                backgroundColor: (theme) =>
-                                    theme.palette.success.main,
-                                color: (theme) =>
-                                    theme.palette.getContrastText(
-                                        theme.palette.success.main
-                                    ),
-                                padding: '0.6em',
-                            }}
-                            onClick={() => setPickExerciseModalActive(true)}
-                        >
-                            Add
-                            <FontAwesomeIcon
-                                icon={faPlus}
-                                style={{
-                                    marginLeft: '1em',
-                                }}
-                            />
-                        </Fab>
-                        <Fab
-                            size="small"
-                            variant="extended"
-                            sx={{
-                                color: (theme) =>
-                                    theme.palette.getContrastText(
-                                        theme.palette.error.main
-                                    ),
-                                backgroundColor: (theme) =>
-                                    theme.palette.error.main,
-                                padding: '0.6em',
-                            }}
-                            onClick={() => setAddingWorkout(false)}
-                        >
-                            Delete
-                            <FontAwesomeIcon
-                                icon={faTrash}
-                                style={{ marginLeft: '1em' }}
-                            />
-                        </Fab>
+                    <CardActions className="workout-card-actions">
+                        <WorkoutCardActions
+                            setPickExerciseModalActive={
+                                setPickExerciseModalActive
+                            }
+                            setAddingWorkout={setAddingWorkout}
+                            handleAddWorkouts={handleAddWorkouts}
+                        />
                     </CardActions>
                 )}
             </CardContent>
