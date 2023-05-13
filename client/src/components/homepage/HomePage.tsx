@@ -14,19 +14,18 @@ import './HomePage.css';
 
 export function HomePage() {
     const [activeState, setActiveState] = useState(false);
+    const authStatus = useSelector((state: RootState) => state.auth.status);
 
-    // const authStatus = useSelector((state: RootState) => state.auth.status);
+    if (
+        authStatus == AuthStatus.unauthenticated ||
+        authStatus == AuthStatus.error
+    ) {
+        return <AuthenticationModal open={true} />;
+    }
 
-    // if (
-    //     authStatus == AuthStatus.unauthenticated ||
-    //     authStatus == AuthStatus.error
-    // ) {
-    //     return <AuthenticationModal open={true} />;
-    // }
-
-    // if (authStatus == AuthStatus.loading) {
-    //     return <LoadingSpinner />;
-    // }
+    if (authStatus == AuthStatus.loading) {
+        return <LoadingSpinner />;
+    }
 
     return (
         <>
