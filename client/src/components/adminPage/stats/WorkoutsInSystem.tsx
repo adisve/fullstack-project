@@ -12,7 +12,10 @@ export function WorkoutsInSystem() {
 
     return (
         <>
-            <div style={{ position: 'relative', width: '100%', height: '85%' }}>
+            <div
+                className="workouts-in-system"
+                style={{ position: 'relative', width: '100%', height: '85%' }}
+            >
                 <h4>Number of Workouts in database</h4>
                 <PieChart
                     className="pie-chart"

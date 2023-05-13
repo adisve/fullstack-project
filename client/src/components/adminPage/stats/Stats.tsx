@@ -7,6 +7,7 @@ export function Stats() {
         <div className="stats-section">
             <h3>Statistics</h3>
             <Card
+                className="card-area card-area-users"
                 sx={{
                     height: '300px',
                     display: 'flex',
@@ -20,6 +21,7 @@ export function Stats() {
             <br />
 
             <Card
+                className="card-area card-area-workouts"
                 sx={{
                     height: '350px',
                     display: 'flex',

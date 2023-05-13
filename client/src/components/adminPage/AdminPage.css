@@ -77,6 +77,9 @@
 }
 
 @media only screen and (max-width: 700px) {
+    .admin-page h1 {
+        padding-top: 1rem;
+    }
     .modal-style {
         max-width: 90%;
         width: 80%;
@@ -84,5 +87,40 @@
     }
     .content-center {
         padding: 5px;
+    }
+}
+
+@media only screen and (max-width: 550px) {
+    .card-area,
+    .workouts-in-system,
+    .users-joined {
+        width: 100%;
+        display: flex;
+        overflow-y: hidden;
+        overflow-x: scroll;
+    }
+    .card-area-users {
+        height: none;
+    }
+    .card-area-workouts {
+        height: none;
+    }
+    .workouts-in-system h4 {
+        padding-left: 15px;
+        width: 100%;
+        margin: 0 auto;
+    }
+    .pie-chart {
+        padding-left: 40px;
+    }
+
+    .stats-section,
+    .recharts-surface {
+        width: 100%;
+    }
+
+    .users-joined {
+        display: flex;
+        flex-direction: column;
     }
 }

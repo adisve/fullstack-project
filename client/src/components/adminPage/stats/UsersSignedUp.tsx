@@ -102,7 +102,7 @@ export function UsersSignedUp() {
     }
 
     return (
-        <div>
+        <div className="users-joined">
             <h4>Users joined in {month()}</h4>
             <LineChart
                 width={500}
