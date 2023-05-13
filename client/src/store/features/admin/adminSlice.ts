@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import instance from '../../../config/axios';
 import { PageStatus } from '../../../enums/pageStatus';
 import { User } from '../../interfaces/user';
+import { AppDispatch } from '../../store';
 
 interface AdminState {
     adminPageStatus: PageStatus;
@@ -75,19 +76,26 @@ const adminSlice = createSlice({
     },
 });
 
-export const fetchAllUsers = () => async (dispatch: any) => {
-    dispatch(setAdminPageStatus(PageStatus.loading));
-    try {
-        const response = await instance.get('/api/admin/allUsers', {
-            headers: { 'Content-Type': 'application/json' },
-        });
-        const users = await response.data;
-        dispatch(getAllUsers(users));
-        dispatch(setAdminPageStatus(PageStatus.success));
-    } catch (error) {
-        dispatch(setAdminPageStatus(PageStatus.error));
-    }
-};
+export const fetchAllUsers =
+    () => async (dispatch: AppDispatch, getState: any) => {
+        const { auth } = getState();
+        const session = auth.sessionId;
+
+        dispatch(setAdminPageStatus(PageStatus.loading));
+        try {
+            const response = await instance.get('/api/admin/allUsers', {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${session}`,
+                },
+            });
+            const users = await response.data;
+            dispatch(getAllUsers(users));
+            dispatch(setAdminPageStatus(PageStatus.success));
+        } catch (error) {
+            dispatch(setAdminPageStatus(PageStatus.error));
+        }
+    };
 
 export const updateUser =
     (id: string, name: string, role: string) => async (dispatch: any) => {

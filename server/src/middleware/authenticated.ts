@@ -8,14 +8,19 @@ interface ISession extends Session {
 }
 
 function isLoggedIn(req: Request, res: Response, next: NextFunction) {
-    const session = req.session as ISession;
-
+    const session = toSession(req);
     if (!session || !session._id) {
         return res.status(401).json({
             message: 'Unauthorized',
         });
     }
     next();
+}
+
+export function toSession(req: Request): ISession {
+    return JSON.parse(
+        Object.values(req.sessionStore['sessions']).pop() as string
+    ) as ISession;
 }
 
 export default isLoggedIn;
