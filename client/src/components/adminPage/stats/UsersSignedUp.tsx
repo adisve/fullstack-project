@@ -16,6 +16,9 @@ export function UsersSignedUp() {
     function month() {
         return new Date().toLocaleString('default', { month: 'long' });
     }
+    function day() {
+        return new Date().getDate();
+    }
 
     function getSignUpDate() {
         const createdDates = users.map((user: any) => user.created_at);
@@ -60,7 +63,7 @@ export function UsersSignedUp() {
         const currentYear = currentDate.getFullYear();
 
         const startDate = new Date(currentYear, currentMonth, 1);
-        const endDate = new Date(currentYear, currentMonth, 12);
+        const endDate = new Date(currentYear, currentMonth, day());
 
         const dateFormatter = new Intl.DateTimeFormat('en-US', {
             month: 'short',
@@ -76,10 +79,26 @@ export function UsersSignedUp() {
             }
             currentDateObj.setDate(currentDateObj.getDate() + 1);
         }
+        return [...data, ...missingDates];
+    }
 
-        return [...data, ...missingDates].sort(
-            (a: any, b: any) => +new Date(a.date) - +new Date(b.date)
-        );
+    function sortByDateUserCount() {
+        const sortedData = userCount()
+            .map((item) => ({
+                date: new Date(`2023 ${item.date}`).getTime(),
+                count: item.count,
+            }))
+            .sort((a, b) => a.date - b.date);
+
+        const finalData = sortedData.map((item) => ({
+            date: new Date(item.date).toLocaleDateString('en-US', {
+                month: 'short',
+                day: 'numeric',
+            }),
+            count: item.count,
+        }));
+
+        return finalData;
     }
 
     return (
@@ -88,7 +107,7 @@ export function UsersSignedUp() {
             <LineChart
                 width={500}
                 height={200}
-                data={userCount()}
+                data={sortByDateUserCount()}
                 syncId="anyId"
                 margin={{
                     top: 10,

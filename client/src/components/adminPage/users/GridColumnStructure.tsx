@@ -68,7 +68,7 @@ export const columns: GridColDef[] = [
     },
     {
         field: 'dob',
-        headerName: 'DOB',
+        headerName: 'Age',
         width: 100,
         valueGetter: (params: GridValueGetterParams) => {
             const dob = new Date(params.row.settings.dob);

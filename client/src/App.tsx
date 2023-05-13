@@ -36,7 +36,7 @@ function App() {
                             <Route path="profile" element={<UserProfile />} />
                             <Route path="" element={<Dashboard />} />
                         </Route>
-                        <Route path="admin" element={<AdminPage />} />
+                        <Route path="/admin" element={<AdminPage />} />
                     </Routes>
                 </main>
                 {isHomePage && <Footer />}
