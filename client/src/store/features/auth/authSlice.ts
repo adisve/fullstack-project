@@ -1,16 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import instance from '../../../config/axios';
 import { User } from '../../interfaces/user';
-<<<<<<< HEAD
 import {
-    getSessionToken,
     getUser,
     removeSessionData,
     setSessionData,
 } from '../../session/session';
-=======
 import { AppDispatch } from '../../store';
->>>>>>> origin/main
 
 export enum AuthStatus {
     loading,
@@ -45,10 +41,7 @@ const authSlice = createSlice({
 });
 
 export const logOutUser = () => (dispatch: any) => {
-<<<<<<< HEAD
     removeSessionData();
-=======
->>>>>>> origin/main
     dispatch(clearUser());
     dispatch(setAuthStatus(AuthStatus.unauthenticated));
 };
@@ -70,14 +63,9 @@ export const loginUser =
                 }
             );
 
-<<<<<<< HEAD
             const { user, id } = await response.data;
             if (id && user) {
                 setSessionData(id, user);
-=======
-            const { user } = await response.data;
-            if (user) {
->>>>>>> origin/main
                 dispatch(setUser(user));
                 dispatch(setAuthStatus(AuthStatus.authenticated));
             } else {
@@ -88,7 +76,6 @@ export const loginUser =
         }
     };
 
-<<<<<<< HEAD
 export const authenticateUser = () => async (dispatch: any) => {
     try {
         dispatch(setAuthStatus(AuthStatus.loading));
@@ -107,7 +94,5 @@ export const authenticateUser = () => async (dispatch: any) => {
     }
 };
 
-=======
->>>>>>> origin/main
 export const { setAuthStatus, setUser, clearUser } = authSlice.actions;
 export default authSlice.reducer;
