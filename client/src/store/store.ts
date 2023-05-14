@@ -3,11 +3,13 @@ import thunkMiddleware, { ThunkDispatch } from 'redux-thunk';
 import workoutReducer from './features/workouts/workoutSlice';
 import authReducer from './features/auth/authSlice';
 import modalReducer from './features/login-register-modal/modalSlice';
+import adminReducer from './features/admin/adminSlice';
 
 const rootReducer = combineReducers({
     workouts: workoutReducer,
     auth: authReducer,
     modal: modalReducer,
+    admin: adminReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;
