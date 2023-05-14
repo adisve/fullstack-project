@@ -14,7 +14,7 @@ cp -r client/frontend-build server
 echo "Building and running server..."
 cd server
 npm install > /dev/null 2>&1
-echo "Running on http://localhost:3000"
+echo "Running on http://localhost:7036"
 npm run dev > /dev/null 2>&1
 
 echo "Script execution completed."

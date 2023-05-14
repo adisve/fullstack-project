@@ -115,7 +115,6 @@ route.post('/workoutInformation', async function (req: Request, res: Response) {
         sets: sets,
         reps: reps,
     };
-    console.log(exer);
     await createExercise({
         exercise: exer,
     });

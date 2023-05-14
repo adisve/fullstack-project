@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import instance from '../../../config/axios';
 import { User } from '../../interfaces/user';
 import {
+    getSessionToken,
     getUser,
     removeSessionData,
     setSessionData,
@@ -60,9 +61,9 @@ export const loginUser =
                     },
                 }
             );
-            const { user, id } = await response.data;
-            if (id && user) {
-                setSessionData(id, user);
+            const { user } = await response.data;
+            if (user) {
+                setSessionData(user._id, user);
                 dispatch(setUser(user));
                 dispatch(setAuthStatus(AuthStatus.authenticated));
             } else {
