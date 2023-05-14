@@ -1,9 +1,0 @@
-{
-  "dependencies": {
-    "cookie-parser": "^1.4.6",
-    "express-session": "^1.17.3",
-    "express-session-jwt": "^0.2.2",
-    "jsonwebtoken": "^9.0.0",
-    "prettier": "^2.8.8"
-  }
-}

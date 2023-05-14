@@ -1,0 +1,161 @@
+/* AdminPage */
+.admin-page {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+.admin-board {
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+/* Users */
+.grid-data {
+    margin-bottom: 1.25rem;
+    height: 34rem;
+    width: 100%;
+}
+.warning-text {
+    color: red;
+}
+
+/* EditModal */
+.modal-style::-webkit-scrollbar {
+    display: none;
+}
+
+.modal-desc {
+    margin-top: 8px;
+}
+.change-data > *:not(style) {
+    margin: 6px;
+}
+
+.modal-style {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 50%;
+    min-width: 25%;
+    border: none;
+    outline: none;
+    background-color: #fff;
+    border-radius: 0.5rem;
+    box-shadow: 1.5rem;
+    padding: 2rem;
+
+    overflow-y: scroll;
+    max-height: 80%;
+}
+
+.center {
+    width: 100%;
+    text-align: center;
+}
+.center button {
+    margin-left: 3px;
+}
+
+.content-center {
+    text-align: center;
+    padding: 0.625rem;
+}
+.content-center.heading {
+    margin-left: 5px;
+}
+
+.stats-section {
+    width: 500px;
+    margin-bottom: 3rem;
+}
+
+/* Stats */
+.card-area-workouts,
+.card-area-users {
+    display: flex;
+    border-radius: 1.25rem;
+}
+
+.card-area-users {
+    height: 300px;
+}
+.card-area-workouts {
+    height: 350px;
+}
+
+/* WorkoutsInSystem */
+.pie-chart {
+    display: flex !important;
+    justify-content: center !important;
+    padding-bottom: 2rem;
+    align-items: center;
+}
+
+.workouts-in-system {
+    position: relative;
+    width: 100%;
+    height: 85%;
+}
+
+.pie-chart.style {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+}
+
+.change-data {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+@media only screen and (max-width: 700px) {
+    .admin-page h1 {
+        padding-top: 1rem;
+    }
+    .modal-style {
+        max-width: 90%;
+        width: 80%;
+        padding: 1rem;
+    }
+    .content-center {
+        padding: 5px;
+    }
+}
+
+@media only screen and (max-width: 550px) {
+    .card-area,
+    .workouts-in-system,
+    .users-joined {
+        width: 100%;
+        display: flex;
+        overflow-y: hidden;
+        overflow-x: scroll;
+    }
+    .card-area-users {
+        height: none;
+    }
+    .card-area-workouts {
+        height: none;
+    }
+    .workouts-in-system h4 {
+        padding-left: 15px;
+        width: 100%;
+        margin: 0 auto;
+    }
+    .pie-chart {
+        padding-left: 40px;
+    }
+
+    .stats-section,
+    .recharts-surface {
+        width: 100%;
+    }
+
+    .users-joined {
+        display: flex;
+        flex-direction: column;
+    }
+}

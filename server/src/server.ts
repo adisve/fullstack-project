@@ -5,11 +5,19 @@ import { connect } from './db/connection';
 dotenv.config({ path: './config.env' });
 const secret: string = process.env.SECRET_KEY || '';
 
-const app: Application = express();
 import path from 'path';
-const port: string | number = process.env.PORT || 7036;
 import session from 'express-session';
+
+dotenv.config({ path: './config.env' });
+const app: Application = express();
+const port: string | number = process.env.PORT || 7036;
+
 import authRoute from './routes/auth';
+import userRoute from './routes/user';
+import adminRoute from './routes/admin';
+
+import isLoggedIn from './middleware/authenticated';
+import isAdmin from './middleware/isAdmin';
 
 app.use(cors());
 app.set('trust proxy', true);
@@ -19,17 +27,19 @@ app.use(express.static(path.join(__dirname, '..', 'frontend-build')));
 app.use(
     session({
         secret: secret,
+        resave: false,
+        saveUninitialized: false,
         cookie: {
             maxAge: 1000 * 60 * 60 * 24, // 24 hours
         },
-        resave: false,
-        saveUninitialized: false,
     })
 );
 
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/auth', authRoute);
+app.use('/api/user', isLoggedIn, userRoute);
+app.use('/api/admin', isLoggedIn, isAdmin, adminRoute);
 
 app.get('*', (_, res) => {
     res.sendFile(path.join(__dirname, '..', 'frontend-build', 'index.html'));

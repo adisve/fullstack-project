@@ -7,4 +7,5 @@ export interface User {
     created_at?: Date;
     updated_at?: Date;
     settings?: UserSettings;
+    role?: string;
 }
