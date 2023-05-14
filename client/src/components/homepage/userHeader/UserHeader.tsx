@@ -15,18 +15,7 @@ export default function UserHeader(userHeaderProps: UserHeaderProps) {
     const { auth } = useSelector((state: RootState) => state);
 
     return (
-        <Container
-            sx={{
-                display: 'flex',
-                paddingBottom: '1em',
-                paddingTop: '1em',
-                position: 'sticky',
-                top: 0,
-                zIndex: 3,
-                backgroundColor: 'white',
-                borderBottom: '1px solid #e0e0e0',
-            }}
-        >
+        <Container className="user-header-container">
             <Avatar
                 sx={{ width: 50, height: 50 }}
                 alt="User avatar"

@@ -37,7 +37,7 @@
     min-height: 10em;
     min-width: 16em;
     margin-top: 2em;
-    max-height: 18em;
+    max-height: 15em;
     max-width: 32em;
     margin-bottom: 1.8em;
     aspect-ratio: 3/2;
@@ -50,4 +50,12 @@
     margin: 0;
     padding: 0;
     color: white;
+}
+
+.card-floating-btn {
+    position: absolute !important;
+    bottom: 0 !important;
+    right: 0 !important;
+    margin: 1rem !important;
+    cursor: pointer !important;
 }

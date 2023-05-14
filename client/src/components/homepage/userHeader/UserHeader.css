@@ -12,3 +12,14 @@
     padding: 0;
     margin-left: 0.9em;
 }
+
+.user-header-container {
+    display: flex !important;
+    padding-bottom: 1em !important;
+    padding-top: 1em !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 3 !important;
+    background-color: white !important;
+    border-bottom: 1px solid #e0e0e0 !important;
+}

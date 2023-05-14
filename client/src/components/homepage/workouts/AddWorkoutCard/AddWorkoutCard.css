@@ -1,0 +1,6 @@
+.add-workout-card {
+    height: 480px !important;
+    width: 380px !important;
+    display: flex !important;
+    border-radius: 20px !important;
+}

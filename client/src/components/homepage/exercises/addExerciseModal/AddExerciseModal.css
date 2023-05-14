@@ -1,6 +1,23 @@
-.exercise-modal-title {
-    border-bottom: 1;
-    border-color: 'divider';
-    display: 'flex';
-    justify-content: 'center';
+.exercise-modal-header {
+    border-bottom: 1 !important;
+    border-color: 'divider' !important;
+    display: 'flex' !important;
+    justify-content: 'center' !important;
+}
+
+.exercise-modal-form-control {
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 1em !important;
+    margin-top: 1em !important;
+}
+
+.exercise-modal-form-group {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 1em !important;
 }

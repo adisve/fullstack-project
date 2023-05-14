@@ -26,13 +26,7 @@ export function ActionCard(ActionCardProps: ActionCardProps) {
                     icon={faChevronRight}
                     size="lg"
                     color="white"
-                    style={{
-                        position: 'absolute',
-                        bottom: 0,
-                        right: 0,
-                        margin: '1rem',
-                        cursor: 'pointer',
-                    }}
+                    className="card-floating-btn"
                 />
             </Link>
         </Card>

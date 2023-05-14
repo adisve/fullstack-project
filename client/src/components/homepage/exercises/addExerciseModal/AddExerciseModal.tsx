@@ -74,26 +74,10 @@ export function AddExerciseModal({ open, handleClose }: ExerciseModalProps) {
         <StyledDialog open={open} onClose={() => handleClose(false)}>
             <DialogContent>
                 <Container>
-                    <Box
-                        sx={{
-                            borderBottom: 1,
-                            borderColor: 'divider',
-                            display: 'flex',
-                            justifyContent: 'center',
-                        }}
-                    >
+                    <Box className="exercise-modal-header">
                         <h2>Add Exercise</h2>
                     </Box>
-                    <FormControl
-                        sx={{
-                            display: 'flex',
-                            flexDirection: 'column',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            gap: '1em',
-                            marginTop: '1em',
-                        }}
-                    >
+                    <FormControl className="exercise-modal-form-control">
                         <FormGroup sx={{ gap: '1em' }}>
                             <TextField
                                 id="exercise-name"
@@ -114,15 +98,7 @@ export function AddExerciseModal({ open, handleClose }: ExerciseModalProps) {
                                 helperText="Description on how to perform the exercise"
                             />
                         </FormGroup>
-                        <FormGroup
-                            sx={{
-                                display: 'flex',
-                                flexDirection: 'row',
-                                alignItems: 'center',
-                                justifyContent: 'center',
-                                gap: '1em',
-                            }}
-                        >
+                        <FormGroup className="exercise-modal-form-group">
                             <TextField
                                 id="exercise-sets"
                                 label="Exercise Sets"
