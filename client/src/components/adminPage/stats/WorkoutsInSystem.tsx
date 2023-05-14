@@ -11,35 +11,20 @@ export function WorkoutsInSystem() {
     }
 
     return (
-        <>
-            <div
-                className="workouts-in-system"
-                style={{ position: 'relative', width: '100%', height: '85%' }}
-            >
-                <h4>Number of Workouts in database</h4>
-                <PieChart
-                    className="pie-chart"
-                    width={400}
-                    height={350}
-                    style={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%, -50%)',
-                    }}
-                >
-                    <Pie
-                        dataKey="value"
-                        isAnimationActive={true}
-                        data={getWorkoutData()}
-                        cx={200}
-                        cy={200}
-                        outerRadius={80}
-                        fill="#8884d8"
-                        label={({ name }) => name}
-                    />
-                </PieChart>
-            </div>
-        </>
+        <div className="workouts-in-system">
+            <h4>Number of Workouts in database</h4>
+            <PieChart className="pie-chart style" width={400} height={350}>
+                <Pie
+                    dataKey="value"
+                    isAnimationActive={true}
+                    data={getWorkoutData()}
+                    cx={200}
+                    cy={200}
+                    outerRadius={80}
+                    fill="#8884d8"
+                    label={({ name }) => name}
+                />
+            </PieChart>
+        </div>
     );
 }

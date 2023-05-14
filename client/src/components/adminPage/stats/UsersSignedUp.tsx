@@ -34,7 +34,7 @@ export function UsersSignedUp() {
 
         const currentMonth = new Date().getMonth();
 
-        for (const date of dates) {
+        dates.forEach((date: any) => {
             const dateObj = new Date(date);
             if (dateObj.getMonth() === currentMonth) {
                 const formattedDate = dateFormatter.format(dateObj);
@@ -44,7 +44,8 @@ export function UsersSignedUp() {
                     countsByDate[formattedDate] = 1;
                 }
             }
-        }
+        });
+
         const countsArray = [];
         for (const [date, count] of Object.entries(countsByDate)) {
             countsArray.push({ date, count });

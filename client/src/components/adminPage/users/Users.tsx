@@ -31,36 +31,34 @@ export function Users() {
     }
 
     return (
-        <>
+        <div className="grid-data">
             <h3>User Data</h3>
-            <div className="grid-data">
-                {admin.adminPageStatus == PageStatus.error && (
-                    <p className="warning-text">
-                        Unable to load user data, please try again later!
-                    </p>
-                )}
-                <DataGrid
-                    rows={admin.users}
-                    columns={columns}
-                    getRowId={(users) => users._id}
-                    initialState={{
-                        pagination: {
-                            paginationModel: { page: 0, pageSize: 10 },
-                        },
-                    }}
-                    pageSizeOptions={[10, 50]}
-                    onRowClick={(row) => {
-                        const id = String(row.id);
-                        const editUser: User = {
-                            name: row.row.name,
-                            email: row.row.email,
-                        };
-                        dispatch(setEditUser(editUser));
-                        dispatch(setEditUserId(id));
-                        dispatch(setEditUserRole(String(row.row.role)));
-                    }}
-                />
-            </div>
-        </>
+            {admin.adminPageStatus == PageStatus.error && (
+                <p className="warning-text">
+                    Unable to load user data, please try again later!
+                </p>
+            )}
+            <DataGrid
+                rows={admin.users}
+                columns={columns}
+                getRowId={(users) => users._id}
+                initialState={{
+                    pagination: {
+                        paginationModel: { page: 0, pageSize: 10 },
+                    },
+                }}
+                pageSizeOptions={[10, 50]}
+                onRowClick={(row) => {
+                    const id = String(row.id);
+                    const editUser: User = {
+                        name: row.row.name,
+                        email: row.row.email,
+                    };
+                    dispatch(setEditUser(editUser));
+                    dispatch(setEditUserId(id));
+                    dispatch(setEditUserRole(String(row.row.role)));
+                }}
+            />
+        </div>
     );
 }
