@@ -47,9 +47,7 @@ export const logOutUser = () => (dispatch: any) => {
 };
 
 export const loginUser =
-    (email: string, password: string) =>
-    async (dispatch: AppDispatch, getState: any) => {
-        const { auth } = getState();
+    (email: string, password: string) => async (dispatch: AppDispatch) => {
         try {
             dispatch(setAuthStatus(AuthStatus.loading));
             const response = await instance.post(
@@ -62,7 +60,6 @@ export const loginUser =
                     },
                 }
             );
-
             const { user, id } = await response.data;
             if (id && user) {
                 setSessionData(id, user);
