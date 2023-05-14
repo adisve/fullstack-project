@@ -1,18 +1,17 @@
 import { Request, Response } from 'express';
 import { User, Exercise, updateExercises } from '../db/model';
 
-
 async function getMatchedExercises(req: Request, res: Response) {
     const id = req.params._id;
 
-    const user = await User.findById(id)
+    const user = await User.findById(id);
 
     if (!user) {
         return res.status(404).json({ error: 'User not found' });
     }
-   
+
     const fitnessLevel = user.settings.fitnessLevel;
-   
+
     enum FitnessLevel {
         NONE = 'none',
         BEGINNER = 'beginner',
@@ -43,12 +42,11 @@ async function getMatchedExercises(req: Request, res: Response) {
         default:
             throw new Error(`Invalid fitness level: ${fitnessLevel}`);
     }
-     
+
     const exercises = await Exercise.find({
         interests: user.settings.interests,
         fitnessLevel: user.settings.fitnessLevel,
     }).limit(exerciseCount);
-   
 
     const addingExercises = exercises.map((exercise) => ({
         interests: exercise.interests,
@@ -59,27 +57,15 @@ async function getMatchedExercises(req: Request, res: Response) {
     }));
 
     try {
-  const updatedUser = await User.findByIdAndUpdate(
-    id,
-    { $push: { exercises: addingExercises } }
-  );
-  if (!updatedUser) {
-    return res.status(404).json({ message: "User not found" });
-  }
-  return res.status(200).json({ message: "Exercises created" });
-} catch (error) {
-  return res.status(500).json({ message: "Internal Server Error" });
+        const updatedUser = await User.findByIdAndUpdate(id, {
+            $push: { exercises: addingExercises },
+        });
+        if (!updatedUser) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+        return res.status(200).json({ message: 'Exercises created' });
+    } catch (error) {
+        return res.status(500).json({ message: 'Internal Server Error' });
+    }
 }
-
-    // User.findByIdAndUpdate(
-    //     id,
-    //     { $push: { exercises: addingExercises } },
-    // )
-    //     .then((updatedUser) => {
-    //         return res.status(200).json({ message: 'Exercises created' });
-    //     })
-    //     .catch((err) => {
-    //         console.log(err);
-    //     }); 
-}
-export{getMatchedExercises}
+export { getMatchedExercises };

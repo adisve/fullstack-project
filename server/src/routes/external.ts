@@ -1,7 +1,5 @@
 import { Request, Response } from 'express';
 import { Router } from 'express';
-
-// import  route  from './auth'
 import { User } from '../db/model';
 import dotenv from 'dotenv';
 
