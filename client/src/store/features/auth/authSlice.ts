@@ -73,8 +73,6 @@ export const loginUser =
         }
     };
 
-
-
 export const { setSession, clearSession, setAuthStatus, setUser, clearUser } =
     authSlice.actions;
 export default authSlice.reducer;

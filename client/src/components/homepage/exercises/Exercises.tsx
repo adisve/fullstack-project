@@ -11,7 +11,8 @@
  */
 
 import { Fab, Grid } from '@mui/material';
-import EXERCISES from './exercises.json';
+// For testing purposes change auth.user.exercises to EXERCISES
+// import EXERCISES from './exercises.json';
 import { ExerciseCard } from './exerciseCard/ExerciseCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -19,13 +20,17 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import './Exercises.css';
 import { useState } from 'react';
 import { AddExerciseModal } from './addExerciseModal/AddExerciseModal';
+import { Exercise } from '../../../store/interfaces/exercise';
+import { RootState } from '../../../store/store';
+import { useSelector } from 'react-redux';
 
 export function Exercises() {
     const [exerciseModalActive, setExerciseModalActive] = useState(false);
+    const { auth } = useSelector((state: RootState) => state);
 
     return (
         <Grid container={true} className="exercises-grid">
-            {EXERCISES.map((exercise) => (
+            {auth.user?.exercises?.map((exercise: Exercise) => (
                 <ExerciseCard {...exercise} />
             ))}
             <Fab

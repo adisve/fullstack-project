@@ -4,10 +4,14 @@
  */
 
 import { Container, Divider, Grid } from '@mui/material';
+// For testing purposes
 import WORKOUTS from './workouts.json';
 import { WorkoutCard } from './workoutCard/WorkoutCard';
 import { AddWorkoutCard } from './AddWorkoutCard/AddWorkoutCard';
 import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
+import { Workout } from '../../../store/interfaces/workout';
 
 export function Workouts() {
     const [addingWorkout, setAddingWorkout] = useState(false);
@@ -20,6 +24,8 @@ export function Workouts() {
             updatedAt: new Date(workout.updatedAt),
         };
     });
+
+    const { auth } = useSelector((state: RootState) => state);
 
     return (
         <Container
@@ -63,7 +69,7 @@ export function Workouts() {
                 spacing={2}
             >
                 <Divider />
-                {preparedSpoofWorkouts.map((workout) => (
+                {auth.user?.workouts?.map((workout: Workout) => (
                     <Grid item>
                         <WorkoutCard
                             {...workout}
