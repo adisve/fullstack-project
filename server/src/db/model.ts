@@ -3,14 +3,25 @@ import bcrypt from 'bcrypt';
 const saltRounds = 10;
 
 const exerciseSchema = new mongoose.Schema({
-    description:{type: String, required: false},
-    interests: { type: String, required: false},
-    fitnessLevel: { type: String, required:false},
+    _id: { type: mongoose.Schema.Types.ObjectId, required: true, auto: true },
+    description: { type: String, required: false },
+    interests: { type: String, required: false },
+    fitnessLevel: { type: String, required: false },
     name: { type: String, required: true },
     sets: { type: Number, required: true },
     reps: { type: Number, required: true },
 });
 const Exercise = mongoose.model('Exercise', exerciseSchema);
+
+const workoutSchema = new mongoose.Schema({
+    _id: { type: mongoose.Schema.Types.ObjectId, required: true, auto: true },
+    createdAt: { type: Date, default: new Date(), required: true },
+    exercises: [exerciseSchema],
+    name: { type: String, required: false },
+    description: { type: String, required: false },
+    completed: { type: Boolean, required: true, default: false },
+});
+const Workouts = mongoose.model('Workouts', workoutSchema);
 
 const userSchema = new mongoose.Schema({
     _id: {
@@ -31,9 +42,9 @@ const userSchema = new mongoose.Schema({
         height: { type: Number, required: true },
         fitnessLevel: { type: String, required: true },
     },
- 
+    workoutsForToday: [workoutSchema], // TODO: add a cron job to update this
+    workouts: [workoutSchema],
     onboarded: { type: Boolean, default: false },
-
     exercises: [exerciseSchema],
     role: {
         type: String,
@@ -57,9 +68,11 @@ const createUser = (values: Record<string, any>) =>
     new User(values).save().then((User) => User.toObject());
 
 const createExercise = (values: Record<string, any>) =>
-    new User(values)
-        .save()
-        .then((exercises) => exercises.toObject());
+    new User(values).save().then((exercises) => exercises.toObject());
+
+const createWorkout = (values: Record<string, any>) => {
+    new Workouts(values).save().then((workoutForToday) => workoutForToday.toObject());
+};
 
 const getUserById = (_id: String) => User.find({ _id: _id });
 const getUserByEmail = (email: String) => User.findOne({ email: email });
@@ -94,30 +107,46 @@ function updateUser(
     );
 }
 
-function updateExercises(
-    id,
+function updateWorkoutsByIds(
+    userId: String,
+    workoutId: String,
+    completedAt: Date
+) {
+    User.findByIdAndUpdate({
+        _id: userId,
+        workoutsForToday: {
+            $elemMatch: {
+                _id: workoutId,
+            },
+        },
+        $set: {
+            'workoutsForToday.$.completedAt': completedAt,
+        },
+    });
+}
+
+function updateExerciseByIds(
+    userId: String,
+    exerciseId: String,
     interests: String,
-    fitnessLevel: String,
     name: String,
     sets: Number,
     reps: Number
 ) {
-    const updatedUser = User.findByIdAndUpdate(
-        id,
-        {
-            $set: {
-                exercises: {
-                    interests: interests,
-                    fitnessLevel: fitnessLevel,
-                    name: name,
-                    sets: sets,
-                    reps: reps,
-                },
+    User.findByIdAndUpdate({
+        _id: userId,
+        exercises: {
+            $elemMatch: {
+                _id: exerciseId,
             },
         },
-        { upsert: true, new: true }
-    );
-    return updatedUser;
+        $set: {
+            'exercises.$.interests': interests,
+            'exercises.$.name': name,
+            'exercises.$.sets': sets,
+            'exercises.$.reps': reps,
+        },
+    });
 }
 
 // updating the updateOnboarded to true if the form is already shown to user and he skipped it
@@ -135,17 +164,40 @@ async function updateOnBoarded(id) {
     }
 }
 
+async function updateCompleted(userId, workoutId) {
+    try {
+        const user = await User.findByIdAndUpdate({
+            _id: userId,
+            updateWorkoutforToday: {
+                $elemMatch: {
+                    _id: workoutId,
+                },
+            },
+            $set: {
+                'workoutForToday.$.completed': true,
+            
+            },
+
+        } );
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 
 export {
     User,
     Exercise,
+    Workouts,
     createUser,
     getUserByEmail,
     getUserById,
     getUserByName,
     updateUser,
     createExercise,
+    createWorkout,
     updateOnBoarded,
-    updateExercises,
+    updateExerciseByIds,
+    updateWorkoutsByIds,
+    updateCompleted,
 };

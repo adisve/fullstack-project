@@ -13,8 +13,13 @@ route.use(bodyParser.urlencoded({ extended: true }));
 
 // generating exercises automatically
 route.get('/generateExercises', async function (req: Request, res: Response) {
-    await createExercises();
-    return res.status(200).json({ message: 'Value updated' });
+    try {
+        await createExercises();
+        console.log("Exercises generated")
+    } catch (error) {
+         console.log(error);
+    }
+    return res.status(200).json({ message: 'Exercises generated' });
 });
 
 //users adding their own exercises

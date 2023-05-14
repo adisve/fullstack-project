@@ -2,15 +2,13 @@ import { Request, Response } from 'express';
 import { Router } from 'express';
 import {
     User,
-    getUser,
     createUser,
-    getEmail,
     updateOnBoarded,
     getUserById,
     getUserByName,
-    createUser,
     getUserByEmail,
     createExercise,
+    createWorkout,
 } from '../db/model';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
@@ -92,12 +90,12 @@ route.get('/userExists', async function (req: Request, res: Response) {
         }
 
         if (user) {
-            return res.status(400).json({
+            return res.status(200).json({
                 message: 'User exists',
                 user: user,
             });
         } else {
-            return res.status(200).json({
+            return res.status(404).json({
                 message: 'User not found',
             });
         }
@@ -131,6 +129,32 @@ route.get(
     '/workoutInformation',
     async function (req: Request, res: Response) {}
 );
+
+route.post('/createWorkout/:_id', async function (req: Request, res: Response) {
+    const workoutData = req.body;
+    const userId = req.params.id;
+
+    console.log(workoutData);
+    console.log(workoutData['exercises']);
+    User.findByIdAndUpdate(
+        userId,
+        {
+            $push: {
+                'workoutsForToday.$.exercises': workoutData['exercises'][0],
+            },
+        },
+        { new: true }
+    )
+        .then((updatedWorkout) => {
+            console.log(updatedWorkout);
+            return res.status(200).json({ message: 'Workout created' });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
+
+route.get('/workoutCompleted', async function (req: Request, res: Response) {});
 
 route.post('/register', async function (req: Request, res: Response) {
     try {

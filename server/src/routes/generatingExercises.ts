@@ -30,7 +30,7 @@ async function createExercises() {
         'burpees',
         'leg raises',
     ];
-    const exerciseCount = 10;
+    const exerciseCount = 50;
     const noneReps = 10;
     const beginnerReps = 20;
     const moderateReps = 35;
