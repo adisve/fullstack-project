@@ -13,7 +13,7 @@ COPY server/package*.json ./
 RUN npm install
 COPY server/ .
 RUN npm run build
-COPY --from=client /app/client/dist ./frontend-dist
+COPY --from=client /app/client/frontend-build ./frontend-build
 
 # Run server
 EXPOSE 7036
