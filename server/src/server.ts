@@ -1,12 +1,15 @@
 import express, { Application } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
-import session from 'express-session';
 import { connect } from './db/connection';
+dotenv.config({ path: './config.env' });
+const secret: string = process.env.SECRET_KEY || '';
+
+import path from 'path';
+import session from 'express-session';
 
 dotenv.config({ path: './config.env' });
 const app: Application = express();
-const secret: string = process.env.SECRET_KEY || '';
 const port: string | number = process.env.PORT || 7036;
 
 import authRoute from './routes/auth';
@@ -19,6 +22,7 @@ import isAdmin from './middleware/isAdmin';
 app.use(cors());
 app.set('trust proxy', true);
 app.use(express.json());
+app.use(express.static(path.join(__dirname, '..', 'frontend-build')));
 
 app.use(
     session({
@@ -36,6 +40,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/auth', authRoute);
 app.use('/api/user', isLoggedIn, userRoute);
 app.use('/api/admin', isLoggedIn, isAdmin, adminRoute);
+
+app.get('*', (_, res) => {
+    res.sendFile(path.join(__dirname, '..', 'frontend-build', 'index.html'));
+});
 
 app.listen(port, () => {
     connect()
