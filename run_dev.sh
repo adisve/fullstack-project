@@ -1,0 +1,1 @@
+cd client ; npm i ; npm run build ; cp -r frontend-build ../server ; cd ../server ; npm i ; npm run dev
