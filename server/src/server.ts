@@ -6,6 +6,7 @@ dotenv.config({ path: './config.env' });
 const secret: string = process.env.SECRET_KEY || '';
 
 const app: Application = express();
+import path from 'path';
 const port: string | number = process.env.PORT || 7036;
 import session from 'express-session';
 import authRoute from './routes/auth';
@@ -13,6 +14,7 @@ import authRoute from './routes/auth';
 app.use(cors());
 app.set('trust proxy', true);
 app.use(express.json());
+app.use(express.static(path.join(__dirname, '..', 'frontend-build')));
 
 app.use(
     session({
@@ -28,6 +30,10 @@ app.use(
 app.use(express.urlencoded({ extended: true }));
 
 app.use('/auth', authRoute);
+
+app.get('*', (_, res) => {
+    res.sendFile(path.join(__dirname, '..', 'frontend-build', 'index.html'));
+});
 
 app.listen(port, () => {
     connect()
