@@ -5,6 +5,7 @@ import { connect } from './db/mongo_connector';
 import { job } from './jobs/cronUpdatingWorkout';
 import path from 'path';
 import session from 'express-session';
+dotenv.config({ path: '/etc/secrets/config.env' });
 
 const app: Application = express();
 const port: string | number = process.env.PORT || 7036;
@@ -52,11 +53,6 @@ app.get('*', (_, res) => {
 });
 
 app.listen(port, () => {
-    try {
-        dotenv.config({ path: '/etc/secrets/config.env' });
-    } catch {
-        dotenv.config({ path: './config.env' });
-    }
     connect()
         .then(() => {
             console.log(`Server is running on port: ${port}`);
