@@ -18,9 +18,14 @@ export function WeeklyProgress() {
     const { user } = useSelector((state: RootState) => state);
     const userExercises = user.exercises;
 
-    const exercises = numberOfExercises(userExercises);
-    const completed = completedExercises(userExercises);
-    const workoutProgress = Math.round((completed / exercises) * 100);
+    let exercises = numberOfExercises(userExercises);
+    let completed = completedExercises(userExercises);
+    let workoutProgress = Math.round((completed / exercises) * 100);
+    if (isNaN(workoutProgress)) {
+        workoutProgress = 0;
+        completed = 0;
+        exercises = 0;
+    }
 
     const RADIAN = Math.PI / 180;
     const data: Data[] = [
@@ -79,7 +84,7 @@ export function WeeklyProgress() {
         <div className="overall-progress">
             <h4>Overall weekly progress</h4>
             <TimeFrame />
-            <p>{!!userExercises ? 0 : workoutProgress}% done</p>
+            <p>{!userExercises ? 0 : workoutProgress}% done</p>
             <PieChart
                 className="user-pie-chart pie-style"
                 width={400}

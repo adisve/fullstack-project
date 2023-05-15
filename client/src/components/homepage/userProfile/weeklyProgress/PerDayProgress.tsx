@@ -20,7 +20,7 @@ import {
 export function PerDayProgress() {
     const { user } = useSelector((state: RootState) => state);
     const exercises = user.exercises;
-
+    console.log(nrOfExrcisesWithinWeek(exercises));
     const data: any = [];
 
     ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].forEach((day) => {
@@ -32,7 +32,7 @@ export function PerDayProgress() {
     });
     return (
         <div className="workouts-done">
-            <h4>Exercises per day and week</h4>
+            <h4>Workouts per day and week</h4>
             <TimeFrame />
             <BarChart
                 width={500}

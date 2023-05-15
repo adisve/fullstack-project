@@ -3,7 +3,7 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 import { connect } from './db/connection';
 dotenv.config({ path: './config.env' });
-import {job} from './routes/cronUpdatingWorkout'
+import { job } from './routes/cronUpdatingWorkout';
 const secret: string = process.env.SECRET_KEY || '';
 
 import path from 'path';
@@ -42,7 +42,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/auth', authRoute);
 app.use('/auth', externalRoute);
 
-job.start()
+job.start();
 app.use('/api/user', isLoggedIn, userRoute);
 app.use('/api/admin', isLoggedIn, isAdmin, adminRoute);
 

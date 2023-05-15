@@ -1,18 +1,17 @@
 export function nrOfExrcisesWithinWeek(data: any) {
     const weekStart = new Date();
     weekStart.setHours(0, 0, 0, 0);
-    const day = weekStart.getDay();
-    const diff = weekStart.getDate() - day + (day === 0 ? -6 : 1);
-    weekStart.setDate(diff);
 
+    const day = weekStart.getDay();
+    const diff = weekStart.getDate() - day + (day === 0 ? -7 : 1);
+    weekStart.setDate(diff);
     const weekEnd = new Date(weekStart.getTime());
     weekEnd.setDate(weekEnd.getDate() + 6);
-
     const filteredData = data.filter((item: any) => {
         const date = new Date(item.created_at);
+        console.log(weekStart, date);
         return date >= weekStart && date <= weekEnd;
     });
-
     return filteredData;
 }
 
@@ -25,7 +24,8 @@ export function completedExercises(data: any) {
 export function notCompletedExercises(data: any) {
     return (
         nrOfExrcisesWithinWeek(data).length -
-        data.filter((status: any) => status.completed).length
+        nrOfExrcisesWithinWeek(data).filter((status: any) => status.completed)
+            .length
     );
 }
 
@@ -45,7 +45,7 @@ export function doneExercises(data: any, day: string) {
 }
 
 function getDataByDayOfWeek(data: any, dayOfWeek: string) {
-    const filteredDates = data.filter((item: any) => {
+    const filteredDates = nrOfExrcisesWithinWeek(data).filter((item: any) => {
         const date = new Date(item.created_at);
         const itemDayOfWeek = date.toLocaleString('en-US', {
             weekday: 'short',
