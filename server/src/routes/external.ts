@@ -15,9 +15,9 @@ route.use(bodyParser.urlencoded({ extended: true }));
 route.get('/generateExercises', async function (req: Request, res: Response) {
     try {
         await createExercises();
-        console.log("Exercises generated")
+        console.log('Exercises generated');
     } catch (error) {
-         console.log(error);
+        console.log(error);
     }
     return res.status(200).json({ message: 'Exercises generated' });
 });
@@ -65,6 +65,21 @@ route.get('/getUser/:_id', async function (req: Request, res: Response) {
             return res.status(404).json({ message: 'User not found' });
         } else {
             const exercise = user.exercises;
+            return res.status(200).json({ user });
+        }
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Server error' });
+    }
+});
+//To get statistics for the user
+route.get('/user/workouts/:id', async function (req: Request, res: Response) {
+    try {
+        const user = await User.findById(req.params._id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        } else {
+            const workout = user.workouts;
             return res.status(200).json({ user });
         }
     } catch (err) {

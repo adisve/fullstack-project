@@ -19,7 +19,7 @@ const workoutSchema = new mongoose.Schema({
     exercises: [exerciseSchema],
     name: { type: String, required: false },
     description: { type: String, required: false },
-    completed: { type: Boolean, required: true, default: false },
+    completed: { type: Boolean, default: false },
 });
 const Workouts = mongoose.model('Workouts', workoutSchema);
 

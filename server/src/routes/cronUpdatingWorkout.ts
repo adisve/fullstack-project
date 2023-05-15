@@ -8,10 +8,10 @@ const job = new cron.CronJob('0 0 0 * * *', async function () {
         });
 
         for (const user of users) {
-          while (user.workoutsForToday.length > 0) {
-            const workout = user.workoutsForToday.pop();
-            user.workouts.push(workout);
-          }
+            while (user.workoutsForToday.length > 0) {
+                const workout = user.workoutsForToday.pop();
+                user.workouts.push(workout);
+            }
             await user.save();
         }
 
@@ -22,5 +22,4 @@ const job = new cron.CronJob('0 0 0 * * *', async function () {
         console.error(error);
     }
 });
-
-job.start();
+export { job };

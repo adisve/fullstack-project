@@ -9,6 +9,7 @@ import {
     getUserByEmail,
     createExercise,
     createWorkout,
+    updateCompleted,
 } from '../db/model';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
@@ -132,29 +133,40 @@ route.get(
 
 route.post('/createWorkout/:_id', async function (req: Request, res: Response) {
     const workoutData = req.body;
-    const userId = req.params.id;
+const userId = req.params._id;
 
-    console.log(workoutData);
-    console.log(workoutData['exercises']);
-    User.findByIdAndUpdate(
-        userId,
-        {
-            $push: {
-                'workoutsForToday.$.exercises': workoutData['exercises'][0],
-            },
-        },
-        { new: true }
-    )
-        .then((updatedWorkout) => {
-            console.log(updatedWorkout);
-            return res.status(200).json({ message: 'Workout created' });
-        })
-        .catch((err) => {
-            console.log(err);
-        });
+User.findById(userId)
+  .then((user) => {
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    user.workoutsForToday.push(workoutData);
+
+    user.save()
+        .then((updatedUser) => {
+           if (!updatedUser) {
+            return res.status(404).json({ message: 'User cannot be updated' });
+        }
+        console.log(updatedUser);
+        return res.status(200).json({ message: 'Workout created' });
+    
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  })
+  .catch((err) => {
+    console.log(err);
+  });
+
 });
 
-route.get('/workoutCompleted', async function (req: Request, res: Response) {});
+route.get('/workoutCompleted/:_id/:_id', async function (req: Request, res: Response) {
+    const userId = req.params.id
+    const workoutId = req.params.id
+    await updateCompleted(userId,workoutId)
+});
 
 route.post('/register', async function (req: Request, res: Response) {
     try {
