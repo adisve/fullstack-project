@@ -2,15 +2,17 @@ export function nrOfExrcisesWithinWeek(data: any) {
     const weekStart = new Date();
     weekStart.setHours(0, 0, 0, 0);
 
+    const timeZoneOffset = weekStart.getTimezoneOffset() * 60 * 1000;
     const day = weekStart.getDay();
     const diff = weekStart.getDate() - day + (day === 0 ? -6 : 1);
     weekStart.setDate(diff);
     const weekEnd = new Date(weekStart.getTime());
     weekEnd.setDate(weekEnd.getDate() + 6);
+
     const filteredData = data.filter((item: any) => {
         const date = new Date(item.created_at);
-        console.log(weekStart, date);
-        return date >= weekStart && date <= weekEnd;
+        const dateWithOffset = new Date(date.getTime() + timeZoneOffset);
+        return dateWithOffset >= weekStart && dateWithOffset <= weekEnd;
     });
     return filteredData;
 }

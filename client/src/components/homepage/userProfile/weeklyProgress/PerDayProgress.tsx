@@ -20,7 +20,6 @@ import {
 export function PerDayProgress() {
     const { user } = useSelector((state: RootState) => state);
     const exercises = user.exercises;
-    console.log(nrOfExrcisesWithinWeek(exercises));
     const data: any = [];
 
     ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].forEach((day) => {
