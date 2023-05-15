@@ -185,7 +185,6 @@ async function updateCompleted(userId, workoutId) {
     user.workoutsForToday[workoutIndex].completed = true;
     await user.save();
 
-    console.log('Workout completed');
   } catch (error) {
     console.log(error);
   }

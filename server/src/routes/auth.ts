@@ -176,9 +176,7 @@ route.put(
     '/workoutCompleted/:userId/workouts/:workoutId',
     async function (req: Request, res: Response) {
         const userId = req.params.userId;
-        console.log(userId);
         const workoutId = req.params.workoutId;
-        console.log(workoutId);
         await updateCompleted(userId, workoutId);
         return res.status(200).json({
             message: 'completed updated',
