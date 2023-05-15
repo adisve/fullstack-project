@@ -2,27 +2,35 @@ import { Box, Container } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 
 import UserHeader from './userHeader/UserHeader';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Sidebar } from './sidebar/Sidebar';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../store/store';
 import { AuthenticationModal } from '../login-register/AuthenticationModal';
-import { AuthStatus } from '../../store/features/auth/authSlice';
+import {
+    AuthStatus,
+    authenticateUser,
+} from '../../store/features/auth/authSlice';
 import LoadingSpinner from '../general/LoadingSpinner';
 
 export function HomePage() {
     const [activeState, setActiveState] = useState(false);
+    const dispatch: AppDispatch = useDispatch();
 
-    const authStatus = useSelector((state: RootState) => state.auth.status);
+    const { auth } = useSelector((state: RootState) => state);
+
+    useEffect(() => {
+        dispatch(authenticateUser());
+    }, []);
 
     if (
-        authStatus == AuthStatus.unauthenticated ||
-        authStatus == AuthStatus.error
+        auth.status == AuthStatus.unauthenticated ||
+        auth.status == AuthStatus.error
     ) {
         return <AuthenticationModal open={true} />;
     }
 
-    if (authStatus == AuthStatus.loading) {
+    if (auth.status == AuthStatus.loading) {
         return <LoadingSpinner />;
     }
 

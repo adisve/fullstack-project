@@ -13,14 +13,16 @@ import {
 } from '../db/model';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
-dotenv.config({ path: './config.env' });
-const bodyParser = require('body-parser');
 
+dotenv.config({ path: './config.env' });
+import bodyParser from 'body-parser';
 import { Session } from 'express-session';
+import { toSession } from '../middleware/authenticated';
 
 export interface ISession extends Session {
     _id?: any;
     email?: string;
+    role?: 'user' | 'admin';
 }
 
 const route = Router();
@@ -45,11 +47,12 @@ route.post('/login', async function (req: Request, res: Response) {
         } else {
             (req.session as ISession)._id = user._id;
             (req.session as ISession).email = user.email;
+            (req.session as ISession).role = user.role;
+            req.session.save();
         }
 
         res.status(200).json({
             user: user,
-            id: (req.session as ISession)._id,
         });
     } catch (error) {
         console.error('Unable to log in', error);
@@ -60,14 +63,13 @@ route.post('/login', async function (req: Request, res: Response) {
 });
 
 route.get('/login', async function (req: Request, res: Response) {
-    if ((req.session as ISession)._id) {
-        const _id = (req.session as ISession)._id;
-
+    const session = toSession(req);
+    if (session) {
+        const _id = session._id;
         const userDetails = await getUserById(_id);
-        console.log(userDetails);
 
         return res.status(200).json({
-            id: (req.session as ISession)._id,
+            id: session._id,
             userDetails: userDetails,
         });
     }
@@ -117,7 +119,6 @@ route.post('/workoutInformation', async function (req: Request, res: Response) {
         sets: sets,
         reps: reps,
     };
-    console.log(exer);
     await createExercise({
         exercise: exer,
     });
@@ -230,7 +231,9 @@ route.get('/logout', async function (req: Request, res: Response) {
             if (err) {
                 console.log(err);
             } else {
-                res.redirect('/auth/login');
+                res.status(200).json({
+                    message: 'logged out',
+                });
             }
         });
     }
