@@ -18,7 +18,7 @@ export default function UserHeader(userHeaderProps: UserHeaderProps) {
         <Container className="user-header-container">
             <Avatar
                 sx={{ width: 50, height: 50 }}
-                alt="User avatar"
+                alt={auth.user?.name?.toUpperCase()}
                 src="/static/images/avatar/1.jpg"
             />
             <div className="user-header-text" style={{ display: 'block' }}>

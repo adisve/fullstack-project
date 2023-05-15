@@ -74,22 +74,17 @@ route.get('/login', async function (req: Request, res: Response) {
 
 route.get('/userExists', async function (req: Request, res: Response) {
     try {
-        const { username, email } = req.query;
+        const { email } = req.query;
 
-        if (!username && !email) {
+        if (!email) {
             return res.status(400).json({
                 message: 'Please provide a username or email',
             });
         }
 
-        let user;
-        if (username) {
-            user = await getUserByName(username.toString());
-        } else {
-            user = await getUserByEmail(email.toString());
-        }
+        const user = await getUserByEmail(email.toString());
 
-        if (user) {
+        if (!user) {
             return res.status(200).json({
                 message: 'User exists',
                 user: user,

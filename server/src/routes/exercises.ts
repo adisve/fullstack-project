@@ -28,6 +28,7 @@ route.delete(
     async function (req: Request, res: Response) {
         const userId = req.params.userId;
         const exerciseId = req.params.exerciseId;
+        console.log(`Removing ${exerciseId}`);
         try {
             await deleteExerciseById(userId, exerciseId);
             return res.status(200).json({ message: 'Exercise deleted' });

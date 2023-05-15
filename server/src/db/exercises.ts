@@ -18,15 +18,18 @@ const createExercise = (values: Record<string, any>) =>
 
 async function deleteExerciseById(userId: string, exerciseId: string) {
     try {
-        await User.findByIdAndUpdate(
+        const exerciseObjectId = new mongoose.Types.ObjectId(exerciseId);
+        console.log(`Deleting exercise ${exerciseId}`);
+        const res = await User.findByIdAndUpdate(
             userId,
             {
                 $pull: {
-                    exercises: { _id: exerciseId },
+                    exercises: { _id: exerciseObjectId },
                 },
             },
             { new: true }
         );
+        console.log(res);
     } catch (error) {
         console.error(`Error deleting exercise: ${error}`);
     }
