@@ -2,14 +2,10 @@ import express, { Application } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { connect } from './db/mongo_connector';
-dotenv.config({ path: './config.env' });
 import { job } from './jobs/cronUpdatingWorkout';
-const secret: string = process.env.SECRET_KEY || '';
-
 import path from 'path';
 import session from 'express-session';
 
-dotenv.config({ path: './config.env' });
 const app: Application = express();
 const port: string | number = process.env.PORT || 7036;
 
@@ -22,6 +18,9 @@ import adminRoute from './routes/admin';
 import isLoggedIn from './middleware/authenticated';
 import authorizeAdmin from './middleware/authorizeAdmin';
 
+dotenv.config({ path: '/etc/secrets/config.env' });
+dotenv.config({ path: './config.env' });
+
 app.use(cors());
 app.set('trust proxy', true);
 app.use(express.json());
@@ -29,7 +28,7 @@ app.use(express.static(path.join(__dirname, '..', 'frontend-build')));
 
 app.use(
     session({
-        secret: secret,
+        secret: process.env.SECRET_KEY || '',
         resave: false,
         saveUninitialized: false,
         cookie: {
@@ -53,6 +52,11 @@ app.get('*', (_, res) => {
 });
 
 app.listen(port, () => {
+    try {
+        dotenv.config({ path: '/etc/secrets/config.env' });
+    } catch {
+        dotenv.config({ path: './config.env' });
+    }
     connect()
         .then(() => {
             console.log(`Server is running on port: ${port}`);
