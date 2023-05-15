@@ -1,11 +1,11 @@
-import mongoose from 'mongoose';
+import mongoose, { mongo } from 'mongoose';
 import { User } from './user';
-import { exerciseSchema } from './exercises';
+import { Exercise } from './exercises';
 
 export const workoutSchema = new mongoose.Schema({
     _id: { type: mongoose.Schema.Types.ObjectId, required: true, auto: true },
     createdAt: { type: Date, default: new Date(), required: true },
-    exercises: [exerciseSchema],
+    exercises: { type: Array, required: true },
     completed: { type: Boolean, default: false },
     notes: { type: String, required: false },
     workoutDuration: { type: Number, required: false },
@@ -35,13 +35,15 @@ function updateWorkoutsByIds(
     });
 }
 
-export async function addWorkout(userId: string, workout: typeof Workout) {
-    console.log(`Adding workout: ${JSON.stringify(workout)}`);
+export async function addWorkout(userId: string, workout: any) {
     try {
-        await User.findByIdAndUpdate(
-            userId,
-            { $push: { workoutsForToday: workout } },
-            { new: true }
+        workout.workout._id = new mongoose.Types.ObjectId();
+        await workout.workout.exercises.forEach(async (exercise: any) => {
+            exercise._id = new mongoose.Types.ObjectId();
+        });
+        await User.updateOne(
+            { _id: userId },
+            { $push: { workoutsForToday: workout.workout } }
         );
     } catch (err) {
         console.error(err);
@@ -59,6 +61,7 @@ async function deleteWorkoutById(userId: string, workoutId: string) {
             },
             { new: true }
         );
+
         console.log(`Workout with ID ${workoutId} deleted successfully.`);
     } catch (error) {
         console.error(`Error deleting workout with ID ${workoutId}`);

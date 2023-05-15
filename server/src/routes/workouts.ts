@@ -31,11 +31,8 @@ route.delete(
 );
 
 route.post('/addWorkout/:userId', async (req: Request, res: Response) => {
-    console.log('Adding workout in backend');
     const userId = req.params.userId;
     const workout = req.body;
-
-    console.log(`Workout: ${workout}`);
 
     try {
         await addWorkout(userId, workout);
@@ -99,7 +96,6 @@ route.post('/createWorkout/:_id', async function (req: Request, res: Response) {
                             .status(404)
                             .json({ message: 'User cannot be updated' });
                     }
-                    console.log(updatedUser);
                     return res.status(200).json({ message: 'Workout created' });
                 })
                 .catch((err) => {

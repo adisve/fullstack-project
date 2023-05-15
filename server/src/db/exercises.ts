@@ -14,7 +14,7 @@ export const exerciseSchema = new mongoose.Schema({
 const Exercise = mongoose.model('Exercise', exerciseSchema);
 
 const createExercise = (values: Record<string, any>) =>
-    new User(values).save().then((exercises) => exercises.toObject());
+    new Exercise(values).save().then((exercises) => exercises.toObject());
 
 async function deleteExerciseById(userId: string, exerciseId: string) {
     try {

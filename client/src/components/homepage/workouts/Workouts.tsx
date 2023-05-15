@@ -17,8 +17,6 @@ export function Workouts() {
     const nowDate = new Date();
     const { auth } = useSelector((state: RootState) => state);
 
-    console.log(`User: ${JSON.stringify(auth.user)}`);
-
     return (
         <Container
             sx={{
