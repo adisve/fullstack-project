@@ -7,6 +7,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+    Button,
     Drawer,
     List,
     ListItem,
@@ -14,7 +15,10 @@ import {
     ListItemIcon,
     ListItemText,
 } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { AppDispatch } from '../../../store/store';
+import { useDispatch } from 'react-redux';
+import { logOutUser } from '../../../store/features/auth/authSlice';
 
 type SidebarProps = {
     activeState: boolean;
@@ -38,6 +42,11 @@ function iconSelect(iconName: string) {
 
 export function Sidebar(props: SidebarProps) {
     const { activeState, toggleActiveState } = props;
+    const dispatch: AppDispatch = useDispatch();
+
+    function logOut() {
+        dispatch(logOutUser());
+    }
 
     return (
         <Drawer
@@ -87,6 +96,7 @@ export function Sidebar(props: SidebarProps) {
                     )
                 )}
             </List>
+            <Button onClick={logOut}>Log out</Button>
         </Drawer>
     );
 }
