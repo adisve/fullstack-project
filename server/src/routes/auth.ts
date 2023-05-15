@@ -1,11 +1,15 @@
 import { Request, Response } from 'express';
 import { Router } from 'express';
 import {
+    User,
+    createUser,
+    updateOnBoarded,
     getUserById,
     getUserByName,
-    createUser,
     getUserByEmail,
     createExercise,
+    createWorkout,
+    updateCompleted,
 } from '../db/model';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
@@ -89,12 +93,12 @@ route.get('/userExists', async function (req: Request, res: Response) {
         }
 
         if (user) {
-            return res.status(400).json({
+            return res.status(200).json({
                 message: 'User exists',
                 user: user,
             });
         } else {
-            return res.status(200).json({
+            return res.status(404).json({
                 message: 'User not found',
             });
         }
@@ -123,9 +127,62 @@ route.post('/workoutInformation', async function (req: Request, res: Response) {
     });
 });
 
-route.get(
-    '/workoutInformation',
-    async function (req: Request, res: Response) {}
+route.get('/workoutToday/:_id', async function (req: Request, res: Response) {
+    const userId = req.params._id;
+    try {
+        const user = await User.findById(req.params._id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        } else {
+            return res.status(200).json({ user });
+        }
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Server error' });
+    }
+});
+
+route.post('/createWorkout/:_id', async function (req: Request, res: Response) {
+    const workoutData = req.body;
+    const userId = req.params._id;
+
+    User.findById(userId)
+        .then((user) => {
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+
+            user.workoutsForToday.push(workoutData);
+
+            user.save()
+                .then((updatedUser) => {
+                    if (!updatedUser) {
+                        return res
+                            .status(404)
+                            .json({ message: 'User cannot be updated' });
+                    }
+                    console.log(updatedUser);
+                    return res.status(200).json({ message: 'Workout created' });
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
+
+route.put(
+    '/workoutCompleted/:userId/workouts/:workoutId',
+    async function (req: Request, res: Response) {
+        const userId = req.params.userId;
+        const workoutId = req.params.workoutId;
+        await updateCompleted(userId, workoutId);
+        return res.status(200).json({
+            message: 'completed updated',
+        });
+    }
 );
 
 route.post('/register', async function (req: Request, res: Response) {
@@ -181,5 +238,17 @@ route.get('/logout', async function (req: Request, res: Response) {
         });
     }
 });
+// use this route to implement the update seen greating. Link that to the skip button and the user will only see the form once
+route.put(
+    '/greetingModal/:_id/boarded',
+    async function (req: Request, res: Response) {
+        if ((req.session as ISession)._id) {
+            const _id = req.params._id;
+            const updated = updateOnBoarded(_id);
+
+            res.status(200).json({ message: 'Value updated' });
+        }
+    }
+);
 
 export default route;
