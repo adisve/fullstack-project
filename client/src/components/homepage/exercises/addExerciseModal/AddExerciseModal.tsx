@@ -53,7 +53,7 @@ export function AddExerciseModal({ open, handleClose }: ExerciseModalProps) {
         };
         dispatch(addExercise(exercise));
         handleClose();
-
+        dispatch(setUserProfile());
         setExerciseData({
             name: '',
             description: '',

@@ -36,6 +36,7 @@ export const addExercise =
             const { auth } = getState();
             const user = auth.user;
             if (!user) {
+                dispatch(setStatus(ExerciseModificationStatus.error));
                 return;
             }
             // Assumes that the user object contains ObjectId from mongo
@@ -43,7 +44,6 @@ export const addExercise =
                 exercise,
             });
             dispatch(setStatus(ExerciseModificationStatus.success));
-            dispatch(setUserProfile());
         } catch (error) {
             dispatch(setStatus(ExerciseModificationStatus.error));
         }

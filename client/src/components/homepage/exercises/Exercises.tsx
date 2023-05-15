@@ -18,7 +18,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import './Exercises.css';
-import { useEffect, useState } from 'react';
+import { useReducer, useState } from 'react';
 import { AddExerciseModal } from './addExerciseModal/AddExerciseModal';
 import { Exercise } from '../../../store/interfaces/exercise';
 import { RootState } from '../../../store/store';
@@ -27,6 +27,12 @@ import { useSelector } from 'react-redux';
 export function Exercises() {
     const [exerciseModalActive, setExerciseModalActive] = useState(false);
     const { auth } = useSelector((state: RootState) => state);
+
+    const [, forceUpdate] = useReducer((x) => x + 1, 0);
+
+    function handleClick() {
+        forceUpdate();
+    }
 
     return (
         <Grid container={true} className="exercises-grid">
@@ -47,7 +53,10 @@ export function Exercises() {
             </Fab>
             <AddExerciseModal
                 open={exerciseModalActive}
-                handleClose={setExerciseModalActive}
+                handleClose={() => {
+                    setExerciseModalActive(false);
+                    handleClick();
+                }}
             />
         </Grid>
     );

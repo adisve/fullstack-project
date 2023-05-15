@@ -18,6 +18,8 @@ function isLoggedIn(req: Request, res: Response, next: NextFunction) {
 }
 
 export function toSession(req: Request): ISession {
+    console.log('In toSession');
+    console.log(`Request: ${req.sessionStore}`);
     return JSON.parse(
         Object.values(req.sessionStore['sessions']).pop() as string
     ) as ISession;

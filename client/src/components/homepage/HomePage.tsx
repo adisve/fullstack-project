@@ -22,6 +22,7 @@ export function HomePage() {
     const { auth } = useSelector((state: RootState) => state);
 
     useEffect(() => {
+        console.log('Authenticating user ..');
         dispatch(authenticateUser());
     }, []);
 

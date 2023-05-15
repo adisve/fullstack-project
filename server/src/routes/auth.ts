@@ -61,13 +61,13 @@ route.post('/login', async function (req: Request, res: Response) {
 
 route.get('/login', async function (req: Request, res: Response) {
     const session = toSession(req);
+    console.log(`Session: ${session}`);
     if (session) {
         const _id = session._id;
-        const userDetails = await getUserById(_id);
+        const user = await getUserById(_id);
 
         return res.status(200).json({
-            id: session._id,
-            userDetails: userDetails,
+            user: user,
         });
     }
 });
