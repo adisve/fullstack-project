@@ -3,7 +3,7 @@ export function nrOfExrcisesWithinWeek(data: any) {
     weekStart.setHours(0, 0, 0, 0);
 
     const day = weekStart.getDay();
-    const diff = weekStart.getDate() - day + (day === 0 ? -7 : 1);
+    const diff = weekStart.getDate() - day + (day === 0 ? -6 : 1);
     weekStart.setDate(diff);
     const weekEnd = new Date(weekStart.getTime());
     weekEnd.setDate(weekEnd.getDate() + 6);
