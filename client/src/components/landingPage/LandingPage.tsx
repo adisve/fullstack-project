@@ -1,9 +1,11 @@
 import { Container, Fab, Box } from '@mui/material';
 import people from '../../assets/people.png';
+import { NavBar } from '../navbar/NavBar';
 
 export function LandingPage() {
     return (
-        <Container>
+        <Container style={{ minHeight: '100vh' }}>
+            <NavBar />
             <Box id="landing-page-box">
                 <Box display={'flex'}>
                     <Box id="landing-page-text">
@@ -25,7 +27,12 @@ export function LandingPage() {
                     </Box>
                 </Box>
             </Box>
-            <Fab color="primary" variant="extended" id="landing-page-fab">
+            <Fab
+                color="primary"
+                variant="extended"
+                id="landing-page-fab"
+                href="/homepage"
+            >
                 Register Now!
             </Fab>
         </Container>

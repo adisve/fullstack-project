@@ -6,8 +6,10 @@ export function Footer() {
         <AppBar position="static" color="transparent" id="footer">
             <Stack direction={'row'} spacing={3}>
                 <Toolbar>
-                    <h3>ProTracker</h3> {'\u00A0'}
-                    <FontAwesomeIcon icon={faDumbbell} />
+                    <h3>
+                        ProTracker{'\u00A0'}{' '}
+                        <FontAwesomeIcon icon={faDumbbell} />
+                    </h3>
                 </Toolbar>
                 <Toolbar disableGutters={true}>
                     <Stack direction={'row'} spacing={3}>

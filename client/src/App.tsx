@@ -24,7 +24,6 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
             <div className="App">
-                {isHomePage && <NavBar />}
                 <main style={{ minHeight: '100vh' }}>
                     <Routes>
                         <Route path="/" element={<LandingPage />} />

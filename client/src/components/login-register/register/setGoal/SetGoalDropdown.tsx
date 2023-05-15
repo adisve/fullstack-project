@@ -1,4 +1,10 @@
-import { InputLabel, MenuItem, FormControl, Select } from '@mui/material';
+import {
+    InputLabel,
+    MenuItem,
+    FormControl,
+    Select,
+    Container,
+} from '@mui/material';
 import workoutGoals from '../../../../assets/resources/workoutGoals.json';
 import { AppDispatch, RootState } from '../../../../store/store';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,7 +14,7 @@ export function SetGoalDropdown() {
     const dispatch: AppDispatch = useDispatch();
     const { modal } = useSelector((state: RootState) => state);
     return (
-        <div className="form-multiple">
+        <Container className="form-multiple">
             <FormControl fullWidth>
                 <InputLabel>Goal</InputLabel>
                 <Select
@@ -33,6 +39,6 @@ export function SetGoalDropdown() {
                     ))}
                 </Select>
             </FormControl>
-        </div>
+        </Container>
     );
 }
