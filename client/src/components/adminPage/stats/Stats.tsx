@@ -1,4 +1,4 @@
-import { Card, CardActionArea, Container } from '@mui/material';
+import { Card, CardActionArea } from '@mui/material';
 import { UsersSignedUp } from './UsersSignedUp';
 import { WorkoutsInSystem } from './WorkoutsInSystem';
 

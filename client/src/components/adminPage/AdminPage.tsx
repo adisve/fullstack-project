@@ -25,12 +25,10 @@ export function AdminPage() {
     }
 
     return (
-        <>
-            <Container className="admin-page">
-                <h1>Admin dashboard</h1>
-                <Stats />
-                <Users />
-            </Container>
-        </>
+        <Container className="admin-page">
+            <h1>Admin dashboard</h1>
+            <Stats />
+            <Users />
+        </Container>
     );
 }
