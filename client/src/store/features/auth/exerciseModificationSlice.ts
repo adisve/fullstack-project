@@ -56,7 +56,9 @@ export const removeExercise =
         const user = auth.user;
         const userId = user._id;
         try {
-            await instance.delete(`/deleteExercises/${userId}/${exerciseId}`);
+            await instance.delete(
+                `/auth/deleteExercises/${userId}/${exerciseId}`
+            );
             dispatch(setStatus(ExerciseModificationStatus.success));
         } catch (error) {
             console.error(error);

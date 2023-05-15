@@ -44,19 +44,19 @@ export function WorkoutCard(props: WorkoutProps) {
     const [changeDurationNoteModalActive, setChangeDurationNoteModalActive] =
         useState(false);
 
+    console.log(exercises);
+
     const dispatch: AppDispatch = useDispatch();
 
     const handleAddWorkouts = () => {
         const workout: Workout = {
             _id: '',
-            userId: '',
             exercises: exercises_,
             createdAt: createdAt,
-            updatedAt: createdAt,
             workoutDuration: workoutDuration_,
             notes: notes_,
+            completed: false,
         };
-
         dispatch(addWorkout(workout));
         setAddingWorkout(false);
     };

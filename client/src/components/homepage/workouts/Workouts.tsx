@@ -4,8 +4,6 @@
  */
 
 import { Container, Divider, Grid } from '@mui/material';
-// For testing purposes
-import WORKOUTS from './workouts.json';
 import { WorkoutCard } from './workoutCard/WorkoutCard';
 import { AddWorkoutCard } from './AddWorkoutCard/AddWorkoutCard';
 import { useState } from 'react';
@@ -17,15 +15,9 @@ export function Workouts() {
     const [addingWorkout, setAddingWorkout] = useState(false);
 
     const nowDate = new Date();
-    const preparedSpoofWorkouts = WORKOUTS.map((workout) => {
-        return {
-            ...workout,
-            createdAt: new Date(workout.createdAt),
-            updatedAt: new Date(workout.updatedAt),
-        };
-    });
-
     const { auth } = useSelector((state: RootState) => state);
+
+    console.log(`User: ${JSON.stringify(auth.user)}`);
 
     return (
         <Container
@@ -46,9 +38,9 @@ export function Workouts() {
                         userId: '',
                         exercises: [],
                         createdAt: nowDate,
-                        updatedAt: nowDate,
                         workoutDuration: 0,
                         notes: '',
+                        completed: false,
                     }}
                     withActions={true}
                     setAddingWorkout={setAddingWorkout}
@@ -69,7 +61,7 @@ export function Workouts() {
                 spacing={2}
             >
                 <Divider />
-                {auth.user?.workouts?.map((workout: Workout) => (
+                {auth.user?.workoutsForToday?.map((workout: Workout) => (
                     <Grid item>
                         <WorkoutCard
                             {...workout}

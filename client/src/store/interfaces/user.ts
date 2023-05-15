@@ -10,6 +10,7 @@ export interface User {
     created_at?: Date;
     updated_at?: Date;
     settings?: UserSettings;
+    workoutsForToday?: Workout[];
     workouts?: Workout[];
     exercises?: Exercise[];
     role?: string;

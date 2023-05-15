@@ -26,6 +26,7 @@ export function ExerciseCard(props: Exercise) {
     const dispatch: AppDispatch = useDispatch();
 
     function deleteExercise() {
+        console.log(`ID: ${_id}`);
         if (_id) {
             dispatch(removeExercise(_id));
         }

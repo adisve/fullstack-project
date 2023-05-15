@@ -28,12 +28,6 @@ export function Exercises() {
     const [exerciseModalActive, setExerciseModalActive] = useState(false);
     const { auth } = useSelector((state: RootState) => state);
 
-    const [, forceUpdate] = useReducer((x) => x + 1, 0);
-
-    function handleClick() {
-        forceUpdate();
-    }
-
     return (
         <Grid container={true} className="exercises-grid">
             {auth.user?.exercises?.map((exercise: Exercise) => (

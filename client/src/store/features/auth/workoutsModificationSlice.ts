@@ -29,7 +29,7 @@ const workoutsModificationSlice = createSlice({
 });
 
 export const addWorkout =
-    (exercise: Workout) => async (dispatch: AppDispatch, getState: any) => {
+    (workout: Workout) => async (dispatch: AppDispatch, getState: any) => {
         dispatch(setStatus(WorkoutsModificationStatus.loading));
         try {
             const { auth } = getState();
@@ -37,9 +37,8 @@ export const addWorkout =
             if (!user) {
                 return;
             }
-            // Assumes that the user object contains ObjectId from mongo
-            await instance.post(`auth/addWorkout/${user._id}`, {
-                body: JSON.stringify(exercise),
+            await instance.post(`/auth/addWorkout/${user._id}`, {
+                workout,
             });
             dispatch(setStatus(WorkoutsModificationStatus.success));
         } catch (error) {
