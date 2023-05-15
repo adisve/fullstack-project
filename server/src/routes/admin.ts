@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import express from 'express';
-import { User } from '../db/model';
+import { User } from '../db/user';
 const route = express.Router();
 
 route.get('/allUsers', async (req: Request, res: Response) => {

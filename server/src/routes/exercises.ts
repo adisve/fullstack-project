@@ -1,12 +1,13 @@
 import { Request, Response } from 'express';
 import { Router } from 'express';
-import { User } from '../db/model';
 import dotenv from 'dotenv';
 
 dotenv.config({ path: './config.env' });
 const bodyParser = require('body-parser');
-import { createExercises } from './generatingExercises';
-import { getMatchedExercises } from './exerciseRecommendations';
+import { getMatchedExercises } from '../utils/exerciseRecommendations';
+import { createExercises } from '../utils/generatingExercises';
+import { deleteExerciseById } from '../db/exercises';
+import { User } from '../db/user';
 const route = Router();
 
 route.use(bodyParser.urlencoded({ extended: true }));
@@ -21,6 +22,23 @@ route.get('/generateExercises', async function (req: Request, res: Response) {
     }
     return res.status(200).json({ message: 'Exercises generated' });
 });
+
+route.delete(
+    '/deleteExercises/:userId/:exerciseId',
+    async function (req: Request, res: Response) {
+        const userId = req.params.id;
+        const exerciseId = req.params.id;
+        try {
+            await deleteExerciseById(userId, exerciseId);
+            return res.status(200).json({ message: 'Exercise deleted' });
+        } catch (error) {
+            console.error(error);
+            return res
+                .status(500)
+                .json({ message: 'Exercise could not be deleted' });
+        }
+    }
+);
 
 //users adding their own exercises
 route.post('/addExercise/:_id', async function (req: Request, res: Response) {

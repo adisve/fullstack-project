@@ -1,5 +1,5 @@
 import cron from 'cron';
-import { User } from '../db/model';
+import { User } from '../db/user';
 
 const job = new cron.CronJob('0 0 0 * * *', async function () {
     try {
