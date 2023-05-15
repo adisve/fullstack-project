@@ -20,7 +20,7 @@ import authorizeAdmin from './middleware/authorizeAdmin';
 
 dotenv.config({ path: '/etc/secrets/config.env' });
 
-app.use(cors());
+app.use(cors({ origin: '*' }));
 app.set('trust proxy', true);
 app.use(express.json());
 app.use(express.static(path.join(__dirname, '..', 'frontend-build')));
