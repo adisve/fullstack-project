@@ -36,7 +36,7 @@ export function numberOfExercises(data: any) {
 }
 
 // 2nd graph
-export function todoExercises(data: any, day: string) {
+export function missedExercises(data: any, day: string) {
     return getDataByDayOfWeek(data, day).length - doneExercises(data, day);
 }
 

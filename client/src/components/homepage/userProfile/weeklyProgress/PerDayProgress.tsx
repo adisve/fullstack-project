@@ -13,7 +13,7 @@ import {
 
 import {
     nrOfExrcisesWithinWeek,
-    todoExercises,
+    missedExercises,
     doneExercises,
 } from './progressHelperFunctions';
 
@@ -26,7 +26,7 @@ export function PerDayProgress() {
         data.push({
             day: day,
             done: doneExercises(nrOfExrcisesWithinWeek(exercises), day),
-            todo: todoExercises(nrOfExrcisesWithinWeek(exercises), day),
+            missed: missedExercises(nrOfExrcisesWithinWeek(exercises), day),
         });
     });
     return (
@@ -50,7 +50,7 @@ export function PerDayProgress() {
                 <Tooltip />
                 <Legend />
                 <Bar dataKey="done" stackId="a" fill="#8884d8" />
-                <Bar dataKey="todo" stackId="a" fill="#8884d888" />
+                <Bar dataKey="missed" stackId="a" fill="#8884d888" />
             </BarChart>
         </div>
     );
