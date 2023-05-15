@@ -6,7 +6,7 @@ import { AppDispatch } from '../../store';
 
 interface AdminState {
     adminPageStatus: PageStatus;
-    users: any;
+    users: User[];
     allUsers: User[];
     deleteUpdateModal: boolean;
     editUser?: User;
@@ -50,28 +50,17 @@ const adminSlice = createSlice({
         },
         updateUserDetails(
             state,
-            action: PayloadAction<{
-                id: string;
-                name: string;
-                role: string;
-            }>
+            action: PayloadAction<{ id: string; name: string; role: string }>
         ) {
             const { id, name, role } = action.payload;
-            return {
-                ...state,
-                users: state.users.map((user: any) =>
-                    user._id === id ? { ...user, name, role } : user
-                ),
-            };
-            //
+            state.users = state.users.map((user: User) =>
+                user._id === id ? { ...user, name, role } : user
+            );
         },
         removeUser(state, action: PayloadAction<string>) {
-            return {
-                ...state,
-                users: state.users.filter(
-                    (user: any) => user._id !== action.payload
-                ),
-            };
+            state.users = state.users.filter(
+                (user: User) => user._id !== action.payload
+            );
         },
     },
 });

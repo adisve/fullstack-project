@@ -4,7 +4,6 @@ import { User } from '../db/model';
 const route = express.Router();
 
 route.get('/allUsers', async (req: Request, res: Response) => {
-    console.log(req.session);
     try {
         const users = await User.find();
         res.json(users);

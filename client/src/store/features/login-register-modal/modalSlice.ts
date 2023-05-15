@@ -103,11 +103,8 @@ export function checkUserAvailability() {
                 message: string;
             }>('/auth/userExists', { params });
 
-            console.log(response.status);
-
             if (response.status === 200 || response.status === 304) {
                 // User available
-                console.log('User available');
                 dispatch(setRegisterStatus(PageStatus.initial));
                 dispatch(incrementStep());
             }

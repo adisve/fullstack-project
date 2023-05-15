@@ -1,6 +1,12 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import instance from '../../../config/axios';
 import { User } from '../../interfaces/user';
+import {
+    getSessionToken,
+    getUser,
+    removeSessionData,
+    setSessionData,
+} from '../../session/session';
 import { AppDispatch } from '../../store';
 
 export enum AuthStatus {
@@ -36,14 +42,13 @@ const authSlice = createSlice({
 });
 
 export const logOutUser = () => (dispatch: any) => {
+    removeSessionData();
     dispatch(clearUser());
     dispatch(setAuthStatus(AuthStatus.unauthenticated));
 };
 
 export const loginUser =
-    (email: string, password: string) =>
-    async (dispatch: AppDispatch, getState: any) => {
-        const { auth } = getState();
+    (email: string, password: string) => async (dispatch: AppDispatch) => {
         try {
             dispatch(setAuthStatus(AuthStatus.loading));
             const response = await instance.post(
@@ -56,9 +61,9 @@ export const loginUser =
                     },
                 }
             );
-
             const { user } = await response.data;
             if (user) {
+                setSessionData(user._id, user);
                 dispatch(setUser(user));
                 dispatch(setAuthStatus(AuthStatus.authenticated));
             } else {
@@ -68,6 +73,24 @@ export const loginUser =
             dispatch(setAuthStatus(AuthStatus.error));
         }
     };
+
+export const authenticateUser = () => async (dispatch: any) => {
+    try {
+        dispatch(setAuthStatus(AuthStatus.loading));
+        const user = getUser();
+        if (user) {
+            const user = getUser();
+            // Set the session token
+            dispatch(setUser(user!));
+            dispatch(setAuthStatus(AuthStatus.authenticated));
+        } else {
+            dispatch(setAuthStatus(AuthStatus.unauthenticated));
+        }
+    } catch (error) {
+        console.error(error);
+        dispatch(setAuthStatus(AuthStatus.error));
+    }
+};
 
 export const { setAuthStatus, setUser, clearUser } = authSlice.actions;
 export default authSlice.reducer;
