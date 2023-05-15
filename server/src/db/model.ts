@@ -42,7 +42,7 @@ const userSchema = new mongoose.Schema({
         height: { type: Number, required: true },
         fitnessLevel: { type: String, required: true },
     },
-    workoutsForToday: [workoutSchema], // TODO: add a cron job to update this
+    workoutsForToday: [workoutSchema],
     workouts: [workoutSchema],
     onboarded: { type: Boolean, default: false },
     exercises: [exerciseSchema],
@@ -71,7 +71,9 @@ const createExercise = (values: Record<string, any>) =>
     new User(values).save().then((exercises) => exercises.toObject());
 
 const createWorkout = (values: Record<string, any>) => {
-    new Workouts(values).save().then((workoutForToday) => workoutForToday.toObject());
+    new Workouts(values)
+        .save()
+        .then((workoutForToday) => workoutForToday.toObject());
 };
 
 const getUserById = (_id: String) => User.find({ _id: _id });
@@ -158,31 +160,37 @@ async function updateOnBoarded(id) {
                 updateOnBoarded: true,
             }
         );
-        console.log(updatedResult);
     } catch (error) {
         console.log(error);
     }
 }
+
 
 async function updateCompleted(userId, workoutId) {
-    try {
-        const user = await User.findByIdAndUpdate({
-            _id: userId,
-            updateWorkoutforToday: {
-                $elemMatch: {
-                    _id: workoutId,
-                },
-            },
-            $set: {
-                'workoutForToday.$.completed': true,
-            
-            },
+  try {
+    const user = await User.findById(userId);
 
-        } );
-    } catch (error) {
-        console.log(error);
+    if (!user) {
+      return console.log('User not found');
     }
+
+    const workoutIndex = user.workoutsForToday.findIndex(
+      (workout) => workout._id.toString() === workoutId
+    );
+
+    if (workoutIndex === -1) {
+      return console.log('Workout not found');
+    }
+
+    user.workoutsForToday[workoutIndex].completed = true;
+    await user.save();
+
+    console.log('Workout completed');
+  } catch (error) {
+    console.log(error);
+  }
 }
+
 
 
 export {
