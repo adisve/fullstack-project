@@ -5,7 +5,6 @@ import { connect } from './db/mongo_connector';
 import { job } from './jobs/cronUpdatingWorkout';
 import path from 'path';
 import session from 'express-session';
-dotenv.config({ path: '/etc/secrets/config.env' });
 
 const app: Application = express();
 const port: string | number = process.env.PORT || 7036;
@@ -20,7 +19,6 @@ import isLoggedIn from './middleware/authenticated';
 import authorizeAdmin from './middleware/authorizeAdmin';
 
 dotenv.config({ path: '/etc/secrets/config.env' });
-dotenv.config({ path: './config.env' });
 
 app.use(cors());
 app.set('trust proxy', true);
