@@ -1,3 +1,5 @@
 import axios from 'axios';
-const instance = axios.create({ baseURL: 'http://localhost:7036' });
+const instance = axios.create({
+    baseURL: 'https://protracker-fullstack-project.onrender.com/',
+});
 export default instance;
