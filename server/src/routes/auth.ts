@@ -6,7 +6,6 @@ import bcrypt from 'bcrypt';
 dotenv.config({ path: './config.env' });
 import bodyParser from 'body-parser';
 import { Session } from 'express-session';
-import { toSession } from '../middleware/authenticated';
 import { createExercise, updateCompleted } from '../db/exercises';
 import {
     getUserByEmail,
@@ -15,6 +14,7 @@ import {
     User,
     createUser,
 } from '../db/user';
+import { getSessionData, setSessionData } from '../session/session';
 
 export interface ISession extends Session {
     _id?: any;
@@ -42,10 +42,11 @@ route.post('/login', async function (req: Request, res: Response) {
                 message: 'Invalid credentials',
             });
         } else {
-            (req.session as ISession)._id = user._id;
-            (req.session as ISession).email = user.email;
-            (req.session as ISession).role = user.role;
-            req.session.save();
+            setSessionData({
+                _id: user._id.toString(),
+                email: user.email,
+                role: user.role,
+            });
         }
 
         res.status(200).json({
@@ -60,8 +61,7 @@ route.post('/login', async function (req: Request, res: Response) {
 });
 
 route.get('/login', async function (req: Request, res: Response) {
-    const session = toSession(req);
-    console.log(`Session: ${session}`);
+    const session = getSessionData();
     if (session) {
         const _id = session._id;
         const user = await getUserById(_id);
@@ -162,11 +162,11 @@ route.post('/createWorkout/:_id', async function (req: Request, res: Response) {
                     return res.status(200).json({ message: 'Workout created' });
                 })
                 .catch((err) => {
-                    console.log(err);
+                    console.error(err);
                 });
         })
         .catch((err) => {
-            console.log(err);
+            console.error(err);
         });
 });
 
@@ -226,7 +226,7 @@ route.get('/logout', async function (req: Request, res: Response) {
     if ((req.session as ISession)._id) {
         req.session.destroy(function (err) {
             if (err) {
-                console.log(err);
+                console.error(err);
             } else {
                 res.status(200).json({
                     message: 'logged out',

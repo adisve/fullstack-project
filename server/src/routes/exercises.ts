@@ -18,7 +18,7 @@ route.get('/generateExercises', async function (req: Request, res: Response) {
         await createExercises();
         console.log('Exercises generated');
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
     return res.status(200).json({ message: 'Exercises generated' });
 });
@@ -26,8 +26,8 @@ route.get('/generateExercises', async function (req: Request, res: Response) {
 route.delete(
     '/deleteExercises/:userId/:exerciseId',
     async function (req: Request, res: Response) {
-        const userId = req.params.id;
-        const exerciseId = req.params.id;
+        const userId = req.params.userId;
+        const exerciseId = req.params.exerciseId;
         try {
             await deleteExerciseById(userId, exerciseId);
             return res.status(200).json({ message: 'Exercise deleted' });
@@ -54,7 +54,7 @@ route.post('/addExercise/:_id', async function (req: Request, res: Response) {
             return res.status(200).json({ message: 'Exercises created' });
         })
         .catch((err) => {
-            console.log(err);
+            console.error(err);
         });
 });
 

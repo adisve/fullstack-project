@@ -55,7 +55,7 @@ export function Exercises() {
                 open={exerciseModalActive}
                 handleClose={() => {
                     setExerciseModalActive(false);
-                    handleClick();
+                    window.location.reload();
                 }}
             />
         </Grid>

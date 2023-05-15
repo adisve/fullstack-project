@@ -27,7 +27,6 @@ async function deleteExerciseById(userId: string, exerciseId: string) {
             },
             { new: true }
         );
-        console.log(`Exercise with ID ${exerciseId} deleted successfully.`);
     } catch (error) {
         console.error(`Error deleting exercise: ${error}`);
     }
@@ -76,7 +75,7 @@ async function updateCompleted(userId: string, workoutId: string) {
         user.workoutsForToday[workoutIndex].completed = true;
         await user.save();
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 

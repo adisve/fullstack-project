@@ -97,7 +97,6 @@ export const setUserProfile = () => async (dispatch: any) => {
         const response = await instance.get('/auth/login');
         const user: User = response.data.user;
         if (user) {
-            console.log(`Retrieved user ${user.name}`);
             setSessionToken(user._id!);
             dispatch(setUser(user));
             dispatch(setAuthStatus(AuthStatus.authenticated));
@@ -109,6 +108,7 @@ export const setUserProfile = () => async (dispatch: any) => {
     } catch (error) {
         console.error(error);
         dispatch(setAuthStatus(AuthStatus.unauthenticated));
+        dispatch(clearUser());
     }
 };
 

@@ -49,4 +49,19 @@ export const addExercise =
         }
     };
 
+export const removeExercise =
+    (exerciseId: string) => async (dispatch: AppDispatch, getState: any) => {
+        dispatch(setStatus(ExerciseModificationStatus.loading));
+        const { auth } = getState();
+        const user = auth.user;
+        const userId = user._id;
+        try {
+            await instance.delete(`/deleteExercises/${userId}/${exerciseId}`);
+            dispatch(setStatus(ExerciseModificationStatus.success));
+        } catch (error) {
+            console.error(error);
+            dispatch(setStatus(ExerciseModificationStatus.error));
+        }
+    };
+
 export const { setStatus } = exerciseModificationSlice.actions;
