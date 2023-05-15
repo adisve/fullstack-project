@@ -1,4 +1,4 @@
-import { Exercise } from '../db/model';
+import { Exercise } from '../db/exercises';
 
 async function createExercises() {
     const fitnessLevel = [

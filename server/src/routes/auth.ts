@@ -1,16 +1,5 @@
 import { Request, Response } from 'express';
 import { Router } from 'express';
-import {
-    User,
-    createUser,
-    updateOnBoarded,
-    getUserById,
-    getUserByName,
-    getUserByEmail,
-    createExercise,
-    createWorkout,
-    updateCompleted,
-} from '../db/model';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 
@@ -18,6 +7,14 @@ dotenv.config({ path: './config.env' });
 import bodyParser from 'body-parser';
 import { Session } from 'express-session';
 import { toSession } from '../middleware/authenticated';
+import { createExercise, updateCompleted } from '../db/exercises';
+import {
+    getUserByEmail,
+    getUserById,
+    getUserByName,
+    User,
+    createUser,
+} from '../db/user';
 
 export interface ISession extends Session {
     _id?: any;
@@ -238,17 +235,5 @@ route.get('/logout', async function (req: Request, res: Response) {
         });
     }
 });
-// use this route to implement the update seen greating. Link that to the skip button and the user will only see the form once
-route.put(
-    '/greetingModal/:_id/boarded',
-    async function (req: Request, res: Response) {
-        if ((req.session as ISession)._id) {
-            const _id = req.params._id;
-            const updated = updateOnBoarded(_id);
-
-            res.status(200).json({ message: 'Value updated' });
-        }
-    }
-);
 
 export default route;

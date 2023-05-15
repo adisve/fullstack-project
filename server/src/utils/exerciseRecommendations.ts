@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
-import { User, Exercise } from '../db/model';
+import { Exercise } from '../db/exercises';
+import { User } from '../db/user';
 
 async function getMatchedExercises(req: Request, res: Response) {
     const id = req.params._id;
