@@ -11,29 +11,33 @@
  */
 
 import { Fab, Grid } from '@mui/material';
-import EXERCISES from './exercises.json';
+// For testing purposes change auth.user.exercises to EXERCISES
+// import EXERCISES from './exercises.json';
 import { ExerciseCard } from './exerciseCard/ExerciseCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import './Exercises.css';
+import { useReducer, useState } from 'react';
+import { AddExerciseModal } from './addExerciseModal/AddExerciseModal';
+import { Exercise } from '../../../store/interfaces/exercise';
+import { RootState } from '../../../store/store';
+import { useSelector } from 'react-redux';
 
 export function Exercises() {
+    const [exerciseModalActive, setExerciseModalActive] = useState(false);
+    const { auth } = useSelector((state: RootState) => state);
+
     return (
-        <Grid
-            container={true}
-            sx={{
-                display: 'flex',
-                flexDirection: 'row',
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'relative',
-            }}
-        >
-            {EXERCISES.map((exercise) => (
+        <Grid container={true} className="exercises-grid">
+            {auth.user?.exercises?.map((exercise: Exercise) => (
                 <ExerciseCard {...exercise} />
             ))}
-            <Fab className="floating-btn" variant="extended">
+            <Fab
+                className="add-exercise"
+                variant="extended"
+                onClick={() => setExerciseModalActive(true)}
+            >
                 <FontAwesomeIcon
                     icon={faPlus}
                     size="lg"
@@ -41,6 +45,13 @@ export function Exercises() {
                 />
                 <h4>Add Exercise</h4>
             </Fab>
+            <AddExerciseModal
+                open={exerciseModalActive}
+                handleClose={() => {
+                    setExerciseModalActive(false);
+                    window.location.reload();
+                }}
+            />
         </Grid>
     );
 }

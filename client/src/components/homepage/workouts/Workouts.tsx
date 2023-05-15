@@ -3,12 +3,20 @@
 
  */
 
-import { Box, Container, Divider, Grid } from '@mui/material';
-import WORKOUTS from './workouts.json';
+import { Container, Divider, Grid } from '@mui/material';
 import { WorkoutCard } from './workoutCard/WorkoutCard';
 import { AddWorkoutCard } from './AddWorkoutCard/AddWorkoutCard';
+import { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../store/store';
+import { Workout } from '../../../store/interfaces/workout';
 
 export function Workouts() {
+    const [addingWorkout, setAddingWorkout] = useState(false);
+
+    const nowDate = new Date();
+    const { auth } = useSelector((state: RootState) => state);
+
     return (
         <Container
             sx={{
@@ -19,8 +27,23 @@ export function Workouts() {
         >
             <h1>Today</h1>
             <Divider />
-            {/* <WorkoutCard {...WORKOUTS[0]} withActions={true} /> */}
-            <AddWorkoutCard />
+            {!addingWorkout ? (
+                <AddWorkoutCard workoutAdded={setAddingWorkout} />
+            ) : (
+                <WorkoutCard
+                    {...{
+                        _id: '',
+                        userId: '',
+                        exercises: [],
+                        createdAt: nowDate,
+                        workoutDuration: 0,
+                        notes: '',
+                        completed: false,
+                    }}
+                    withActions={true}
+                    setAddingWorkout={setAddingWorkout}
+                />
+            )}
 
             <h1>Previously</h1>
             <br />
@@ -36,9 +59,13 @@ export function Workouts() {
                 spacing={2}
             >
                 <Divider />
-                {WORKOUTS.map((workout) => (
-                    <Grid item style={{ width: '23em' }}>
-                        <WorkoutCard {...workout} withActions={false} />
+                {auth.user?.workoutsForToday?.map((workout: Workout) => (
+                    <Grid item>
+                        <WorkoutCard
+                            {...workout}
+                            withActions={false}
+                            setAddingWorkout={setAddingWorkout}
+                        />
                     </Grid>
                 ))}
             </Grid>

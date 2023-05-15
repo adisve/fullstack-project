@@ -68,9 +68,7 @@ export function Sidebar(props: SidebarProps) {
                         <ListItem key={text}>
                             <ListItemButton>
                                 <Link
-                                    style={{
-                                        textDecoration: 'none',
-                                    }}
+                                    style={{ textDecoration: 'none' }}
                                     to={`${text.toLowerCase()}`}
                                 >
                                     <ListItemText

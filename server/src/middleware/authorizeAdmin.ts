@@ -1,8 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { toSession } from './authenticated';
+import { getSessionData } from '../session/session';
 
 function authorizeAdmin(req: Request, res: Response, next: NextFunction) {
-    const session = toSession(req);
+    const session = getSessionData();
     if (!session || !session._id || session.role !== 'admin') {
         return res.status(401).json({
             message: 'Unauthorized',

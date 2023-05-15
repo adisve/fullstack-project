@@ -1,12 +1,19 @@
 import React, { useState } from 'react';
 import './AuthenticationModal.css';
-import { Modal, Box, Container, Tab, Tabs } from '@mui/material';
+import { Modal, Box, Container, Tab, Tabs, Dialog } from '@mui/material';
 import { LoginForm } from './login/LoginForm';
 import { RegisterForm } from './register/RegisterForm';
+import styled from '@emotion/styled';
 
 interface AuthenticationModalProps {
     open: boolean;
 }
+
+const StyledDialog = styled((props: any) => <Dialog {...props} />)(({ _ }) => ({
+    '& .MuiDialog-paper': {
+        borderRadius: 20,
+    },
+}));
 
 export function AuthenticationModal({ open }: AuthenticationModalProps) {
     const [email, setEmail] = useState('');
@@ -17,8 +24,8 @@ export function AuthenticationModal({ open }: AuthenticationModalProps) {
         setValue(newValue);
     };
     return (
-        <Modal open={open}>
-            <Box className="auth-modal">
+        <StyledDialog open={open}>
+            <Box>
                 <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     {/* Switcher between register and login */}
                     <Tabs value={value} onChange={handleChange}>
@@ -41,6 +48,6 @@ export function AuthenticationModal({ open }: AuthenticationModalProps) {
                     )}
                 </Container>
             </Box>
-        </Modal>
+        </StyledDialog>
     );
 }

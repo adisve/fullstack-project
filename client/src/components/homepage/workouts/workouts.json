@@ -1,7 +1,7 @@
 [
     {
         "_id": "5f8d0b8b0b3a3c0b3c3b3c3b",
-        "user_id": "5f8d0b8b0b3a3c0b3c3b3c3b",
+        "userId": "5f8d0b8b0b3a3c0b3c3b3c3b",
         "date": "2020-10-19T00:00:00.000Z",
         "createdAt": "2020-10-19T00:00:00.000Z",
         "updatedAt": "2020-10-19T00:00:00.000Z",
@@ -36,7 +36,58 @@
     },
     {
         "_id": "5f8d0b8b0b3a3c0b3c3b3c3b",
-        "user_id": "5f8d0b8b0b3a3c0b3c3b3c3b",
+        "userId": "5f8d0b8b0b3a3c0b3c3b3c3b",
+        "date": "2020-10-19T00:00:00.000Z",
+        "createdAt": "2020-10-19T00:00:00.000Z",
+        "updatedAt": "2020-10-19T00:00:00.000Z",
+        "workoutDuration": 60,
+        "notes": "Chest Day, Went well!",
+        "exercises": [
+            {
+                "_id": "5f8d0a6a4b9b1f0b3c9b9b1f",
+                "name": "Pushups",
+                "description": "Pushups are a fast and effective exercise for building strength. They can be done from virtually anywhere and don’t require any equipment.",
+                "reps": 10,
+                "sets": 3,
+                "weight": 0
+            },
+            {
+                "_id": "5f8d0a6a4b9b1f0b3c9b9b20",
+                "name": "Squats",
+                "description": "Squats are a compound exercise that strengthens the glutes, quads, and hamstrings. They also engage your core.",
+                "reps": 10,
+                "sets": 3,
+                "weight": 0
+            },
+            {
+                "_id": "5f8d0a6a4b9b1f0b3c9b9b21",
+                "name": "Lunges",
+                "description": "Lunges are a great exercise for strengthening, sculpting and building several muscles/muscle groups, including the quadriceps (or thighs), the gluteus maximus (or buttocks) as well as the hamstrings.",
+                "reps": 10,
+                "sets": 3,
+                "weight": 0
+            },
+            {
+                "_id": "5f8d0a6a4b9b1f0b3c9b9b1f",
+                "name": "Pushups",
+                "description": "Pushups are a fast and effective exercise for building strength. They can be done from virtually anywhere and don’t require any equipment.",
+                "reps": 10,
+                "sets": 3,
+                "weight": 0
+            },
+            {
+                "_id": "5f8d0a6a4b9b1f0b3c9b9b20",
+                "name": "Squats",
+                "description": "Squats are a compound exercise that strengthens the glutes, quads, and hamstrings. They also engage your core.",
+                "reps": 10,
+                "sets": 3,
+                "weight": 0
+            }
+        ]
+    },
+    {
+        "_id": "5f8d0b8b0b3a3c0b3c3b3c3b",
+        "userId": "5f8d0b8b0b3a3c0b3c3b3c3b",
         "date": "2020-10-19T00:00:00.000Z",
         "createdAt": "2020-10-19T00:00:00.000Z",
         "updatedAt": "2020-10-19T00:00:00.000Z",
@@ -71,7 +122,7 @@
     },
     {
         "_id": "5f8d0b8b0b3a3c0b3c3b3c3b",
-        "user_id": "5f8d0b8b0b3a3c0b3c3b3c3b",
+        "userId": "5f8d0b8b0b3a3c0b3c3b3c3b",
         "date": "2020-10-19T00:00:00.000Z",
         "createdAt": "2020-10-19T00:00:00.000Z",
         "updatedAt": "2020-10-19T00:00:00.000Z",
@@ -106,42 +157,7 @@
     },
     {
         "_id": "5f8d0b8b0b3a3c0b3c3b3c3b",
-        "user_id": "5f8d0b8b0b3a3c0b3c3b3c3b",
-        "date": "2020-10-19T00:00:00.000Z",
-        "createdAt": "2020-10-19T00:00:00.000Z",
-        "updatedAt": "2020-10-19T00:00:00.000Z",
-        "workoutDuration": 60,
-        "notes": "Chest Day, Went well!",
-        "exercises": [
-            {
-                "_id": "5f8d0a6a4b9b1f0b3c9b9b1f",
-                "name": "Pushups",
-                "description": "Pushups are a fast and effective exercise for building strength. They can be done from virtually anywhere and don’t require any equipment.",
-                "reps": 10,
-                "sets": 3,
-                "weight": 0
-            },
-            {
-                "_id": "5f8d0a6a4b9b1f0b3c9b9b20",
-                "name": "Squats",
-                "description": "Squats are a compound exercise that strengthens the glutes, quads, and hamstrings. They also engage your core.",
-                "reps": 10,
-                "sets": 3,
-                "weight": 0
-            },
-            {
-                "_id": "5f8d0a6a4b9b1f0b3c9b9b21",
-                "name": "Lunges",
-                "description": "Lunges are a great exercise for strengthening, sculpting and building several muscles/muscle groups, including the quadriceps (or thighs), the gluteus maximus (or buttocks) as well as the hamstrings.",
-                "reps": 10,
-                "sets": 3,
-                "weight": 0
-            }
-        ]
-    },
-    {
-        "_id": "5f8d0b8b0b3a3c0b3c3b3c3b",
-        "user_id": "5f8d0b8b0b3a3c0b3c3b3c3b",
+        "userId": "5f8d0b8b0b3a3c0b3c3b3c3b",
         "date": "2020-10-19T00:00:00.000Z",
         "createdAt": "2020-10-19T00:00:00.000Z",
         "updatedAt": "2020-10-19T00:00:00.000Z",

@@ -16,17 +16,22 @@ import {
     Button,
 } from '@mui/material';
 import './ExerciseCard.css';
-
-type Exercise = {
-    name: string;
-    sets: number;
-    reps: number;
-    weight: number;
-    description: string;
-};
+import { Exercise } from '../../../../store/interfaces/exercise';
+import { AppDispatch } from '../../../../store/store';
+import { useDispatch } from 'react-redux';
+import { removeExercise } from '../../../../store/features/auth/exerciseModificationSlice';
 
 export function ExerciseCard(props: Exercise) {
-    const { name, sets, reps, weight, description } = props;
+    const { _id, name, sets, reps, weight, description } = props;
+    const dispatch: AppDispatch = useDispatch();
+
+    function deleteExercise() {
+        console.log(`Deleting ${_id}`);
+        if (_id) {
+            dispatch(removeExercise(_id));
+        }
+        window.location.reload();
+    }
 
     return (
         <Card className="exercise-card">
@@ -40,8 +45,14 @@ export function ExerciseCard(props: Exercise) {
                 </Typography>
             </CardContent>
             <CardActions>
-                <Button size="small">Edit</Button>
-                <Button size="small">Delete</Button>
+                <Button
+                    onClick={() => {
+                        deleteExercise();
+                    }}
+                    size="small"
+                >
+                    Delete
+                </Button>
             </CardActions>
         </Card>
     );

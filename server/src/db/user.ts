@@ -74,7 +74,7 @@ function updateUserById(
 
 const createUser = (values: Record<string, any>) =>
     new User(values).save().then((User) => User.toObject());
-const getUserById = (_id: String) => User.find({ _id: _id });
+const getUserById = (_id: String) => User.findOne({ _id: _id });
 const getUserByEmail = (email: String) => User.findOne({ email: email });
 const getUserByName = (name: String) => User.findOne({ name: name });
 

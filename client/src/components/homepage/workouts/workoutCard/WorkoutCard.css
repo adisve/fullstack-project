@@ -1,4 +1,19 @@
 .workout-card {
     border-radius: 20px !important;
     opacity: 0.95;
+    width: 24em;
+    height: 29em;
+    position: relative !important;
+}
+
+.workout-card-with-actions {
+    height: 32em;
+}
+
+.workout-card-actions {
+    display: flex !important;
+    position: absolute !important;
+    bottom: 0 !important;
+    float: right !important;
+    margin: 0.6em !important;
 }

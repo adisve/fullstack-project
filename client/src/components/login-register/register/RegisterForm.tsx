@@ -14,6 +14,13 @@ import { SetFitnessProfile } from './setProfile/SetFitnessProfile';
 import { PageStatus } from '../../../enums/pageStatus';
 import LoadingSpinner from '../../general/LoadingSpinner';
 import SuccessIcon from '../../../assets/success_icon.png';
+import { Link } from 'react-router-dom';
+import styled from '@emotion/styled';
+
+const Link_ = styled((props: any) => <Link {...props} />)(({ _ }) => ({
+    textDecoration: 'none',
+    color: 'white',
+}));
 
 export function RegisterForm() {
     const dispatch: AppDispatch = useDispatch();
@@ -83,7 +90,7 @@ export function RegisterForm() {
         return (
             <div className="success-container">
                 <Container className="success-box">
-                    <h3>Successfully registered account!</h3>
+                    <h3>Success, now login with your credentials!</h3>
                 </Container>
             </div>
         );
@@ -95,16 +102,30 @@ export function RegisterForm() {
 
     return (
         <Container className="register-form-container">
-            <h2>{title()}</h2>
-            <div>{page()}</div>
-            <div
-                style={{
-                    position: 'absolute',
-                    bottom: '0',
-                    right: '0',
-                    margin: '1rem',
-                }}
-            >
+            <Box>
+                <h2>{title()}</h2>
+                <div>{page()}</div>
+                <div
+                    style={{
+                        position: 'absolute',
+                        bottom: '0',
+                        right: '0',
+                        margin: '1rem',
+                    }}
+                ></div>
+            </Box>
+
+            <Box sx={{ padding: '1em', textAlign: 'right' }}>
+                {showPreviousButton() && (
+                    <Button
+                        className="modal-button"
+                        sx={{ marginRight: '1em' }}
+                        variant="outlined"
+                        onClick={() => dispatch(decrementStep())}
+                    >
+                        Previous
+                    </Button>
+                )}
                 <Button
                     className="modal-button"
                     disabled={buttonDisabled()}
@@ -124,25 +145,7 @@ export function RegisterForm() {
                 >
                     Continue
                 </Button>
-            </div>
-            {showPreviousButton() && (
-                <div
-                    style={{
-                        position: 'absolute',
-                        bottom: '0',
-                        left: '0',
-                        margin: '1rem',
-                    }}
-                >
-                    <Button
-                        className="modal-button"
-                        variant="outlined"
-                        onClick={() => dispatch(decrementStep())}
-                    >
-                        Previous
-                    </Button>
-                </div>
-            )}
+            </Box>
         </Container>
     );
 }

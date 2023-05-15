@@ -3,9 +3,8 @@ import instance from '../../../config/axios';
 import { User } from '../../interfaces/user';
 import {
     getSessionToken,
-    getUser,
-    removeSessionData,
-    setSessionData,
+    removeSessionToken,
+    setSessionToken,
 } from '../../session/session';
 import { AppDispatch } from '../../store';
 
@@ -42,7 +41,7 @@ const authSlice = createSlice({
 });
 
 export const logOutUser = () => (dispatch: any) => {
-    removeSessionData();
+    removeSessionToken();
     dispatch(clearUser());
     dispatch(setAuthStatus(AuthStatus.unauthenticated));
 };
@@ -63,7 +62,7 @@ export const loginUser =
             );
             const { user } = await response.data;
             if (user) {
-                setSessionData(user._id, user);
+                setSessionToken(user._id);
                 dispatch(setUser(user));
                 dispatch(setAuthStatus(AuthStatus.authenticated));
             } else {
@@ -77,18 +76,39 @@ export const loginUser =
 export const authenticateUser = () => async (dispatch: any) => {
     try {
         dispatch(setAuthStatus(AuthStatus.loading));
-        const user = getUser();
-        if (user) {
-            const user = getUser();
-            // Set the session token
-            dispatch(setUser(user!));
+        const token = getSessionToken();
+        if (token) {
+            dispatch(setUserProfile());
             dispatch(setAuthStatus(AuthStatus.authenticated));
         } else {
             dispatch(setAuthStatus(AuthStatus.unauthenticated));
+            dispatch(clearUser());
         }
     } catch (error) {
         console.error(error);
         dispatch(setAuthStatus(AuthStatus.error));
+        dispatch(clearUser());
+    }
+};
+
+export const setUserProfile = () => async (dispatch: any) => {
+    try {
+        dispatch(setAuthStatus(AuthStatus.loading));
+        const response = await instance.get('/auth/login');
+        const user: User = response.data.user;
+        if (user) {
+            setSessionToken(user._id!);
+            dispatch(setUser(user));
+            dispatch(setAuthStatus(AuthStatus.authenticated));
+        } else {
+            console.error('Something went wrong');
+            dispatch(setAuthStatus(AuthStatus.unauthenticated));
+            dispatch(clearUser());
+        }
+    } catch (error) {
+        console.error(error);
+        dispatch(setAuthStatus(AuthStatus.unauthenticated));
+        dispatch(clearUser());
     }
 };
 

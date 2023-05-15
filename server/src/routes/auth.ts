@@ -6,7 +6,6 @@ import bcrypt from 'bcrypt';
 dotenv.config({ path: './config.env' });
 import bodyParser from 'body-parser';
 import { Session } from 'express-session';
-import { toSession } from '../middleware/authenticated';
 import { createExercise, updateCompleted } from '../db/exercises';
 import {
     getUserByEmail,
@@ -15,6 +14,7 @@ import {
     User,
     createUser,
 } from '../db/user';
+import { getSessionData, setSessionData } from '../session/session';
 
 export interface ISession extends Session {
     _id?: any;
@@ -42,10 +42,11 @@ route.post('/login', async function (req: Request, res: Response) {
                 message: 'Invalid credentials',
             });
         } else {
-            (req.session as ISession)._id = user._id;
-            (req.session as ISession).email = user.email;
-            (req.session as ISession).role = user.role;
-            req.session.save();
+            setSessionData({
+                _id: user._id.toString(),
+                email: user.email,
+                role: user.role,
+            });
         }
 
         res.status(200).json({
@@ -60,36 +61,30 @@ route.post('/login', async function (req: Request, res: Response) {
 });
 
 route.get('/login', async function (req: Request, res: Response) {
-    const session = toSession(req);
+    const session = getSessionData();
     if (session) {
         const _id = session._id;
-        const userDetails = await getUserById(_id);
+        const user = await getUserById(_id);
 
         return res.status(200).json({
-            id: session._id,
-            userDetails: userDetails,
+            user: user,
         });
     }
 });
 
 route.get('/userExists', async function (req: Request, res: Response) {
     try {
-        const { username, email } = req.query;
+        const { email } = req.query;
 
-        if (!username && !email) {
+        if (!email) {
             return res.status(400).json({
                 message: 'Please provide a username or email',
             });
         }
 
-        let user;
-        if (username) {
-            user = await getUserByName(username.toString());
-        } else {
-            user = await getUserByEmail(email.toString());
-        }
+        const user = await getUserByEmail(email.toString());
 
-        if (user) {
+        if (!user) {
             return res.status(200).json({
                 message: 'User exists',
                 user: user,
@@ -106,81 +101,6 @@ route.get('/userExists', async function (req: Request, res: Response) {
         });
     }
 });
-
-route.post('/workoutInformation', async function (req: Request, res: Response) {
-    const { interests, fitnessLevel, name, sets, reps } = req.body;
-    const exer = {
-        interests: interests,
-        fitnessLevel: fitnessLevel,
-        name: name,
-        sets: sets,
-        reps: reps,
-    };
-    await createExercise({
-        exercise: exer,
-    });
-    return res.status(200).json({
-        message: 'Exercise added',
-    });
-});
-
-route.get('/workoutToday/:_id', async function (req: Request, res: Response) {
-    const userId = req.params._id;
-    try {
-        const user = await User.findById(req.params._id);
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        } else {
-            return res.status(200).json({ user });
-        }
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({ message: 'Server error' });
-    }
-});
-
-route.post('/createWorkout/:_id', async function (req: Request, res: Response) {
-    const workoutData = req.body;
-    const userId = req.params._id;
-
-    User.findById(userId)
-        .then((user) => {
-            if (!user) {
-                return res.status(404).json({ message: 'User not found' });
-            }
-
-            user.workoutsForToday.push(workoutData);
-
-            user.save()
-                .then((updatedUser) => {
-                    if (!updatedUser) {
-                        return res
-                            .status(404)
-                            .json({ message: 'User cannot be updated' });
-                    }
-                    console.log(updatedUser);
-                    return res.status(200).json({ message: 'Workout created' });
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        })
-        .catch((err) => {
-            console.log(err);
-        });
-});
-
-route.put(
-    '/workoutCompleted/:userId/workouts/:workoutId',
-    async function (req: Request, res: Response) {
-        const userId = req.params.userId;
-        const workoutId = req.params.workoutId;
-        await updateCompleted(userId, workoutId);
-        return res.status(200).json({
-            message: 'completed updated',
-        });
-    }
-);
 
 route.post('/register', async function (req: Request, res: Response) {
     try {
@@ -226,7 +146,7 @@ route.get('/logout', async function (req: Request, res: Response) {
     if ((req.session as ISession)._id) {
         req.session.destroy(function (err) {
             if (err) {
-                console.log(err);
+                console.error(err);
             } else {
                 res.status(200).json({
                     message: 'logged out',

@@ -41,7 +41,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use('/auth', authRoute);
 app.use('/auth', externalRoute);
-app.use('/workouts', workoutsRoute);
+app.use('/auth', workoutsRoute);
 
 job.start();
 app.use('/api/user', isLoggedIn, userRoute);

@@ -15,10 +15,13 @@ import {
 } from '../../constants/login-register-constants';
 import { updateUserSettings } from '../../../../store/features/login-register-modal/modalSlice';
 import { AppDispatch, RootState } from '../../../../store/store';
+import { DatePicker, LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 export function SetFitnessProfile() {
     const dispatch: AppDispatch = useDispatch();
     const { modal } = useSelector((state: RootState) => state);
+    const today = new Date();
 
     const value = (property: string | number | undefined): string => {
         if (property) {
@@ -30,22 +33,15 @@ export function SetFitnessProfile() {
     return (
         <Container className="form-multiple">
             <FormControl fullWidth>
-                <TextField
-                    inputProps={{ style: { fontSize: 14 } }}
-                    InputLabelProps={{ style: { fontSize: 14 } }}
-                    type="date"
-                    value={
-                        modal.user?.settings?.dob
-                            ? modal.user?.settings?.dob
-                                  .toISOString()
-                                  .split('T')[0]
-                            : ''
-                    }
-                    onChange={(event) => {
-                        const dateOfBirth = new Date(event.target.value);
-                        dispatch(updateUserSettings({ dob: dateOfBirth }));
-                    }}
-                />
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker
+                        value={value}
+                        onChange={(newValue: any) => {
+                            const dateOfBirth = newValue.$d;
+                            dispatch(updateUserSettings({ dob: dateOfBirth }));
+                        }}
+                    />
+                </LocalizationProvider>
             </FormControl>
 
             <FormControl fullWidth>

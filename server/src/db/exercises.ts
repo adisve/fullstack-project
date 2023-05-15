@@ -9,24 +9,27 @@ export const exerciseSchema = new mongoose.Schema({
     name: { type: String, required: true },
     sets: { type: Number, required: true },
     reps: { type: Number, required: true },
+    weight: { type: Number, required: true },
 });
 const Exercise = mongoose.model('Exercise', exerciseSchema);
 
 const createExercise = (values: Record<string, any>) =>
-    new User(values).save().then((exercises) => exercises.toObject());
+    new Exercise(values).save().then((exercises) => exercises.toObject());
 
 async function deleteExerciseById(userId: string, exerciseId: string) {
     try {
-        await User.findByIdAndUpdate(
+        const exerciseObjectId = new mongoose.Types.ObjectId(exerciseId);
+        console.log(`Deleting exercise ${exerciseId}`);
+        const res = await User.findByIdAndUpdate(
             userId,
             {
                 $pull: {
-                    exercises: { _id: exerciseId },
+                    exercises: { _id: exerciseObjectId },
                 },
             },
             { new: true }
         );
-        console.log(`Exercise with ID ${exerciseId} deleted successfully.`);
+        console.log(res);
     } catch (error) {
         console.error(`Error deleting exercise: ${error}`);
     }
@@ -75,7 +78,7 @@ async function updateCompleted(userId: string, workoutId: string) {
         user.workoutsForToday[workoutIndex].completed = true;
         await user.save();
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 }
 
