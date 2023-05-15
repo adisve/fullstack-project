@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, RootState } from '../../../../store/store';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store/store';
 import { TimeFrame } from './TimeFrame';
 import {
     BarChart,
@@ -10,30 +10,26 @@ import {
     Tooltip,
     Legend,
 } from 'recharts';
-import { fetchAllExercises } from '../../../../store/features/user/userSlice';
-import { useEffect } from 'react';
-import { PageStatus } from '../../../../enums/pageStatus';
-import LoadingSpinner from '../../../general/LoadingSpinner';
-import dummyData from './dummyData.json';
+
 import {
     nrOfExrcisesWithinWeek,
     todoExercises,
     doneExercises,
 } from './progressHelperFunctions';
 
-const data: any = [];
-
-['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].forEach((day) => {
-    data.push({
-        day: day,
-        done: doneExercises(nrOfExrcisesWithinWeek(dummyData), day),
-        todo: todoExercises(nrOfExrcisesWithinWeek(dummyData), day),
-    });
-});
-
 export function PerDayProgress() {
-    // const { user } = useSelector((state: RootState) => state);
+    const { user } = useSelector((state: RootState) => state);
+    const exercises = user.exercises;
 
+    const data: any = [];
+
+    ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].forEach((day) => {
+        data.push({
+            day: day,
+            done: doneExercises(nrOfExrcisesWithinWeek(exercises), day),
+            todo: todoExercises(nrOfExrcisesWithinWeek(exercises), day),
+        });
+    });
     return (
         <div className="workouts-done">
             <h4>Exercises per day and week</h4>

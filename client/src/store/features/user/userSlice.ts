@@ -1,6 +1,5 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { PageStatus } from '../../../enums/pageStatus';
-import adminSlice from '../admin/adminSlice';
 import { AppDispatch } from '../../store';
 import instance from '../../../config/axios';
 
