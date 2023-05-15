@@ -18,7 +18,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import './Exercises.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AddExerciseModal } from './addExerciseModal/AddExerciseModal';
 import { Exercise } from '../../../store/interfaces/exercise';
 import { RootState } from '../../../store/store';

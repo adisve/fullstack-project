@@ -12,4 +12,5 @@ export interface User {
     settings?: UserSettings;
     workouts?: Workout[];
     exercises?: Exercise[];
+    role?: string;
 }

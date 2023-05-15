@@ -7,9 +7,12 @@ export default defineConfig({
         watch: {
             usePolling: true,
         },
-        host: true, // Here
+        host: true,
         strictPort: true,
         port: 3000,
+    },
+    build: {
+        outDir: './frontend-build',
     },
     plugins: [reactRefresh()],
 });

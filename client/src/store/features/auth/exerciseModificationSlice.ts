@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import instance from '../../../config/axios';
 import { AppDispatch } from '../../store';
 import { Exercise } from '../../interfaces/exercise';
+import { setUserProfile } from './authSlice';
 
 enum ExerciseModificationStatus {
     initial,
@@ -39,9 +40,10 @@ export const addExercise =
             }
             // Assumes that the user object contains ObjectId from mongo
             await instance.post(`auth/addExercise/${user._id}`, {
-                body: JSON.stringify(exercise),
+                exercise,
             });
             dispatch(setStatus(ExerciseModificationStatus.success));
+            dispatch(setUserProfile());
         } catch (error) {
             dispatch(setStatus(ExerciseModificationStatus.error));
         }

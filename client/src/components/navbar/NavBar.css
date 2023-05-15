@@ -5,6 +5,7 @@
 }
 
 #navbar {
+    padding: 0.5rem;
     box-shadow: none;
     border: solid 0.02em transparent;
 }

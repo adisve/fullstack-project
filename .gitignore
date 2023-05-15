@@ -118,3 +118,4 @@ dist
 
 # Build since it's a generated dir
 build/
+frontend-build/

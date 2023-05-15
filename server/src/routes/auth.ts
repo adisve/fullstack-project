@@ -1,16 +1,25 @@
 import { Request, Response } from 'express';
 import { Router } from 'express';
-import { getUser, createUser, getEmail, createExercise } from '../db/model';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
-dotenv.config({ path: './config.env' });
-const bodyParser = require('body-parser');
 
+dotenv.config({ path: './config.env' });
+import bodyParser from 'body-parser';
 import { Session } from 'express-session';
+import { toSession } from '../middleware/authenticated';
+import { createExercise, updateCompleted } from '../db/exercises';
+import {
+    getUserByEmail,
+    getUserById,
+    getUserByName,
+    User,
+    createUser,
+} from '../db/user';
 
 export interface ISession extends Session {
     _id?: any;
-    Email?: string;
+    email?: string;
+    role?: 'user' | 'admin';
 }
 
 const route = Router();
@@ -21,7 +30,7 @@ route.post('/login', async function (req: Request, res: Response) {
     try {
         const { email, password } = req.body;
 
-        const user = await getEmail(email);
+        const user = await getUserByEmail(email);
         if (!user) {
             return res.status(404).json({
                 message: 'User not found',
@@ -34,12 +43,13 @@ route.post('/login', async function (req: Request, res: Response) {
             });
         } else {
             (req.session as ISession)._id = user._id;
-            (req.session as ISession).Email = user.email;
+            (req.session as ISession).email = user.email;
+            (req.session as ISession).role = user.role;
+            req.session.save();
         }
 
         res.status(200).json({
             user: user,
-            id: (req.session as ISession)._id,
         });
     } catch (error) {
         console.error('Unable to log in', error);
@@ -50,15 +60,49 @@ route.post('/login', async function (req: Request, res: Response) {
 });
 
 route.get('/login', async function (req: Request, res: Response) {
-    if ((req.session as ISession)._id) {
-        const _id = (req.session as ISession)._id;
-
-        const userDetails = await getUser(_id);
-        console.log(userDetails);
+    const session = toSession(req);
+    if (session) {
+        const _id = session._id;
+        const userDetails = await getUserById(_id);
 
         return res.status(200).json({
-            id: (req.session as ISession)._id,
+            id: session._id,
             userDetails: userDetails,
+        });
+    }
+});
+
+route.get('/userExists', async function (req: Request, res: Response) {
+    try {
+        const { username, email } = req.query;
+
+        if (!username && !email) {
+            return res.status(400).json({
+                message: 'Please provide a username or email',
+            });
+        }
+
+        let user;
+        if (username) {
+            user = await getUserByName(username.toString());
+        } else {
+            user = await getUserByEmail(email.toString());
+        }
+
+        if (user) {
+            return res.status(200).json({
+                message: 'User exists',
+                user: user,
+            });
+        } else {
+            return res.status(404).json({
+                message: 'User not found',
+            });
+        }
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({
+            message: 'Could not check for account availability',
         });
     }
 });
@@ -72,7 +116,6 @@ route.post('/workoutInformation', async function (req: Request, res: Response) {
         sets: sets,
         reps: reps,
     };
-    console.log(exer);
     await createExercise({
         exercise: exer,
     });
@@ -81,9 +124,62 @@ route.post('/workoutInformation', async function (req: Request, res: Response) {
     });
 });
 
-route.get(
-    '/workoutInformation',
-    async function (req: Request, res: Response) {}
+route.get('/workoutToday/:_id', async function (req: Request, res: Response) {
+    const userId = req.params._id;
+    try {
+        const user = await User.findById(req.params._id);
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        } else {
+            return res.status(200).json({ user });
+        }
+    } catch (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Server error' });
+    }
+});
+
+route.post('/createWorkout/:_id', async function (req: Request, res: Response) {
+    const workoutData = req.body;
+    const userId = req.params._id;
+
+    User.findById(userId)
+        .then((user) => {
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+
+            user.workoutsForToday.push(workoutData);
+
+            user.save()
+                .then((updatedUser) => {
+                    if (!updatedUser) {
+                        return res
+                            .status(404)
+                            .json({ message: 'User cannot be updated' });
+                    }
+                    console.log(updatedUser);
+                    return res.status(200).json({ message: 'Workout created' });
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+});
+
+route.put(
+    '/workoutCompleted/:userId/workouts/:workoutId',
+    async function (req: Request, res: Response) {
+        const userId = req.params.userId;
+        const workoutId = req.params.workoutId;
+        await updateCompleted(userId, workoutId);
+        return res.status(200).json({
+            message: 'completed updated',
+        });
+    }
 );
 
 route.post('/register', async function (req: Request, res: Response) {
@@ -100,7 +196,7 @@ route.post('/register', async function (req: Request, res: Response) {
                 message: 'Invalid email or password',
             });
         } else {
-            const userExists = await getEmail(email);
+            const userExists = await getUserByEmail(email);
             if (userExists) {
                 console.error('User email already exists');
                 return res
@@ -132,7 +228,9 @@ route.get('/logout', async function (req: Request, res: Response) {
             if (err) {
                 console.log(err);
             } else {
-                res.redirect('/auth/login');
+                res.status(200).json({
+                    message: 'logged out',
+                });
             }
         });
     }

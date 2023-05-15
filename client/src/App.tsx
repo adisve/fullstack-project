@@ -1,5 +1,4 @@
-import { Route, Routes, Navigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { Route, Routes } from 'react-router-dom';
 
 import { AboutUsPage } from './components/aboutUsPage/AboutUsPage';
 import { LandingPage } from './components/landingPage/LandingPage';
@@ -15,6 +14,7 @@ import { Exercises } from './components/homepage/exercises/Exercises';
 import { Dashboard } from './components/homepage/dashboard/Dashboard';
 import { Workouts } from './components/homepage/workouts/Workouts';
 import { UserProfile } from './components/homepage/userProfile/UserProfile';
+import { AdminPage } from './components/adminPage/AdminPage';
 import { ThemeProvider } from '@mui/material';
 import theme from './config/theme';
 
@@ -35,6 +35,7 @@ function App() {
                             <Route path="profile" element={<UserProfile />} />
                             <Route path="" element={<Dashboard />} />
                         </Route>
+                        <Route path="/admin" element={<AdminPage />} />
                     </Routes>
                 </main>
                 {isHomePage && <Footer />}

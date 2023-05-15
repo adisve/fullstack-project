@@ -83,6 +83,38 @@ export function registerUser() {
     };
 }
 
+export function checkUserAvailability() {
+    return async function (dispatch: AppDispatch, getState: any) {
+        dispatch(setRegisterStatus(PageStatus.loading));
+        try {
+            const { modal } = getState();
+            const user = modal.user;
+            const params: { [key: string]: string } = {};
+            if (user.username) {
+                params['username'] = user.username;
+            } else if (user.email) {
+                params['email'] = user.email;
+            } else {
+                dispatch(setRegisterStatus(PageStatus.error));
+                return;
+            }
+
+            const response = await instance.get<{
+                message: string;
+            }>('/auth/userExists', { params });
+
+            if (response.status === 200 || response.status === 304) {
+                // User available
+                dispatch(setRegisterStatus(PageStatus.initial));
+                dispatch(incrementStep());
+            }
+        } catch (error) {
+            console.error(error);
+            dispatch(setRegisterStatus(PageStatus.error));
+        }
+    };
+}
+
 export const {
     setRegisterStatus,
     setLoginStatus,

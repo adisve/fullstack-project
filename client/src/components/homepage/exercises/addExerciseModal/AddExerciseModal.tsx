@@ -20,6 +20,7 @@ import './AddExerciseModal.css';
 import { addExercise } from '../../../../store/features/auth/exerciseModificationSlice';
 import { AppDispatch } from '../../../../store/store';
 import { Exercise } from '../../../../store/interfaces/exercise';
+import { setUserProfile } from '../../../../store/features/auth/authSlice';
 
 interface ExerciseModalProps {
     open: boolean;
@@ -33,6 +34,7 @@ const StyledDialog = styled((props: any) => <Dialog {...props} />)(({ _ }) => ({
 }));
 
 export function AddExerciseModal({ open, handleClose }: ExerciseModalProps) {
+    const dispatch: AppDispatch = useDispatch();
     const [exerciseData, setExerciseData] = useState({
         name: '',
         description: '',
@@ -40,7 +42,6 @@ export function AddExerciseModal({ open, handleClose }: ExerciseModalProps) {
         reps: '',
         weight: '',
     });
-    const dispatch: AppDispatch = useDispatch();
 
     const handleSubmit = () => {
         const exercise: Exercise = {
@@ -62,11 +63,14 @@ export function AddExerciseModal({ open, handleClose }: ExerciseModalProps) {
         });
     };
 
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
+    const handleChange = (
+        targetName: string,
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        const { value } = event.target;
         setExerciseData((prevData) => ({
             ...prevData,
-            [name]: value,
+            [targetName]: value,
         }));
     };
 
@@ -85,7 +89,11 @@ export function AddExerciseModal({ open, handleClose }: ExerciseModalProps) {
                                 variant="outlined"
                                 value={exerciseData.name}
                                 required={true}
-                                onChange={handleChange}
+                                onChange={(
+                                    event: React.ChangeEvent<HTMLInputElement>
+                                ) => {
+                                    handleChange('name', event);
+                                }}
                                 helperText="Name of the exercise"
                             />
 
@@ -94,7 +102,11 @@ export function AddExerciseModal({ open, handleClose }: ExerciseModalProps) {
                                 label="Exercise Description"
                                 variant="outlined"
                                 value={exerciseData.description}
-                                onChange={handleChange}
+                                onChange={(
+                                    event: React.ChangeEvent<HTMLInputElement>
+                                ) => {
+                                    handleChange('description', event);
+                                }}
                                 helperText="Description on how to perform the exercise"
                             />
                         </FormGroup>
@@ -106,7 +118,11 @@ export function AddExerciseModal({ open, handleClose }: ExerciseModalProps) {
                                 type="number"
                                 required={true}
                                 value={exerciseData.sets}
-                                onChange={handleChange}
+                                onChange={(
+                                    event: React.ChangeEvent<HTMLInputElement>
+                                ) => {
+                                    handleChange('sets', event);
+                                }}
                                 sx={{ width: '20ch' }}
                             />
                             <TextField
@@ -116,7 +132,11 @@ export function AddExerciseModal({ open, handleClose }: ExerciseModalProps) {
                                 type="number"
                                 required={true}
                                 value={exerciseData.reps}
-                                onChange={handleChange}
+                                onChange={(
+                                    event: React.ChangeEvent<HTMLInputElement>
+                                ) => {
+                                    handleChange('reps', event);
+                                }}
                                 sx={{ width: '20ch' }}
                             />
 
@@ -127,7 +147,11 @@ export function AddExerciseModal({ open, handleClose }: ExerciseModalProps) {
                                 type="number"
                                 required={true}
                                 value={exerciseData.weight}
-                                onChange={handleChange}
+                                onChange={(
+                                    event: React.ChangeEvent<HTMLInputElement>
+                                ) => {
+                                    handleChange('weight', event);
+                                }}
                                 InputProps={{
                                     startAdornment: (
                                         <InputAdornment position="start">

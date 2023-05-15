@@ -1,5 +1,7 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
+import { workoutSchema } from './workouts';
+import { exerciseSchema } from './exercises';
 const saltRounds = 10;
 
 const userSchema = new mongoose.Schema({
@@ -21,6 +23,10 @@ const userSchema = new mongoose.Schema({
         height: { type: Number, required: true },
         fitnessLevel: { type: String, required: true },
     },
+    workoutsForToday: [workoutSchema],
+    workouts: [workoutSchema],
+    onboarded: { type: Boolean, default: false },
+    exercises: [exerciseSchema],
     role: {
         type: String,
         enum: ['user', 'admin'],
@@ -37,33 +43,7 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
-const exerciseSchema = new mongoose.Schema({
-    date: { type: Date, default: new Date(), required: true },
-    exercise: {
-        interests: { type: String, required: true },
-        fitnessLevel: { type: String, required: true },
-        name: { type: String, required: true },
-        sets: { type: Number, required: true },
-        reps: { type: Number, required: true },
-    },
-    created_at: { type: Date, default: new Date(), required: true },
-});
-
-const User = mongoose.model('User', userSchema);
-const Exercise = mongoose.model('Exercise', exerciseSchema);
-
-const createUser = (values: Record<string, any>) =>
-    new User(values).save().then((User) => User.toObject());
-
-const createExercise = (values: Record<string, any>) =>
-    new Exercise(values)
-        .save()
-        .then((exerciseModel) => exerciseModel.toObject());
-
-const getUser = (_id: String) => User.find({ _id: _id });
-const getEmail = (email: String) => User.findOne({ email: email });
-
-const updateUser = (
+function updateUserById(
     _id: String,
     interests: Array<String>,
     goals: Array<String>,
@@ -72,7 +52,7 @@ const updateUser = (
     weight: Number,
     height: Number,
     fitnessLevel: String
-) =>
+) {
     User.findByIdAndUpdate(
         _id,
         {
@@ -90,13 +70,21 @@ const updateUser = (
         },
         { upsert: true }
     );
+}
+
+const createUser = (values: Record<string, any>) =>
+    new User(values).save().then((User) => User.toObject());
+const getUserById = (_id: String) => User.find({ _id: _id });
+const getUserByEmail = (email: String) => User.findOne({ email: email });
+const getUserByName = (name: String) => User.findOne({ name: name });
+
+const User = mongoose.model('User', userSchema);
 
 export {
     User,
-    Exercise,
     createUser,
-    getEmail,
-    getUser,
-    updateUser,
-    createExercise,
+    getUserById,
+    getUserByEmail,
+    getUserByName,
+    updateUserById,
 };
