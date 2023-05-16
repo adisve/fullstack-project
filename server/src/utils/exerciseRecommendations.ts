@@ -2,14 +2,11 @@ import { Request, Response } from 'express';
 import { Exercise } from '../db/exercises';
 import { User } from '../db/user';
 
-async function getMatchedExercises(req: Request, res: Response) {
-    const id = req.params._id;
+async function getMatchedExercises(userId: string) {
+    const id = userId;
 
     const user = await User.findById(id);
-
-    if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-    }
+    console.log(user);
 
     const fitnessLevel = user.settings.fitnessLevel;
 
@@ -26,19 +23,19 @@ async function getMatchedExercises(req: Request, res: Response) {
     let exerciseCount: number;
     switch (fitnessLevel) {
         case FitnessLevel.NONE:
-            exerciseCount = 3;
+            exerciseCount = 10;
             break;
         case FitnessLevel.BEGINNER:
-            exerciseCount = 5;
+            exerciseCount = 15;
             break;
         case FitnessLevel.MODERATE:
-            exerciseCount = 7;
+            exerciseCount = 20;
             break;
         case FitnessLevel.SOMEWHAT_EXPERT:
-            exerciseCount = 9;
+            exerciseCount = 25;
             break;
         case FitnessLevel.EXPERT:
-            exerciseCount = 11;
+            exerciseCount = 30;
             break;
         default:
             throw new Error(`Invalid fitness level: ${fitnessLevel}`);
@@ -57,16 +54,8 @@ async function getMatchedExercises(req: Request, res: Response) {
         reps: exercise.reps,
     }));
 
-    try {
-        const updatedUser = await User.findByIdAndUpdate(id, {
-            $push: { exercises: addingExercises },
-        });
-        if (!updatedUser) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-        return res.status(200).json({ message: 'Exercises created' });
-    } catch (error) {
-        return res.status(500).json({ message: 'Internal Server Error' });
-    }
+    await User.findByIdAndUpdate(userId, {
+        $push: { exercises: exercises },
+    });
 }
 export { getMatchedExercises };

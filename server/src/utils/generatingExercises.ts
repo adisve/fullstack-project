@@ -1,7 +1,7 @@
 import { Exercise } from '../db/exercises';
-import { User } from '../db/user';
 
-async function createExercises(userId: string) {
+
+async function createExercises() {
     const fitnessLevel = [
         'none',
         'beginner',
@@ -66,10 +66,7 @@ async function createExercises(userId: string) {
         };
         exercises.push(exercise);
     }
-    console.log('Inserting exercises ..');
-    await User.findByIdAndUpdate(userId, {
-        $push: { exercises: exercises },
-    });
+    const insertExercise = await Exercise.insertMany(exercises);
 }
 
 export { createExercises };
