@@ -10,6 +10,7 @@ import { Workout } from '../../../store/interfaces/workout';
 interface WorkoutCardProps {
     workout: Workout;
     handleComplete: any;
+    handleRemove: any;
     handleOpen: any;
 }
 
@@ -17,6 +18,7 @@ export function WorkoutCard({
     workout,
     handleComplete,
     handleOpen,
+    handleRemove,
 }: WorkoutCardProps) {
     return (
         <Card
@@ -27,14 +29,12 @@ export function WorkoutCard({
                 width: '19rem',
                 borderRadius: '15px',
                 height: '15rem',
+                backgroundColor: 'rgba(99, 112, 228, 0.05)',
             }}
         >
             <CardContent
                 sx={{
                     overflow: 'auto',
-                    whiteSpace:
-                        '-moz-pre-wrap !important' /* Mozilla, since 1999 */,
-                    wordBreak: 'break-all',
                 }}
             >
                 <Typography
@@ -95,6 +95,16 @@ export function WorkoutCard({
                     size="small"
                 >
                     Complete
+                </Button>
+                <Button
+                    onClick={() => {
+                        handleRemove(workout._id);
+                    }}
+                    variant="outlined"
+                    color="error"
+                    size="small"
+                >
+                    Remove
                 </Button>
             </CardActions>
         </Card>

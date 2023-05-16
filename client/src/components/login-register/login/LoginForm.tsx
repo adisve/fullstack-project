@@ -17,7 +17,6 @@ export function LoginForm({
     setPassword,
 }: LoginFormProps) {
     const dispatch: AppDispatch = useDispatch();
-    const authStatus = useSelector((state: RootState) => state.auth.status);
 
     return (
         <div className="login-container">
@@ -52,11 +51,6 @@ export function LoginForm({
                 >
                     Log in
                 </Button>
-                {authStatus == AuthStatus.error && (
-                    <h4 style={{ color: 'red' }}>
-                        This account does not exist
-                    </h4>
-                )}
             </Container>
         </div>
     );

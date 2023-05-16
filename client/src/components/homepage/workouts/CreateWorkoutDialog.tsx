@@ -49,6 +49,8 @@ export function CreateWorkoutDialog({
     const handleCreateWorkout = async () => {
         if (validateWorkout(newWorkout)) {
             await dispatch(addWorkout(newWorkout));
+            handleCloseCreateWorkout();
+            toast.success('Workout created!');
         } else {
             toast.error(
                 'You are missing fields required to create a new workout!'

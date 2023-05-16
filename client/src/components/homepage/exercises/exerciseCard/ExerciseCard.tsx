@@ -20,6 +20,7 @@ import { Exercise } from '../../../../store/interfaces/exercise';
 import { AppDispatch } from '../../../../store/store';
 import { useDispatch } from 'react-redux';
 import { removeExercise } from '../../../../store/features/auth/exerciseModificationSlice';
+import { toast } from 'react-hot-toast';
 
 export function ExerciseCard(props: Exercise) {
     const { _id, name, sets, reps, weight, description } = props;
@@ -27,8 +28,14 @@ export function ExerciseCard(props: Exercise) {
 
     async function deleteExercise() {
         if (_id) {
-            await dispatch(removeExercise(_id));
-            window.location.reload();
+            try {
+                await dispatch(removeExercise(_id));
+                toast.success('Deleted exercise successfully!');
+            } catch (error) {
+                toast.error('Failed to delete exercise. Try again later');
+            }
+        } else {
+            toast.error('Something went wrong. Try again later.');
         }
     }
 
@@ -45,6 +52,7 @@ export function ExerciseCard(props: Exercise) {
             </CardContent>
             <CardActions>
                 <Button
+                    variant="outlined"
                     onClick={() => {
                         deleteExercise();
                     }}

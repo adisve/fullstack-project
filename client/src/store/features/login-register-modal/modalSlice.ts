@@ -4,6 +4,7 @@ import { UserSettings } from '../../interfaces/userSettings';
 import { User } from '../../interfaces/user';
 import { AppDispatch } from '../../store';
 import instance from '../../../config/axios';
+import { toast } from 'react-hot-toast';
 
 interface ModalState {
     registerStatus: PageStatus;
@@ -77,8 +78,10 @@ export function registerUser() {
                 { headers: { 'Content-Type': 'application/json' } }
             );
             dispatch(setRegisterStatus(PageStatus.success));
+            toast.success('Successfully registered account');
         } catch (error) {
             dispatch(setRegisterStatus(PageStatus.error));
+            toast.error('Failed to create account! Try again later.');
         }
     };
 }
@@ -96,6 +99,7 @@ export function checkUserAvailability() {
                 params['email'] = user.email;
             } else {
                 dispatch(setRegisterStatus(PageStatus.error));
+                toast.error('Email address is already in use');
                 return;
             }
 
@@ -110,6 +114,7 @@ export function checkUserAvailability() {
             }
         } catch (error) {
             console.error(error);
+            toast.error('Something went wrong. Try again later.');
             dispatch(setRegisterStatus(PageStatus.error));
         }
     };

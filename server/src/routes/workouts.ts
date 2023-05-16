@@ -7,7 +7,7 @@ import {
     updateWorkoutCompleted,
 } from '../db/workouts';
 
-dotenv.config({ path: '/etc/secrets/config.env' });
+dotenv.config({ path: './config.env' });
 import bodyParser from 'body-parser';
 const route = Router();
 

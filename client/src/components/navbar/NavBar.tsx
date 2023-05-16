@@ -17,10 +17,18 @@ export function NavBar() {
                 <Toolbar disableGutters>
                     {screenBreakpoint > 600 ? (
                         <Stack direction={'row'} spacing={6}>
-                            <Link href="/homepage" id="link-group">
+                            <Link
+                                style={{ color: '#353e54' }}
+                                href="/homepage"
+                                id="link-group"
+                            >
                                 Dashboard
                             </Link>
-                            <Link href="/about-us" id="link-group">
+                            <Link
+                                style={{ color: '#353e54' }}
+                                href="/about-us"
+                                id="link-group"
+                            >
                                 About Us
                             </Link>
                         </Stack>

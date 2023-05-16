@@ -43,7 +43,7 @@ export function AuthenticationModal({ open }: AuthenticationModalProps) {
                         />
                     ) : (
                         <>
-                            <RegisterForm />
+                            <RegisterForm setValue={setValue} />
                         </>
                     )}
                 </Container>

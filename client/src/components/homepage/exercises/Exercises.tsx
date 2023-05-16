@@ -30,9 +30,13 @@ export function Exercises() {
 
     return (
         <Grid container={true} className="exercises-grid">
-            {auth.user?.exercises?.map((exercise: Exercise) => (
-                <ExerciseCard {...exercise} />
-            ))}
+            {auth.user?.exercises?.length == 0 || !auth.user?.exercises ? (
+                <h2>No exercises yet</h2>
+            ) : (
+                auth.user?.exercises?.map((exercise: Exercise) => (
+                    <ExerciseCard {...exercise} />
+                ))
+            )}
             <Fab
                 onClick={() => setExerciseModalActive(true)}
                 className="floating-btn"

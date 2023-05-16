@@ -52,7 +52,6 @@ export function WorkoutDetailDialog({
         if (userId && workout && workout._id) {
             handleClose();
             await dispatch(deleteWorkout(workout._id));
-            window.location.reload();
         }
     }
 

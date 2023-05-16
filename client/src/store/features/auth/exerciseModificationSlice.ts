@@ -48,11 +48,29 @@ export const addExercise =
         }
     };
 
+import { setUser } from './authSlice';
+
 export const removeExercise =
     (exerciseId: string) => async (dispatch: AppDispatch, getState: any) => {
         dispatch(setStatus(ExerciseModificationStatus.loading));
         try {
+            const { auth } = getState();
+            const user = auth.user;
+            if (!user) {
+                return;
+            }
+
             await instance.delete(`/auth/deleteExercises/${exerciseId}`);
+
+            const updatedExercises = user.exercises.filter(
+                (exercise: Exercise) => exercise._id !== exerciseId
+            );
+            const updatedUser = {
+                ...user,
+                exercises: updatedExercises,
+            };
+
+            dispatch(setUser(updatedUser));
             dispatch(setStatus(ExerciseModificationStatus.success));
         } catch (error) {
             console.error(error);

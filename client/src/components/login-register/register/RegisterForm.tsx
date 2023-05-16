@@ -16,15 +16,26 @@ import LoadingSpinner from '../../general/LoadingSpinner';
 import SuccessIcon from '../../../assets/success_icon.png';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { useEffect } from 'react';
 
 const Link_ = styled((props: any) => <Link {...props} />)(({ _ }) => ({
     textDecoration: 'none',
     color: 'white',
 }));
 
-export function RegisterForm() {
+interface RegisterFormProps {
+    setValue: any;
+}
+
+export function RegisterForm({ setValue }: RegisterFormProps) {
     const dispatch: AppDispatch = useDispatch();
     const { modal } = useSelector((state: RootState) => state);
+
+    useEffect(() => {
+        if (modal.registerStatus == PageStatus.success) {
+            setValue(0);
+        }
+    }, [modal.registerStatus]);
 
     const page = () => {
         switch (modal.currentStep) {
@@ -85,16 +96,6 @@ export function RegisterForm() {
     const showPreviousButton = (): boolean => {
         return modal.currentStep > 1;
     };
-
-    if (modal.registerStatus == PageStatus.success) {
-        return (
-            <div className="success-container">
-                <Container className="success-box">
-                    <h3>Success, now login with your credentials!</h3>
-                </Container>
-            </div>
-        );
-    }
 
     if (modal.registerStatus == PageStatus.loading) {
         return <LoadingSpinner />;

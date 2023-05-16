@@ -10,7 +10,11 @@ export function Footer() {
                 </Toolbar>
                 <Toolbar disableGutters={true}>
                     <Stack direction={'row'} spacing={3}>
-                        <Link href="/about-us" id="link-group">
+                        <Link
+                            style={{ color: '#353e54' }}
+                            href="/about-us"
+                            id="link-group"
+                        >
                             About Us
                         </Link>
                     </Stack>

@@ -3,9 +3,8 @@ import { Router } from 'express';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 
-dotenv.config({ path: '/etc/secrets/config.env' });
+dotenv.config({ path: './config.env' });
 import bodyParser from 'body-parser';
-import { Session } from 'express-session';
 import { getUserByEmail, getUserById, createUser } from '../db/user';
 import { getMatchedExercises } from '../utils/getMatchedExercises';
 
@@ -29,9 +28,6 @@ route.post('/login', async function (req: Request, res: Response) {
                 message: 'Invalid credentials',
             });
         } else {
-            if (user.exercises.length === 0 || !user.exercises) {
-                await getMatchedExercises(user._id!.toString());
-            }
             req.session.sessionUserId = user._id.toString();
             req.session.role = user.role;
             req.session.save(() => {
@@ -121,14 +117,15 @@ route.post('/register', async function (req: Request, res: Response) {
                     .status(400)
                     .json({ message: 'Email already exists' });
             } else {
-                await createUser({
+                const createdUser = await createUser({
                     email,
                     name,
                     password,
                     settings: settings,
                 });
+                await getMatchedExercises(createdUser._id.toString());
                 return res.status(200).json({
-                    message: 'created account',
+                    message: 'Created account',
                 });
             }
         }

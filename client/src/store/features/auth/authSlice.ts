@@ -7,6 +7,7 @@ import {
     setSessionToken,
 } from '../../session/session';
 import { AppDispatch } from '../../store';
+import { toast } from 'react-hot-toast';
 
 export enum AuthStatus {
     loading,
@@ -64,8 +65,10 @@ export const loginUser =
             }
         } catch (error) {
             dispatch(setAuthStatus(AuthStatus.error));
+            toast.error('Something went wrong while logging in!');
         }
     };
+
 
 export const authenticateUser = () => async (dispatch: any) => {
     try {
@@ -81,7 +84,7 @@ export const authenticateUser = () => async (dispatch: any) => {
                 dispatch(setUser(user));
                 dispatch(setAuthStatus(AuthStatus.authenticated));
             } else {
-                console.error('Something went wrong');
+                toast.error('Something went wrong while authenticating!');
                 dispatch(setAuthStatus(AuthStatus.unauthenticated));
                 dispatch(clearUser());
             }

@@ -17,8 +17,12 @@ import { WorkoutDetailDialog } from './WorkoutDetailDialog';
 import { WorkoutCard } from './WorkoutCard';
 import { AppDispatch } from '../../../store/store';
 import { useDispatch } from 'react-redux';
-import { completeWorkout } from '../../../store/features/auth/workoutsModificationSlice';
+import {
+    completeWorkout,
+    deleteWorkout,
+} from '../../../store/features/auth/workoutsModificationSlice';
 import { CreateWorkoutDialog } from './CreateWorkoutDialog';
+import { toast } from 'react-hot-toast';
 
 interface WorkoutsForTodayProps {
     workoutsForToday?: Workout[];
@@ -50,10 +54,22 @@ export function WorkoutsForToday({ workoutsForToday }: WorkoutsForTodayProps) {
         try {
             if (workout._id) {
                 await dispatch(completeWorkout(workout._id));
-                window.location.reload();
+                toast.success('Workout completed!');
             }
         } catch (error) {
+            toast.error('Workout could not be completed! Try again later');
             console.error(error);
+        }
+    };
+
+    const handleRemove = async (workoutId: string) => {
+        try {
+            if (workoutId) {
+                await dispatch(deleteWorkout(workoutId));
+                toast.success('Workout removed!');
+            }
+        } catch (error) {
+            toast.error('Workout could not be removed! Try again later');
         }
     };
 
@@ -69,8 +85,8 @@ export function WorkoutsForToday({ workoutsForToday }: WorkoutsForTodayProps) {
                     position: 'relative',
                 }}
             >
-                {workoutsForToday?.length == 0 ||
-                workoutsForToday === undefined ? (
+                {workoutsForToday?.filter((w) => !w.completed).length == 0 ||
+                !workoutsForToday ? (
                     <Container>
                         <h3>No workouts for today</h3>
                     </Container>
@@ -83,6 +99,7 @@ export function WorkoutsForToday({ workoutsForToday }: WorkoutsForTodayProps) {
                                     workout={workout}
                                     handleComplete={handleComplete}
                                     handleOpen={handleOpenWorkoutDetail}
+                                    handleRemove={handleRemove}
                                 />
                             );
                         })

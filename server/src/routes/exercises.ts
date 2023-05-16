@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Router } from 'express';
 import dotenv from 'dotenv';
 
-dotenv.config({ path: '/etc/secrets/config.env' });
+dotenv.config({ path: './config.env' });
 import bodyParser from 'body-parser';
 import { getMatchedExercises } from '../utils/getMatchedExercises';
 import { deleteExerciseById } from '../db/exercises';
