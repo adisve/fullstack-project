@@ -138,7 +138,7 @@ export function WorkoutCard(props: WorkoutProps) {
             {!withActions && (
                 <CardActions>
                     <Fab
-                        size="small"
+                        variant="extended"
                         color="primary"
                         aria-label="Complete"
                         onClick={() => {
@@ -153,7 +153,7 @@ export function WorkoutCard(props: WorkoutProps) {
                             left: '8px',
                         }}
                     >
-                        <FontAwesomeIcon icon={faCheck} />
+                        Confirm
                     </Fab>
                 </CardActions>
             )}

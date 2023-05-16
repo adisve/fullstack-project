@@ -1,7 +1,7 @@
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 const instance = axios.create({
-    baseURL: 'https://protracker-fullstack-project.onrender.com/',
+    baseURL: 'http://localhost:7036',
     withCredentials: true,
 });
 export default instance;

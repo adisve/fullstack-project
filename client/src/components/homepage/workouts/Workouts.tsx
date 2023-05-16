@@ -10,6 +10,8 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import { Workout } from '../../../store/interfaces/workout';
+import PassedWorkouts from './passedWorkouts/PassedWorkouts';
+import WorkoutsForToday from './workoutsForToday/WorkoutsForToday';
 
 export function Workouts() {
     const [addingWorkout, setAddingWorkout] = useState(false);
@@ -22,7 +24,7 @@ export function Workouts() {
             sx={{
                 display: 'flex',
                 flexDirection: 'column',
-                alignItems: 'center',
+                alignItems: 'start',
             }}
         >
             <h1>Today</h1>
@@ -45,30 +47,15 @@ export function Workouts() {
                 />
             )}
 
-            <h1>Previously</h1>
-            <br />
-            <Grid
-                container
-                sx={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    position: 'relative',
-                }}
-                spacing={2}
-            >
-                <Divider />
-                {auth.user?.workoutsForToday?.map((workout: Workout) => (
-                    <Grid item>
-                        <WorkoutCard
-                            {...workout}
-                            withActions={false}
-                            setAddingWorkout={setAddingWorkout}
-                        />
-                    </Grid>
-                ))}
-            </Grid>
+            <WorkoutsForToday
+                workoutsForToday={auth.user?.workoutsForToday}
+                setAddingWorkout={setAddingWorkout}
+            />
+
+            <PassedWorkouts
+                passedWorkouts={auth.user?.workouts}
+                setAddingWorkout={setAddingWorkout}
+            />
         </Container>
     );
 }
