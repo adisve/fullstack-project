@@ -26,11 +26,9 @@ export function ExerciseCard(props: Exercise) {
     const dispatch: AppDispatch = useDispatch();
 
     function deleteExercise() {
-        console.log(`Deleting ${_id}`);
         if (_id) {
             dispatch(removeExercise(_id));
         }
-        window.location.reload();
     }
 
     return (

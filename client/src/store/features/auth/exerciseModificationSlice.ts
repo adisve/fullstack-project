@@ -39,7 +39,7 @@ export const addExercise =
                 return;
             }
             // Assumes that the user object contains ObjectId from mongo
-            await instance.post(`auth/addExercise/${user._id}`, {
+            await instance.post(`auth/addExercise`, {
                 exercise,
             });
             dispatch(setStatus(ExerciseModificationStatus.success));
@@ -51,13 +51,8 @@ export const addExercise =
 export const removeExercise =
     (exerciseId: string) => async (dispatch: AppDispatch, getState: any) => {
         dispatch(setStatus(ExerciseModificationStatus.loading));
-        const { auth } = getState();
-        const user = auth.user;
-        const userId = user._id;
         try {
-            await instance.delete(
-                `/auth/deleteExercises/${userId}/${exerciseId}`
-            );
+            await instance.delete(`/auth/deleteExercises/${exerciseId}`);
             dispatch(setStatus(ExerciseModificationStatus.success));
         } catch (error) {
             console.error(error);

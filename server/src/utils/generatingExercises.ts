@@ -66,7 +66,6 @@ async function createExercises(userId: string) {
         };
         exercises.push(exercise);
     }
-    console.log('Inserting exercises ..');
     await User.findByIdAndUpdate(userId, {
         $push: { exercises: exercises },
     });

@@ -33,15 +33,11 @@ export const fetchAllExercises =
         const userId = auth.user._id;
         dispatch(setUserPageStatus(PageStatus.loading));
         try {
-            const response = await instance.get(
-                `/auth/user/workouts/${userId}`,
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        Authorization: `Bearer ${session}`,
-                    },
-                }
-            );
+            const response = await instance.get(`/auth/user/workouts`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
             const user = await response.data;
 
             let workouts: any = [...user.workouts, ...user.workoutsForToday];

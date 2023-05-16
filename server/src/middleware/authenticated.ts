@@ -7,7 +7,6 @@ function isLoggedIn(req: Request, res: Response, next: NextFunction) {
             message: 'Unauthorized',
         });
     }
-    console.log('User authenticated');
     next();
 }
 

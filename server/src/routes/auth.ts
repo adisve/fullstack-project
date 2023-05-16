@@ -37,10 +37,6 @@ route.post('/login', async function (req: Request, res: Response) {
             req.session.role = user.role;
             req.session.save(() => {
                 if (req.session.sessionUserId) {
-                    console.log(
-                        `Session user id: ${req.session.sessionUserId}`
-                    );
-                    console.log(`Session: ${JSON.stringify(req.session)}`);
                     res.status(200).json({
                         sessionUserId: user._id,
                         user: user,

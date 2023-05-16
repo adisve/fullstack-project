@@ -17,6 +17,7 @@ import { UserProfile } from './components/homepage/userProfile/UserProfile';
 import { AdminPage } from './components/adminPage/AdminPage';
 import { ThemeProvider } from '@mui/material';
 import theme from './config/theme';
+import { Toaster } from 'react-hot-toast';
 
 function App() {
     const isHomePage = ['/', '/about-us'].includes(window.location.pathname);
@@ -40,6 +41,7 @@ function App() {
                 </main>
                 {isHomePage && <Footer />}
             </div>
+            <Toaster />
         </ThemeProvider>
     );
 }

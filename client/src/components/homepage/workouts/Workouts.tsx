@@ -1,16 +1,31 @@
 import { Container, Divider } from '@mui/material';
-import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../store/store';
 import './Workouts.css';
+import { WorkoutsForToday } from './WorkoutsForToday';
+import { PastWorkouts } from './PastWorkouts';
+import { useEffect } from 'react';
 
 export function Workouts() {
-    const nowDate = new Date();
     const { auth } = useSelector((state: RootState) => state);
-
     return (
-        <Container className="workouts-container">
-            <h2 className="your-workouts">Your workouts</h2>
-        </Container>
+        <>
+            <Container className="workouts-container">
+                <Container>
+                    <h2>Today's Workouts</h2>
+                </Container>
+                <Divider />
+                <WorkoutsForToday
+                    workoutsForToday={auth.user?.workoutsForToday}
+                />
+            </Container>
+            <Container className="past-workouts-container">
+                <Container>
+                    <h2>Missed workouts</h2>
+                </Container>
+                <Divider />
+                <PastWorkouts workouts={auth.user?.workouts} />
+            </Container>
+        </>
     );
 }

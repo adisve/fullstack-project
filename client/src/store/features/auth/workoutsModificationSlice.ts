@@ -2,6 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Workout } from '../../interfaces/workout';
 import { AppDispatch } from '../../store';
 import instance from '../../../config/axios';
+import { AppThunk } from '../types';
 
 enum WorkoutsModificationStatus {
     initial,
@@ -29,7 +30,7 @@ const workoutsModificationSlice = createSlice({
 });
 
 export const setWorkoutComplete =
-    (id: string) => async (dispatch: AppDispatch, getState: any) => {
+    (id: string) => async (dispatch: AppDispatch) => {
         dispatch(setStatus(WorkoutsModificationStatus.loading));
         try {
             await instance.put(`/auth/workoutCompleted/workouts/${id}`);
@@ -48,11 +49,35 @@ export const addWorkout =
             if (!user) {
                 return;
             }
-            await instance.post(`/auth/addWorkout/${user._id}`, {
+            await instance.post(`auth/addWorkout`, {
                 workout,
             });
             dispatch(setStatus(WorkoutsModificationStatus.success));
         } catch (error) {
+            dispatch(setStatus(WorkoutsModificationStatus.error));
+        }
+    };
+
+export const deleteWorkout =
+    (workoutId: string) => async (dispatch: AppDispatch) => {
+        dispatch(setStatus(WorkoutsModificationStatus.loading));
+        try {
+            await instance.delete(`/auth/deleteWorkoutById/${workoutId}`);
+            dispatch(setStatus(WorkoutsModificationStatus.success));
+        } catch (error) {
+            console.error(error);
+            dispatch(setStatus(WorkoutsModificationStatus.error));
+        }
+    };
+
+export const completeWorkout =
+    (workoutId: string) => async (dispatch: AppDispatch) => {
+        dispatch(setStatus(WorkoutsModificationStatus.loading));
+        try {
+            await instance.put(`/auth/workoutCompleted/workouts/${workoutId}`);
+            dispatch(setStatus(WorkoutsModificationStatus.success));
+        } catch (error) {
+            console.error(error);
             dispatch(setStatus(WorkoutsModificationStatus.error));
         }
     };
