@@ -48,6 +48,7 @@ export const logOutUser = () => (dispatch: any) => {
 
 export const loginUser =
     (email: string, password: string) => async (dispatch: AppDispatch) => {
+        console.log('ATTEMPTING TO LOG IN USER');
         try {
             dispatch(setAuthStatus(AuthStatus.loading));
             const response = await instance.post(
@@ -61,14 +62,14 @@ export const loginUser =
                 }
             );
             const { sessionUserId, user } = await response.data;
-            console.log(`[authSlice] Session user id: ${sessionUserId}`);
-            console.log(`[authSlice] User: ${JSON.stringify(user)}`);
-            if (response.headers['set-cookie']) {
-                console.log(
-                    `[authSlice] Cookie: ${response.headers['set-cookie']}`
-                );
-                const cookie = response.headers['set-cookie'][0];
-                instance.defaults.headers.Cookie = cookie;
+            console.log('Attempting to make exercises for user');
+            // Generate exercises
+            console.log(
+                `User exercises is empty: ${user.exercises.length === 0}`
+            );
+            if (user.exercises.length === 0 || !user.exercises) {
+                console.log('No exercises found, generating exercises');
+                const res = await instance.get('/auth/generateExercises');
             }
 
             if (sessionUserId && user) {
