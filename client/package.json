@@ -13,7 +13,6 @@
         "@date-io/date-fns": "^2.16.0",
         "@emotion/react": "^11.10.6",
         "@emotion/styled": "^11.10.6",
-        "@esbuild/darwin-arm64": "^0.17.19",
         "@fortawesome/fontawesome-svg-core": "^6.3.0",
         "@fortawesome/free-regular-svg-icons": "^6.3.0",
         "@fortawesome/free-solid-svg-icons": "^6.3.0",
