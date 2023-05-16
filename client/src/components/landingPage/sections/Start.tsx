@@ -2,7 +2,7 @@ import { Button, Link } from '@mui/material';
 
 export function Start() {
     return (
-        <section className="section-1">
+        <section>
             <h1>One app the fitness industry loves.</h1>
             <p>Fitness has never been easier.</p>
             <p>

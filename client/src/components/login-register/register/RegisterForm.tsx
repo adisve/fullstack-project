@@ -118,7 +118,7 @@ export function RegisterForm() {
             <Box sx={{ padding: '1em', textAlign: 'right' }}>
                 {showPreviousButton() && (
                     <Button
-                        className="modal-button"
+                        className="action-button"
                         sx={{ marginRight: '1em' }}
                         variant="outlined"
                         onClick={() => dispatch(decrementStep())}
@@ -127,7 +127,7 @@ export function RegisterForm() {
                     </Button>
                 )}
                 <Button
-                    className="modal-button"
+                    className="action-button"
                     disabled={buttonDisabled()}
                     variant="contained"
                     onClick={() => {

@@ -34,9 +34,9 @@ export function Exercises() {
                 <ExerciseCard {...exercise} />
             ))}
             <Fab
-                className="add-exercise"
-                variant="extended"
                 onClick={() => setExerciseModalActive(true)}
+                className="floating-btn"
+                variant="extended"
             >
                 <FontAwesomeIcon
                     icon={faPlus}

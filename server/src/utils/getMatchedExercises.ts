@@ -1,4 +1,3 @@
-import { Request, Response } from 'express';
 import { Exercise } from '../db/exercises';
 import { User } from '../db/user';
 
@@ -54,8 +53,10 @@ async function getMatchedExercises(userId: string) {
         reps: exercise.reps,
     }));
 
+    console.log(`Generated exercises: ${JSON.stringify(addingExercises)}`);
+
     await User.findByIdAndUpdate(userId, {
-        $push: { exercises: exercises },
+        $push: { exercises: addingExercises },
     });
 }
 export { getMatchedExercises };

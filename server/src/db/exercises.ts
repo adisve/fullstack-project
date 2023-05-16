@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { User } from './user';
+import { ObjectId } from 'mongodb';
 
 export const exerciseSchema = new mongoose.Schema({
     _id: { type: mongoose.Schema.Types.ObjectId, required: true, auto: true },
@@ -9,7 +10,7 @@ export const exerciseSchema = new mongoose.Schema({
     name: { type: String, required: true },
     sets: { type: Number, required: true },
     reps: { type: Number, required: true },
-    weight: { type: Number, required: true },
+    weight: { type: Number, required: true, default: 0 },
 });
 const Exercise = mongoose.model('Exercise', exerciseSchema);
 
@@ -18,7 +19,7 @@ const createExercise = (values: Record<string, any>) =>
 
 async function deleteExerciseById(userId: string, exerciseId: string) {
     try {
-        const exerciseObjectId = new mongoose.Types.ObjectId(exerciseId);
+        const exerciseObjectId = new ObjectId(exerciseId);
         console.log(`Deleting exercise ${exerciseId}`);
         const res = await User.findByIdAndUpdate(
             userId,
@@ -29,7 +30,12 @@ async function deleteExerciseById(userId: string, exerciseId: string) {
             },
             { new: true }
         );
-        console.log(res);
+
+        if (res) {
+            console.log(`Exercise with ID ${exerciseId} deleted successfully.`);
+        } else {
+            console.error(`User with ID ${userId} not found.`);
+        }
     } catch (error) {
         console.error(`Error deleting exercise: ${error}`);
     }
@@ -59,9 +65,4 @@ function updateExerciseByIds(
     });
 }
 
-export {
-    Exercise,
-    createExercise,
-    updateExerciseByIds,
-    deleteExerciseById,
-};
+export { Exercise, createExercise, updateExerciseByIds, deleteExerciseById };

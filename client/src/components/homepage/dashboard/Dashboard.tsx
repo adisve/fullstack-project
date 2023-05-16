@@ -7,7 +7,8 @@ import { Link } from 'react-router-dom';
 export function Dashboard() {
     return (
         <Container>
-            <Box>
+            <Box
+            >
                 <ActionCard
                     actionName="Browse exercises"
                     actionDescription="Look through a collection of exercises, tailored to your profile. Or create your own!"

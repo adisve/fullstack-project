@@ -1,13 +1,20 @@
 import mongoose, { mongo } from 'mongoose';
 import { User } from './user';
+import { ObjectId } from 'mongodb';
 
 export const workoutSchema = new mongoose.Schema({
-    _id: { type: mongoose.Schema.Types.ObjectId, required: true, auto: true },
+    _id: {
+        type: mongoose.Schema.Types.ObjectId,
+        default: new ObjectId(),
+        required: true,
+        auto: true,
+    },
+    name: { type: String, required: true, default: 'My Workout' },
     createdAt: { type: Date, default: new Date(), required: true },
     exercises: { type: Array, required: true },
-    completed: { type: Boolean, default: false },
+    completed: { type: Boolean, default: false, required: true },
     notes: { type: String, required: false },
-    workoutDuration: { type: Number, required: false },
+    workoutDuration: { type: Number, required: false, default: 0 },
 });
 
 const createWorkout = (values: Record<string, any>) => {
@@ -18,12 +25,11 @@ const createWorkout = (values: Record<string, any>) => {
 
 async function updateWorkoutCompleted(userId: string, workoutId: string) {
     try {
-        const res = User.findOneAndUpdate(
+        await User.findOneAndUpdate(
             { _id: userId, 'workoutsForToday._id': workoutId },
             { $set: { 'workoutsForToday.$.completed': true } }
-        );
-        console.log(`RESULT: ${res}`);
-        console.log((await User.findOne({ _id: userId })).workoutsForToday);
+        ).exec();
+        console.log('Updated workout to completed');
     } catch (error) {
         console.error(error);
     }
@@ -32,13 +38,15 @@ async function updateWorkoutCompleted(userId: string, workoutId: string) {
 export async function addWorkout(userId: string, workout: any) {
     try {
         workout.workout._id = new mongoose.Types.ObjectId();
-        await workout.workout.exercises.forEach(async (exercise: any) => {
+
+        for (const exercise of workout.workout.exercises) {
             exercise._id = new mongoose.Types.ObjectId();
-        });
+        }
+
         await User.updateOne(
             { _id: userId },
             { $push: { workoutsForToday: workout.workout } }
-        );
+        ).exec();
     } catch (err) {
         console.error(err);
     }
@@ -46,17 +54,21 @@ export async function addWorkout(userId: string, workout: any) {
 
 async function deleteWorkoutById(userId: string, workoutId: string) {
     try {
-        await User.findByIdAndUpdate(
-            userId,
+        const updatedUser = await User.findOneAndUpdate(
+            { _id: userId },
             {
                 $pull: {
-                    workouts: { _id: workoutId },
+                    workoutsForToday: { _id: workoutId },
                 },
             },
             { new: true }
         );
 
-        console.log(`Workout with ID ${workoutId} deleted successfully.`);
+        if (updatedUser) {
+            console.log(`Workout with ID ${workoutId} deleted successfully.`);
+        } else {
+            console.error(`User with ID ${userId} not found.`);
+        }
     } catch (error) {
         console.error(`Error deleting workout with ID ${workoutId}`);
     }

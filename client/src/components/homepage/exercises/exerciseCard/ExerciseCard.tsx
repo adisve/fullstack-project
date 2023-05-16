@@ -25,12 +25,11 @@ export function ExerciseCard(props: Exercise) {
     const { _id, name, sets, reps, weight, description } = props;
     const dispatch: AppDispatch = useDispatch();
 
-    function deleteExercise() {
-        console.log(`Deleting ${_id}`);
+    async function deleteExercise() {
         if (_id) {
-            dispatch(removeExercise(_id));
+            await dispatch(removeExercise(_id));
+            window.location.reload();
         }
-        window.location.reload();
     }
 
     return (

@@ -7,7 +7,6 @@ function authorizeAdmin(req: Request, res: Response, next: NextFunction) {
             message: 'Unauthorized',
         });
     }
-    console.log('User is admin');
     next();
 }
 

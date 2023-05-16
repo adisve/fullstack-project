@@ -1,0 +1,34 @@
+.workouts-container {
+    margin: 2rem;
+    color: #000;
+    display: block;
+    padding: 0 65px 0 0;
+    text-decoration: none;
+    width: 100%;
+    text-align: left;
+    color: #353e54;
+}
+
+.past-workouts-container {
+    margin: 2rem;
+    color: #000;
+    display: block;
+    padding: 0 65px 0 0;
+    text-decoration: none;
+    width: 100%;
+    text-align: right;
+    color: #353e54;
+}
+
+.create-workout-textfield {
+    width: 95%;
+}
+
+@media only screen and (max-width: 768px) {
+    .create-workout-textfield {
+        width: 54%;
+    }
+    .exercises-grid {
+        width: 60%;
+    }
+}

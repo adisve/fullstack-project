@@ -2,12 +2,12 @@ import { Request, Response } from 'express';
 import { Router } from 'express';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
-import { getMatchedExercises } from '../utils/exerciseRecommendations';
+
 dotenv.config({ path: '/etc/secrets/config.env' });
 import bodyParser from 'body-parser';
 import { Session } from 'express-session';
 import { getUserByEmail, getUserById, createUser } from '../db/user';
-
+import { getMatchedExercises } from '../utils/getMatchedExercises';
 
 const route = Router();
 
@@ -30,20 +30,12 @@ route.post('/login', async function (req: Request, res: Response) {
             });
         } else {
             if (user.exercises.length === 0 || !user.exercises) {
-                console.log('Generating exercises for user ...');
-               const matchedExercies = await getMatchedExercises(
-                   user._id!.toString()
-               );
-               console.log(matchedExercies);
+                await getMatchedExercises(user._id!.toString());
             }
             req.session.sessionUserId = user._id.toString();
             req.session.role = user.role;
             req.session.save(() => {
                 if (req.session.sessionUserId) {
-                    console.log(
-                        `Session user id: ${req.session.sessionUserId}`
-                    );
-                    console.log(`Session: ${JSON.stringify(req.session)}`);
                     res.status(200).json({
                         sessionUserId: user._id,
                         user: user,

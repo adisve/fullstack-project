@@ -14,7 +14,10 @@ export function ActionCard(ActionCardProps: ActionCardProps) {
     const { actionName, actionDescription, linkTo } = ActionCardProps;
 
     return (
-        <Card className="action-card" style={{ position: 'relative' }}>
+        <Card
+            className="action-card"
+            style={{ position: 'relative', width: '100%' }}
+        >
             <CardHeader
                 title={<span className="card-header">{actionName}</span>}
             />

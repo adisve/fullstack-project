@@ -76,7 +76,6 @@ export const authenticateUser = () => async (dispatch: any) => {
                 withCredentials: true,
             });
             const { user } = response.data;
-            console.log(`User: ${user}`);
             if (user) {
                 setSessionToken(user._id!);
                 dispatch(setUser(user));
