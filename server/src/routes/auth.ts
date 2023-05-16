@@ -3,11 +3,11 @@ import { Router } from 'express';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 
-dotenv.config({ path: './config.env' });
+dotenv.config({ path: '/etc/secrets/config.env' });
 import bodyParser from 'body-parser';
 import { Session } from 'express-session';
 import { getUserByEmail, getUserById, createUser } from '../db/user';
-import { getMatchedExercises } from '../utils/exerciseRecommendations';
+import { getMatchedExercises } from '../utils/getMatchedExercises';
 
 const route = Router();
 
@@ -30,11 +30,7 @@ route.post('/login', async function (req: Request, res: Response) {
             });
         } else {
             if (user.exercises.length === 0 || !user.exercises) {
-                console.log('Generating exercises for user ...');
-                const matchedExercies = await getMatchedExercises(
-                    user._id!.toString()
-                );
-                console.log(matchedExercies);
+                await getMatchedExercises(user._id!.toString());
             }
             req.session.sessionUserId = user._id.toString();
             req.session.role = user.role;
