@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-dotenv.config({ path: './config.env' });
+dotenv.config({ path: '/etc/secrets/config.env' });
 const uri: string = process.env.ATLAS_URI || '';
 
 function connect() {
