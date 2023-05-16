@@ -1,0 +1,18 @@
+.workouts-container {
+    color: #000;
+    display: block;
+    padding: 0 65px 0 0;
+    text-decoration: none;
+    width: 100%;
+    text-align: left;
+    color: #353e54;
+}
+
+.workouts-container .your-workouts::after {
+    content: '';
+    display: block;
+    width: 75%;
+    height: 1px;
+    background-color: #353e54;
+    margin-top: 4px;
+}
