@@ -1,11 +1,15 @@
 import { Request, Response } from 'express';
 import { Router } from 'express';
 import dotenv from 'dotenv';
-import { addWorkout, deleteWorkoutById } from '../db/workouts';
-import { createExercise, updateCompleted } from '../db/exercises';
+import {
+    addWorkout,
+    deleteWorkoutById,
+    updateWorkoutCompleted,
+} from '../db/workouts';
+import { createExercise } from '../db/exercises';
 import { User } from '../db/user';
 
-dotenv.config({ path: '/etc/secrets/config.env' });
+dotenv.config({ path: './config.env' });
 import bodyParser from 'body-parser';
 const route = Router();
 
@@ -108,14 +112,14 @@ route.post('/createWorkout/:_id', async function (req: Request, res: Response) {
 });
 
 route.put(
-    '/workoutCompleted/:userId/workouts/:workoutId',
+    '/workoutCompleted/workouts/:workoutId',
     async function (req: Request, res: Response) {
         const userId = req.session.sessionUserId;
         const workoutId = req.params.workoutId;
         try {
-            await updateCompleted(userId, workoutId);
+            await updateWorkoutCompleted(userId, workoutId);
             return res.status(200).json({
-                message: 'completed updated',
+                message: `Workout set to completed on user ${userId}`,
             });
         } catch (error) {
             return res.status(500).json({

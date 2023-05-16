@@ -66,7 +66,7 @@ export function WorkoutCard(props: WorkoutProps) {
 
     const handleCompleteWorkout = (id: string) => {
         dispatch(setWorkoutComplete(id));
-        //window.location.reload();
+        window.location.reload();
     };
 
     return (

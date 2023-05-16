@@ -31,11 +31,8 @@ const workoutsModificationSlice = createSlice({
 export const setWorkoutComplete =
     (id: string) => async (dispatch: AppDispatch, getState: any) => {
         dispatch(setStatus(WorkoutsModificationStatus.loading));
-        const { auth } = getState();
         try {
-            await instance.put(
-                `/auth/workoutCompleted/${auth.user_id}/workouts/${id}`
-            );
+            await instance.put(`/auth/workoutCompleted/workouts/${id}`);
             dispatch(setStatus(WorkoutsModificationStatus.success));
         } catch (error) {
             dispatch(setStatus(WorkoutsModificationStatus.error));

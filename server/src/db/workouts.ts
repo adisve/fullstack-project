@@ -1,6 +1,5 @@
 import mongoose, { mongo } from 'mongoose';
 import { User } from './user';
-import { Exercise } from './exercises';
 
 export const workoutSchema = new mongoose.Schema({
     _id: { type: mongoose.Schema.Types.ObjectId, required: true, auto: true },
@@ -17,22 +16,17 @@ const createWorkout = (values: Record<string, any>) => {
         .then((workoutForToday) => workoutForToday.toObject());
 };
 
-function updateWorkoutsByIds(
-    userId: String,
-    workoutId: String,
-    completedAt: Date
-) {
-    User.findByIdAndUpdate({
-        _id: userId,
-        workoutsForToday: {
-            $elemMatch: {
-                _id: workoutId,
-            },
-        },
-        $set: {
-            'workoutsForToday.$.completedAt': completedAt,
-        },
-    });
+async function updateWorkoutCompleted(userId: string, workoutId: string) {
+    try {
+        const res = User.findOneAndUpdate(
+            { _id: userId, 'workoutsForToday._id': workoutId },
+            { $set: { 'workoutsForToday.$.completed': true } }
+        );
+        console.log(`RESULT: ${res}`);
+        console.log((await User.findOne({ _id: userId })).workoutsForToday);
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 export async function addWorkout(userId: string, workout: any) {
@@ -70,4 +64,4 @@ async function deleteWorkoutById(userId: string, workoutId: string) {
 
 const Workout = mongoose.model('Workouts', workoutSchema);
 
-export { Workout, createWorkout, deleteWorkoutById, updateWorkoutsByIds };
+export { Workout, createWorkout, deleteWorkoutById, updateWorkoutCompleted };

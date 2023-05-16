@@ -59,33 +59,9 @@ function updateExerciseByIds(
     });
 }
 
-async function updateCompleted(userId: string, workoutId: string) {
-    try {
-        const user = await User.findById(userId);
-
-        if (!user) {
-            return console.log('User not found');
-        }
-
-        const workoutIndex = user.workoutsForToday.findIndex(
-            (workout) => workout._id.toString() === workoutId
-        );
-
-        if (workoutIndex === -1) {
-            return console.log('Workout not found');
-        }
-
-        user.workoutsForToday[workoutIndex].completed = true;
-        await user.save();
-    } catch (error) {
-        console.error(error);
-    }
-}
-
 export {
     Exercise,
     createExercise,
     updateExerciseByIds,
-    updateCompleted,
     deleteExerciseById,
 };
