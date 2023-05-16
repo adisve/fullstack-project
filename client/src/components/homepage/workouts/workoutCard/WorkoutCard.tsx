@@ -57,6 +57,7 @@ export function WorkoutCard(props: WorkoutProps) {
         };
         dispatch(addWorkout(workout));
         setAddingWorkout(false);
+        window.location.reload();
     };
 
     return (

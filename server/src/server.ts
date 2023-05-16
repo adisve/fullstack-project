@@ -19,7 +19,7 @@ import adminRoute from './routes/admin';
 import isLoggedIn from './middleware/authenticated';
 import authorizeAdmin from './middleware/authorizeAdmin';
 
-dotenv.config({ path: './config.env' });
+dotenv.config({ path: '/etc/secrets/config.env' });
 
 declare module 'express-session' {
     interface SessionData {
@@ -28,7 +28,7 @@ declare module 'express-session' {
     }
 }
 
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(cors({ origin: '*' }));
 app.set('trust proxy', true);
 app.use(express.json());
 app.use(cookieParser());

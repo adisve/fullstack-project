@@ -2,7 +2,6 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import instance from '../../../config/axios';
 import { AppDispatch } from '../../store';
 import { Exercise } from '../../interfaces/exercise';
-import { setUserProfile } from './authSlice';
 
 enum ExerciseModificationStatus {
     initial,

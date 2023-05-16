@@ -3,7 +3,7 @@ import { Router } from 'express';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 
-dotenv.config({ path: './config.env' });
+dotenv.config({ path: '/etc/secrets/config.env' });
 import bodyParser from 'body-parser';
 import { Session } from 'express-session';
 import { getUserByEmail, getUserById, createUser } from '../db/user';
