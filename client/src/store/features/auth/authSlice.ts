@@ -48,25 +48,17 @@ export const logOutUser = () => (dispatch: any) => {
 
 export const loginUser =
     (email: string, password: string) => async (dispatch: AppDispatch) => {
-        console.log('ATTEMPTING TO LOG IN USER');
         try {
             dispatch(setAuthStatus(AuthStatus.loading));
-            const response = await instance.post(
-                '/auth/login',
-                { email, password },
-                {
-                    headers: {
-                        'Content-Type': 'application/json',
-                        withCredentials: 'true',
-                    },
-                }
-            );
+            const response = await instance.post('/auth/login', {
+                email,
+                password,
+            });
             const { sessionUserId, user } = await response.data;
             if (sessionUserId && user) {
                 setSessionToken(sessionUserId);
                 dispatch(setUser(user));
                 dispatch(setAuthStatus(AuthStatus.authenticated));
-                window.location.reload();
             } else {
                 dispatch(setAuthStatus(AuthStatus.unauthenticated));
             }
