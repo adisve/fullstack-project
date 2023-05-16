@@ -45,24 +45,6 @@ route.post('/addExercise', async function (req: Request, res: Response) {
         });
 });
 
-route.get('/recommendExercises', async function (req: Request, res: Response) {
-    const sessionUserId = req.session.sessionUserId;
-    try {
-        const user = await User.findById(sessionUserId);
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        } else {
-            const recommendExercises = await getMatchedExercises(req, res);
-            res.status(200).json({
-                exercises: recommendExercises,
-            });
-        }
-    } catch (err) {
-        console.error(err);
-        return res.status(500).json({ message: 'Server error' });
-    }
-});
-
 route.get('/user/workouts', async function (req: Request, res: Response) {
     const sessionUserId = req.session.sessionUserId;
     try {

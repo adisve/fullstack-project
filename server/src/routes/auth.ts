@@ -7,7 +7,7 @@ dotenv.config({ path: './config.env' });
 import bodyParser from 'body-parser';
 import { Session } from 'express-session';
 import { getUserByEmail, getUserById, createUser } from '../db/user';
-import { createExercises } from '../utils/generatingExercises';
+import { getMatchedExercises } from '../utils/exerciseRecommendations';
 
 const route = Router();
 
@@ -31,7 +31,10 @@ route.post('/login', async function (req: Request, res: Response) {
         } else {
             if (user.exercises.length === 0 || !user.exercises) {
                 console.log('Generating exercises for user ...');
-                await createExercises(user._id!.toString());
+                const matchedExercies = await getMatchedExercises(
+                    user._id!.toString()
+                );
+                console.log(matchedExercies);
             }
             req.session.sessionUserId = user._id.toString();
             req.session.role = user.role;
