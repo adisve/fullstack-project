@@ -20,7 +20,6 @@ import './AddExerciseModal.css';
 import { addExercise } from '../../../../store/features/auth/exerciseModificationSlice';
 import { AppDispatch } from '../../../../store/store';
 import { Exercise } from '../../../../store/interfaces/exercise';
-import { setUserProfile } from '../../../../store/features/auth/authSlice';
 
 interface ExerciseModalProps {
     open: boolean;
@@ -53,7 +52,6 @@ export function AddExerciseModal({ open, handleClose }: ExerciseModalProps) {
         };
         dispatch(addExercise(exercise));
         handleClose();
-        dispatch(setUserProfile());
         setExerciseData({
             name: '',
             description: '',

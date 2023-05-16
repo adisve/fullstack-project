@@ -5,7 +5,7 @@ import { addWorkout, deleteWorkoutById } from '../db/workouts';
 import { createExercise, updateCompleted } from '../db/exercises';
 import { User } from '../db/user';
 
-dotenv.config({ path: '/etc/secrets/config.env' });
+dotenv.config({ path: './config.env' });
 import bodyParser from 'body-parser';
 const route = Router();
 

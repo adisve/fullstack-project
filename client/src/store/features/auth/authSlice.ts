@@ -60,9 +60,19 @@ export const loginUser =
                     },
                 }
             );
-            const { user } = await response.data;
-            if (user) {
-                setSessionToken(user._id);
+            const { sessionUserId, user } = await response.data;
+            console.log(`[authSlice] Session user id: ${sessionUserId}`);
+            console.log(`[authSlice] User: ${JSON.stringify(user)}`);
+            if (response.headers['set-cookie']) {
+                console.log(
+                    `[authSlice] Cookie: ${response.headers['set-cookie']}`
+                );
+                const cookie = response.headers['set-cookie'][0];
+                instance.defaults.headers.Cookie = cookie;
+            }
+
+            if (sessionUserId && user) {
+                setSessionToken(sessionUserId);
                 dispatch(setUser(user));
                 dispatch(setAuthStatus(AuthStatus.authenticated));
             } else {
@@ -78,8 +88,20 @@ export const authenticateUser = () => async (dispatch: any) => {
         dispatch(setAuthStatus(AuthStatus.loading));
         const token = getSessionToken();
         if (token) {
-            dispatch(setUserProfile());
-            dispatch(setAuthStatus(AuthStatus.authenticated));
+            const response = await instance.get('/auth/login', {
+                withCredentials: true,
+            });
+            const { user } = response.data;
+            console.log(`User: ${user}`);
+            if (user) {
+                setSessionToken(user._id!);
+                dispatch(setUser(user));
+                dispatch(setAuthStatus(AuthStatus.authenticated));
+            } else {
+                console.error('Something went wrong');
+                dispatch(setAuthStatus(AuthStatus.unauthenticated));
+                dispatch(clearUser());
+            }
         } else {
             dispatch(setAuthStatus(AuthStatus.unauthenticated));
             dispatch(clearUser());
@@ -87,27 +109,6 @@ export const authenticateUser = () => async (dispatch: any) => {
     } catch (error) {
         console.error(error);
         dispatch(setAuthStatus(AuthStatus.error));
-        dispatch(clearUser());
-    }
-};
-
-export const setUserProfile = () => async (dispatch: any) => {
-    try {
-        dispatch(setAuthStatus(AuthStatus.loading));
-        const response = await instance.get('/auth/login');
-        const user: User = response.data.user;
-        if (user) {
-            setSessionToken(user._id!);
-            dispatch(setUser(user));
-            dispatch(setAuthStatus(AuthStatus.authenticated));
-        } else {
-            console.error('Something went wrong');
-            dispatch(setAuthStatus(AuthStatus.unauthenticated));
-            dispatch(clearUser());
-        }
-    } catch (error) {
-        console.error(error);
-        dispatch(setAuthStatus(AuthStatus.unauthenticated));
         dispatch(clearUser());
     }
 };

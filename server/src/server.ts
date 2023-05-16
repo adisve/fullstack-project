@@ -5,6 +5,7 @@ import { connect } from './db/mongo_connector';
 import { job } from './jobs/cronUpdatingWorkout';
 import path from 'path';
 import session from 'express-session';
+import cookieParser from 'cookie-parser';
 
 const app: Application = express();
 const port: string | number = process.env.PORT || 7036;
@@ -18,21 +19,27 @@ import adminRoute from './routes/admin';
 import isLoggedIn from './middleware/authenticated';
 import authorizeAdmin from './middleware/authorizeAdmin';
 
-dotenv.config({ path: '/etc/secrets/config.env' });
+dotenv.config({ path: './config.env' });
 
-app.use(cors({ origin: '*' }));
+declare module 'express-session' {
+    interface SessionData {
+        sessionUserId: string;
+        role: string;
+    }
+}
+
+app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.set('trust proxy', true);
 app.use(express.json());
+app.use(cookieParser());
+
 app.use(express.static(path.join(__dirname, '..', 'frontend-build')));
 
 app.use(
     session({
-        secret: process.env.SECRET_KEY || '',
+        secret: 'secret-key',
         resave: false,
-        saveUninitialized: false,
-        cookie: {
-            maxAge: 1000 * 60 * 60 * 24,
-        },
+        saveUninitialized: true,
     })
 );
 

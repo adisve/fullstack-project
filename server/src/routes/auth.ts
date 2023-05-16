@@ -6,21 +6,7 @@ import bcrypt from 'bcrypt';
 dotenv.config({ path: './config.env' });
 import bodyParser from 'body-parser';
 import { Session } from 'express-session';
-import { createExercise, updateCompleted } from '../db/exercises';
-import {
-    getUserByEmail,
-    getUserById,
-    getUserByName,
-    User,
-    createUser,
-} from '../db/user';
-import { getSessionData, setSessionData } from '../session/session';
-
-export interface ISession extends Session {
-    _id?: any;
-    email?: string;
-    role?: 'user' | 'admin';
-}
+import { getUserByEmail, getUserById, createUser } from '../db/user';
 
 const route = Router();
 
@@ -42,16 +28,25 @@ route.post('/login', async function (req: Request, res: Response) {
                 message: 'Invalid credentials',
             });
         } else {
-            setSessionData({
-                _id: user._id.toString(),
-                email: user.email,
-                role: user.role,
+            req.session.sessionUserId = user._id.toString();
+            req.session.role = user.role;
+            req.session.save(() => {
+                if (req.session.sessionUserId) {
+                    console.log(
+                        `Session user id: ${req.session.sessionUserId}`
+                    );
+                    console.log(`Session: ${JSON.stringify(req.session)}`);
+                    res.status(200).json({
+                        sessionUserId: user._id,
+                        user: user,
+                    });
+                } else {
+                    res.status(500).json({
+                        message: 'Unable to log in',
+                    });
+                }
             });
         }
-
-        res.status(200).json({
-            user: user,
-        });
     } catch (error) {
         console.error('Unable to log in', error);
         return res.status(500).json({
@@ -61,13 +56,18 @@ route.post('/login', async function (req: Request, res: Response) {
 });
 
 route.get('/login', async function (req: Request, res: Response) {
-    const session = getSessionData();
-    if (session) {
-        const _id = session._id;
-        const user = await getUserById(_id);
+    const sessionId = req.session.sessionUserId;
+    console.log(`[GET /login] Session: ${JSON.stringify(req.session)}`);
+    console.log(`[GET /login] Session user id: ${sessionId}`);
+    if (sessionId) {
+        const user = await getUserById(sessionId);
 
         return res.status(200).json({
             user: user,
+        });
+    } else {
+        return res.status(401).json({
+            message: 'Unauthorized',
         });
     }
 });
@@ -143,13 +143,14 @@ route.post('/register', async function (req: Request, res: Response) {
 });
 
 route.get('/logout', async function (req: Request, res: Response) {
-    if ((req.session as ISession)._id) {
+    const sessionId = req.session.sessionUserId;
+    if (sessionId) {
         req.session.destroy(function (err) {
             if (err) {
                 console.error(err);
             } else {
                 res.status(200).json({
-                    message: 'logged out',
+                    message: 'Logged out',
                 });
             }
         });
