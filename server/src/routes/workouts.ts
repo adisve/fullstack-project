@@ -5,7 +5,7 @@ import { addWorkout, deleteWorkoutById } from '../db/workouts';
 import { createExercise, updateCompleted } from '../db/exercises';
 import { User } from '../db/user';
 
-dotenv.config({ path: './config.env' });
+dotenv.config({ path: '/etc/secrets/config.env' });
 import bodyParser from 'body-parser';
 const route = Router();
 
@@ -110,12 +110,18 @@ route.post('/createWorkout/:_id', async function (req: Request, res: Response) {
 route.put(
     '/workoutCompleted/:userId/workouts/:workoutId',
     async function (req: Request, res: Response) {
-        const userId = req.params.userId;
+        const userId = req.session.sessionUserId;
         const workoutId = req.params.workoutId;
-        await updateCompleted(userId, workoutId);
-        return res.status(200).json({
-            message: 'completed updated',
-        });
+        try {
+            await updateCompleted(userId, workoutId);
+            return res.status(200).json({
+                message: 'completed updated',
+            });
+        } catch (error) {
+            return res.status(500).json({
+                message: 'Failed to update completed',
+            });
+        }
     }
 );
 

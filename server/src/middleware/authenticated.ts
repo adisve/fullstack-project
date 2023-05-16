@@ -1,5 +1,4 @@
 import { Request, Response, NextFunction } from 'express';
-import { Session } from 'express-session';
 
 function isLoggedIn(req: Request, res: Response, next: NextFunction) {
     const session = req.session.sessionUserId;
@@ -8,7 +7,7 @@ function isLoggedIn(req: Request, res: Response, next: NextFunction) {
             message: 'Unauthorized',
         });
     }
-    console.log("User authenticated")
+    console.log('User authenticated');
     next();
 }
 

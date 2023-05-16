@@ -1,4 +1,4 @@
-import { faPen } from '@fortawesome/free-solid-svg-icons';
+import { faCheck, faPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     Card,
@@ -18,7 +18,10 @@ import { PickExerciseModal } from '../pickExerciseModal/PickExerciseModal';
 import { ChangeDurationNoteModal } from '../changeDurationNoteModal/ChangeDurationNoteModal';
 import { AppDispatch } from '../../../../store/store';
 import { useDispatch } from 'react-redux';
-import { addWorkout } from '../../../../store/features/auth/workoutsModificationSlice';
+import {
+    addWorkout,
+    setWorkoutComplete,
+} from '../../../../store/features/auth/workoutsModificationSlice';
 import { WorkoutCardTable } from './WorkoutCardTable';
 
 type WorkoutProps = Workout & {
@@ -28,6 +31,7 @@ type WorkoutProps = Workout & {
 
 export function WorkoutCard(props: WorkoutProps) {
     const {
+        _id,
         exercises,
         workoutDuration,
         notes,
@@ -58,6 +62,11 @@ export function WorkoutCard(props: WorkoutProps) {
         dispatch(addWorkout(workout));
         setAddingWorkout(false);
         window.location.reload();
+    };
+
+    const handleCompleteWorkout = (id: string) => {
+        dispatch(setWorkoutComplete(id));
+        //window.location.reload();
     };
 
     return (
@@ -126,7 +135,28 @@ export function WorkoutCard(props: WorkoutProps) {
                     </CardActions>
                 )}
             </CardContent>
-
+            {!withActions && (
+                <CardActions>
+                    <Fab
+                        size="small"
+                        color="primary"
+                        aria-label="Complete"
+                        onClick={() => {
+                            console.log(props);
+                            if (_id != '' && _id) {
+                                handleCompleteWorkout(_id);
+                            }
+                        }}
+                        style={{
+                            position: 'absolute',
+                            bottom: '8px',
+                            left: '8px',
+                        }}
+                    >
+                        <FontAwesomeIcon icon={faCheck} />
+                    </Fab>
+                </CardActions>
+            )}
             <PickExerciseModal
                 open={pickExerciseModalActive}
                 handleClose={setPickExerciseModalActive}

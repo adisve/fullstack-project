@@ -19,7 +19,7 @@ import adminRoute from './routes/admin';
 import isLoggedIn from './middleware/authenticated';
 import authorizeAdmin from './middleware/authorizeAdmin';
 
-dotenv.config({ path: './config.env' });
+dotenv.config({ path: '/etc/secrets/config.env' });
 
 declare module 'express-session' {
     interface SessionData {

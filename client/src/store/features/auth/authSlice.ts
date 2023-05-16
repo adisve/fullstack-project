@@ -62,20 +62,11 @@ export const loginUser =
                 }
             );
             const { sessionUserId, user } = await response.data;
-            console.log('Attempting to make exercises for user');
-            // Generate exercises
-            console.log(
-                `User exercises is empty: ${user.exercises.length === 0}`
-            );
-            if (user.exercises.length === 0 || !user.exercises) {
-                console.log('No exercises found, generating exercises');
-                const res = await instance.get('/auth/generateExercises');
-            }
-
             if (sessionUserId && user) {
                 setSessionToken(sessionUserId);
                 dispatch(setUser(user));
                 dispatch(setAuthStatus(AuthStatus.authenticated));
+                window.location.reload();
             } else {
                 dispatch(setAuthStatus(AuthStatus.unauthenticated));
             }

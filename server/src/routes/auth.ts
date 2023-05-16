@@ -3,10 +3,11 @@ import { Router } from 'express';
 import dotenv from 'dotenv';
 import bcrypt from 'bcrypt';
 
-dotenv.config({ path: './config.env' });
+dotenv.config({ path: '/etc/secrets/config.env' });
 import bodyParser from 'body-parser';
 import { Session } from 'express-session';
 import { getUserByEmail, getUserById, createUser } from '../db/user';
+import { createExercises } from '../utils/generatingExercises';
 
 const route = Router();
 
@@ -28,6 +29,10 @@ route.post('/login', async function (req: Request, res: Response) {
                 message: 'Invalid credentials',
             });
         } else {
+            if (user.exercises.length === 0 || !user.exercises) {
+                console.log('Generating exercises for user ...');
+                await createExercises(user._id!.toString());
+            }
             req.session.sessionUserId = user._id.toString();
             req.session.role = user.role;
             req.session.save(() => {
@@ -57,8 +62,6 @@ route.post('/login', async function (req: Request, res: Response) {
 
 route.get('/login', async function (req: Request, res: Response) {
     const sessionId = req.session.sessionUserId;
-    console.log(`[GET /login] Session: ${JSON.stringify(req.session)}`);
-    console.log(`[GET /login] Session user id: ${sessionId}`);
     if (sessionId) {
         const user = await getUserById(sessionId);
 

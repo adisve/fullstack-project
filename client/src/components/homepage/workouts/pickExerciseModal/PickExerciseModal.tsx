@@ -12,8 +12,9 @@ import {
     styled,
 } from '@mui/material';
 // TODO: replace exercise.json call with actual user call
-import exercises from '../../exercises/exercises.json';
 import '../../exercises/Exercises.css';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../../store/store';
 
 const StyledDialog = styled((props: any) => <Dialog {...props} />)(({ _ }) => ({
     // Set border radius to 20px
@@ -31,6 +32,7 @@ type PickExerciseModalProps = {
 
 export function PickExerciseModal(props: any) {
     const { open, handleClose, setExercises, currentExercises } = props;
+    const { auth } = useSelector((state: RootState) => state);
 
     function appendExercises(exercise: any) {
         setExercises([...currentExercises, exercise]);
@@ -45,7 +47,7 @@ export function PickExerciseModal(props: any) {
                 <DialogTitle sx={{ textAlign: 'center' }}>
                     Pick Exercises
                 </DialogTitle>
-                {exercises.map((exercise: any) => (
+                {auth.user?.exercises?.map((exercise: any) => (
                     <Card
                         className="exercise-card"
                         sx={{ width: cardWidth, margin: '1em' }}

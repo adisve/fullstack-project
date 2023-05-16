@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Router } from 'express';
 import dotenv from 'dotenv';
 
-dotenv.config({ path: './config.env' });
+dotenv.config({ path: '/etc/secrets/config.env' });
 import bodyParser from 'body-parser';
 import { getMatchedExercises } from '../utils/exerciseRecommendations';
 import { createExercises } from '../utils/generatingExercises';
@@ -11,19 +11,6 @@ import { User } from '../db/user';
 const route = Router();
 
 route.use(bodyParser.urlencoded({ extended: true }));
-
-// generating exercises automatically
-route.get('/generateExercises', async function (req: Request, res: Response) {
-    console.log('Generating exercises for user ...');
-    const userId = req.session.sessionUserId;
-    try {
-        await createExercises(userId);
-    } catch (error) {
-        console.error(error);
-        return res.status(500).json({ message: 'Server error' });
-    }
-    return res.status(200).json({ message: 'Exercises generated' });
-});
 
 route.delete(
     '/deleteExercises/:userId/:exerciseId',
