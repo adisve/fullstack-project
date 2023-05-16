@@ -28,7 +28,6 @@ route.delete(
     }
 );
 
-//users adding their own exercises
 route.post('/addExercise', async function (req: Request, res: Response) {
     const sessionUserId = req.session.sessionUserId;
     const userData = req.body.exercise;
