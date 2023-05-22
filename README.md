@@ -30,4 +30,4 @@
 
 ## How to run the app in production mode
 
-1. Run ```./run_dev.sh``` from the root directory (this only works on arch linux)
+1. Run ```./run_dev.sh``` from the root directory in a bash shell environment
